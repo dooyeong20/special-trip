@@ -3,8 +3,6 @@
 
 
 
-
-
 ### :fire: 개요
 
 
@@ -21,7 +19,7 @@
 
 
 
-### 추가 기능
+### :fire: 추가 기능
 
 - 지도 경로(대중교통)
 
@@ -42,3 +40,8 @@
 - tour.html
 - hotel-single.html
 
+
+
+### ERD
+
+<img src="Triplus_ERD.png" alt="drawing" style="width:500px;"/>
