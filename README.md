@@ -28,6 +28,15 @@
 #### 참고
 
 - https://www.visitkoreaforme.com/eng/recmtrips/recmtripList.kto
-
 - https://openrouteservice.org/dev/#/api-docs/authorization
 - https://openapi.sk.com/api/detailView
+
+
+
+### 주말
+
+- index.html
+- blog.html
+- tour.html
+- hotel-single.html
+
