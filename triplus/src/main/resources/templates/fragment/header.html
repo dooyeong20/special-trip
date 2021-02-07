@@ -15,13 +15,44 @@
                         <li class="nav-item"><a th:href="@{/blog}" class="nav-link">여행일정</a></li>
                         <li class="nav-item"><a th:href="@{/tour}" class="nav-link">여행지</a></li>
                         <li class="nav-item"><a href="hotel.html" class="nav-link">일정 만들기</a></li>
-                        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-                        <li class="nav-item cta"><a href="contact.html" class="nav-link"><span>Add listing</span></a></li>
+                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link">Blog</a></li>
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            LOGIN
+                        </button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            JOIN
+                        </button>
+
                     </ul>
+
                 </div>
             </div>
         </nav>
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
 
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Modal body..
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <!-- TODO 이 부분도 header 로 넣는건줄 알았는데 생각해보니 메인화면, 게시물 전체보기, 상세보기 화면 등에서마다 이미지가 바뀜. headerFragment 로
                 고정해버리면 이미지를 페이지마다 바꿀 수 있는지 의문
                 ===> 제가 제대로 이해한 게 맞다면 js/main.js 에서 scoll 부분 수정해야 할 것 같아요 이부분은 header에 포함 안시키는걸로 하고!-->
