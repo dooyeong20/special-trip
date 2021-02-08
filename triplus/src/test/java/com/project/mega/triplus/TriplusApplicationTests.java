@@ -37,6 +37,7 @@ class TriplusApplicationTests {
 		Place seoul = new Place();
 		Place ulsan = new Place();
 
+
 		kim.setNickName("kimkim");
 		kim.setPassword("secret");
 		kim.setRole(Role.USER);
