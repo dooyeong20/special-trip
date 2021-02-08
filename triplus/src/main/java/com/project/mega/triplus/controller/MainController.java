@@ -24,4 +24,12 @@ public class MainController {
 
         return "view/tour";
     }
+
+    @GetMapping("/1")
+    public String tour11(){
+
+        return "view/ttt";
+    }
+
+
 }
