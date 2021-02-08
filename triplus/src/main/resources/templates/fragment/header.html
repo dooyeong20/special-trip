@@ -1,21 +1,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    <div th:fragment="headerFragment(activeTab)">
+    <div th:fragment="headerFragment">
 
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
             <div class="container">
-                <a class="navbar-brand" th:href="@{/}">TRIPLus.</a>
+                <a class="navbar-brand text-dark" style="font-weight: bold;" th:href="@{/}">TRIPLus.</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="oi oi-menu"></span> Menu
                 </button>
 
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a th:href="@{/}" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link">여행일정</a></li>
-                        <li class="nav-item"><a th:href="@{/tour}" class="nav-link">여행지</a></li>
-                        <li class="nav-item"><a href="hotel.html" class="nav-link">일정 만들기</a></li>
-                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link">Blog</a></li>
+                        <li class="nav-item active"><a th:href="@{/}" class="nav-link text-dark" style="font-weight: bold;">Home</a></li>
+                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">여행일정</a></li>
+                        <li class="nav-item"><a th:href="@{/tour}" class="nav-link text-dark" style="font-weight: bold;">여행지</a></li>
+                        <li class="nav-item"><a th:href="@{/mypage_main}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>
+                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">Blog</a></li>
 
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             LOGIN
