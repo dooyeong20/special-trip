@@ -3,15 +3,10 @@ package com.project.mega.triplus.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,10 +22,19 @@ public class Plan {
 
     private LocalDateTime update;
 
-    @OneToMany
-    private List<Place> places;
+    @Enumerated(EnumType.STRING)
+    private PlanStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getMyPlans().add(this);
+    }
+
+    @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Day> days = new ArrayList<>();
+
 }

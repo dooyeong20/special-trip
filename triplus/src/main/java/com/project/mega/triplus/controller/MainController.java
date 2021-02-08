@@ -13,23 +13,28 @@ public class MainController {
     }
 
     @GetMapping("/blog")
-    public String about(){
-
+    public String blog(){
         return "view/blog";
     }
 
 
     @GetMapping("/tour")
     public String tour(){
-
         return "view/tour";
     }
 
-    @GetMapping("/1")
-    public String tour11(){
 
-        return "view/ttt";
+    @GetMapping("/plan")
+    public String plan(){
+
+        return "view/plan";
     }
 
+
+
+    @GetMapping("/mypage_main")
+    public String mypage(){
+        return "view/mypage/mypage_main";
+    }
 
 }
