@@ -3,15 +3,7 @@ package com.project.mega.triplus.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -24,22 +16,33 @@ public class Place {
 
     private String name;
 
-    private String url;
+    private String homepage;
 
     private String tel;
 
     private String content;
 
-//    private List<City> cities;
+    private String thumbnailUrl;
 
-    private String imageUrl;
+    @ElementCollection
+    private List<String> imageUrls;
 
     private int liked;
 
-    @OneToMany(mappedBy = "place")
+    @OneToMany(mappedBy = "place", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
+    private String contentId;
+
+    private String contentType;
+
+    private String mapX;
+
+    private String mapY;
+
+    private String cat1;
+
+    private String cat2;
+
+    private String cat3;
 }

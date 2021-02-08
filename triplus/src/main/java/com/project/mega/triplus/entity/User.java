@@ -3,13 +3,9 @@ package com.project.mega.triplus.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,9 +37,12 @@ public class User {
     @OneToMany
     private List<Place> placeLikes;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany
     private List<Plan> planLikes;
 
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Plan> myPlans = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Review> reviews = new ArrayList<>();
 }
