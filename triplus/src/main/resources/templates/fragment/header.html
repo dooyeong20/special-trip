@@ -1,21 +1,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    <div th:fragment="headerFragment(activeTab)">
+    <div th:fragment="headerFragment">
 
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
             <div class="container">
-                <a class="navbar-brand" th:href="@{/}">TRIPLus.</a>
+                <a class="navbar-brand text-dark" style="font-weight: bold;" th:href="@{/}">TRIPLus.</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="oi oi-menu"></span> Menu
                 </button>
 
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a th:href="@{/}" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link">여행일정</a></li>
-                        <li class="nav-item"><a th:href="@{/tour}" class="nav-link">여행지</a></li>
-                        <li class="nav-item"><a href="hotel.html" class="nav-link">일정 만들기</a></li>
-                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link">Blog</a></li>
+                        <li class="nav-item active"><a th:href="@{/}" class="nav-link text-dark" style="font-weight: bold;">Home</a></li>
+                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">여행일정</a></li>
+                        <li class="nav-item"><a th:href="@{/tour}" class="nav-link text-dark" style="font-weight: bold;">여행지</a></li>
+                        <li class="nav-item"><a th:href="@{/mypage_main}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>
+                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">Blog</a></li>
 
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             LOGIN
@@ -41,7 +41,6 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
-<<<<<<< HEAD
                     <!-- Modal body -->
                     <div class="modal-body">
                         Modal body..
@@ -55,55 +54,6 @@
                 </div>
             </div>
         </div>
-        <!-- TODO 이 부분도 header 로 넣는건줄 알았는데 생각해보니 메인화면, 게시물 전체보기, 상세보기 화면 등에서마다 이미지가 바뀜. headerFragment 로
-                고정해버리면 이미지를 페이지마다 바꿀 수 있는지 의문
-                ===> 제가 제대로 이해한 게 맞다면 js/main.js 에서 scoll 부분 수정해야 할 것 같아요 이부분은 header에 포함 안시키는걸로 하고!-->
-
-        <!--
-<<<<<<< HEAD
-
-       <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
-           <div class="overlay"></div>
-           <div class="container">
-               <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-                   <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-                       <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
-                       <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find Great places to stay, eat, shop, or visit from local experts</p>
-                       <div class="block-17 my-4">
-                           <form action="" method="post" class="d-block d-flex">
-                               <div class="fields d-block d-flex">
-                                   <div class="textfield-search one-third">
-                                       <input type="text" class="form-control" placeholder="Ex: food, service, hotel">
-                                   </div>
-                                   <div class="select-wrap one-third">
-                                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                       <select name="" id="" class="form-control" placeholder="Keyword search">
-                                           <option value="">Where</option>
-                                           <option value="">San Francisco USA</option>
-                                           <option value="">Berlin Germany</option>
-                                           <option value="">Lodon United Kingdom</option>
-                                           <option value="">Paris Italy</option>
-                                       </select>
-                                   </div>
-                               </div>
-                               <input type="submit" class="search-submit btn btn-primary" value="Search">
-                           </form>
-                       </div>
-                       <p>Or browse the highlights</p>
-                       <p class="browse d-md-flex">
-                           <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-fork"></i>Restaurant</a></span>
-                           <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-hotel"></i>Hotel</a></span>
-                           <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-meeting-point"></i>Places</a></span>
-                           <span class="d-flex justify-content-md-center align-items-md-	center"><a href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
-                       </p>
-                   </div>
-               </div>
-           </div>
-       </div>
- >>>>>>> a159e502f70f9982c50918adab17f5130cd01e74-->
-        <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-=======
->>>>>>> 2f92e9e1fe19e729499f86bff5e9a1db6ae05e09
     </div>
 
 </html>
