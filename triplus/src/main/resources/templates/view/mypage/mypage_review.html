@@ -73,7 +73,7 @@ div.content {
         <div class="container-fluid">
             <div class="row d-flex mb-5 contact-info">
 
-                    <div class="sidebar" style="position:absolute;">
+                <div class="sidebar" style="position:absolute;">
                     <!-- fontawesome에서 가져온 아이콘이 잘 먹히는거 보면 config.html 에 선언한 cdn 이 적용된다는건데.. 근데 index.html 하단에 있는 js 선언들을
                         지우면 index.html 모양이 바뀌는 것일까...-->
                     <a class="active" href="#home"><i class="fas fa-user-circle fa-7x"></i></a>
@@ -81,14 +81,15 @@ div.content {
                     <a th:href="@{/mypage_review}"><i class="far fa-comment fa-lg"></i> 내 리뷰 보기</a>
                     <a th:href="@{/mypage_like}"><i class="fas fa-star fa-lg"></i> 찜 목록</a>
                     <a th:href="@{/mypage_info}"><i class="fas fa-cog fa-lg"></i> 내 정보 관리</a>
+                </div>
+
+                <div class="content" id="contents">
+                    <div class="col-md-12 text-center">
+                        <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
                     </div>
 
-                    <div class="content" id="contents">
-                        <h2>Responsive Sidebar Example</h2>
-                        <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
-                        <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
-                        <h3>Resize the browser window to see the effect.</h3>
-                    </div>
+
+                </div>
 
             </div>
         </div>
