@@ -37,4 +37,15 @@ public class MainController {
         return "view/mypage/mypage_main";
     }
 
+    @GetMapping("/pre")
+    public String pre(){
+        return "view/pre";
+    }
+
+    @GetMapping("/tourtour")
+    public String tourtour(){
+        return "view/tourtour";
+    }
+
+
 }
