@@ -42,9 +42,9 @@ public class MainController {
         return "view/pre";
     }
 
-    @GetMapping("/tourtour")
-    public String tourtour(){
-        return "view/tourtour";
+    @GetMapping("/template")
+    public String template(){
+        return "view/template";
     }
 
 

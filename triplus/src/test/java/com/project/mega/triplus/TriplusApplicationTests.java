@@ -15,7 +15,7 @@ import java.util.List;
 
 @SpringBootTest
 
-class TriplusApplicationTests {
+class jgTriplusApplicationTests {
 
 	@PersistenceContext
 	private EntityManager em;
