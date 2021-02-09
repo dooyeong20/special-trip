@@ -30,11 +30,19 @@ public class MainController {
         return "view/plan";
     }
 
-
+    @GetMapping("/widgets")
+    public String w(){
+        return "view/admin/widgets";
+    }
 
     @GetMapping("/mypage_main")
     public String mypage(){
         return "view/mypage/mypage_main";
+    }
+
+    @GetMapping("/admin")
+    public String admin(){
+        return "view/admin/admin";
     }
 
 }
