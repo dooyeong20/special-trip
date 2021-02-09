@@ -1,0 +1,65 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/common_layout">
+
+<div layout:fragment="content">
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="col-md-7 heading-section ftco-animate fadeInUp ftco-animated">
+                <span class="subheading">Featured</span>
+                <h2 class="mb-4"><strong>나의 일정</strong> 만들기 </h2>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
+                    <button type="button" id="before" class="btn btn-primary mb-2 mr-sm-2">
+                        before
+                    </button>
+                    <button type="button" id="after" class="btn btn-primary mb-2 mr-sm-2">
+                        after
+                    </button>
+                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                        SAVE
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="card col-4" id="card" style="height: 400px">
+                        <div class="card-body">
+                            <h4 class="card-title">Day1</h4>
+                            <p class="card-text">Some example text. Some example text.</p>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="btn1" class="btn btn-primary text-center">
+                ADD
+            </button>
+
+        </div>
+    </section>
+
+
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#card").after($("<div class=\"card col-4\" id=\"card\" style=\"height: 400px\">\n" +
+                    "                        <div class=\"card-body\">\n" +
+                    "                            <h4 class=\"card-title\">Day1</h4>\n" +
+                    "                            <p class=\"card-text\">Some example text. Some example text.</p>\n" +
+                    "                            <a href=\"#\" class=\"card-link\">Card link</a>\n" +
+                    "                            <a href=\"#\" class=\"card-link\">Another link</a>\n" +
+                    "                        </div>\n" +
+                    "                    </div>"));
+            });
+        });
+    </script>
+
+</div>
+</html>
