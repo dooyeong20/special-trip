@@ -45,4 +45,7 @@ public class MainController {
     @GetMapping("/mypage_review")
     public String mypage_review(){return "view/mypage/mypage_review"; }
 
+    @GetMapping("/mypage_plan")
+    public String mypage_plan(){ return "view/mypage/mypage_plan"; }
+
 }

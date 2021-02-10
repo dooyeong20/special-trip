@@ -47,6 +47,34 @@ div.content {
   height: 1000px;
 }
 
+.review_delete {
+
+    width:50px;
+
+    background-color: #f8585b;
+
+    border: none;
+
+    color:#fff;
+
+    padding: 15px 0;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 15px;
+
+    margin: 4px;
+
+    cursor: pointer;
+
+    border-radius:10px;
+
+}
+
 @media screen and (max-width: 700px) {
   .sidebar {
     width: 100%;
@@ -69,31 +97,51 @@ div.content {
 <div layout:fragment="content">
 
     <body>
-    <section class="ftco-section contact-section ftco-degree-bg">
-        <div class="container-fluid">
-            <div class="row d-flex mb-5 contact-info">
+        <section class="ftco-section contact-section ftco-degree-bg">
+            <div class="container">
+                <div class="row d-flex mb-5 contact-info">
 
-                <div class="sidebar" style="position:absolute;">
-                    <!-- fontawesome에서 가져온 아이콘이 잘 먹히는거 보면 config.html 에 선언한 cdn 이 적용된다는건데.. 근데 index.html 하단에 있는 js 선언들을
-                        지우면 index.html 모양이 바뀌는 것일까...-->
-                    <a class="active" href="#home"><i class="fas fa-user-circle fa-7x"></i></a>
-                    <a href="#news"><i class="far fa-calendar-alt fa-lg"></i> 내 일정 보기</a>
-                    <a th:href="@{/mypage_review}"><i class="far fa-comment fa-lg"></i> 내 리뷰 보기</a>
-                    <a th:href="@{/mypage_like}"><i class="fas fa-star fa-lg"></i> 찜 목록</a>
-                    <a th:href="@{/mypage_info}"><i class="fas fa-cog fa-lg"></i> 내 정보 관리</a>
-                </div>
-
-                <div class="content" id="contents">
-                    <div class="col-md-12 text-center">
-                        <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
+                    <div class="sidebar" style="position:absolute;">
+                        <!-- fontawesome에서 가져온 아이콘이 잘 먹히는거 보면 config.html 에 선언한 cdn 이 적용된다는건데.. 근데 index.html 하단에 있는 js 선언들을
+                            지우면 index.html 모양이 바뀌는 것일까...-->
+                        <a class="active" href="#home"><i class="fas fa-user-circle fa-7x"></i></a>
+                        <a th:href="@{/mypage_plan}"><i class="far fa-calendar-alt fa-lg"></i> 내 일정 보기</a>
+                        <a th:href="@{/mypage_review}"><i class="far fa-comment fa-lg"></i> 내 리뷰 보기</a>
+                        <a th:href="@{/mypage_like}"><i class="fas fa-star fa-lg"></i> 찜 목록</a>
+                        <a th:href="@{/mypage_info}"><i class="fas fa-cog fa-lg"></i> 내 정보 관리</a>
                     </div>
 
+                    <div class="content">
+                        <div class="col-md-12 text-center">
+                            <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
+                        </div>
+
+                        <div class="review_sort_box">
+                            <select id name class="review_sort">
+                                <option value="regdate">등록순</option>
+                                <option value="name">이름순</option>
+                            </select>
+                        </div>
+
+                        <div class="review_list">
+                            <p>
+                                <label class="review_place_name">장소명  </label>
+                                <img class="review_place_image" th:src="@{/images/destination-5.jpg}" alt="review_place_image" width="80" height="70" style="margin:10px">
+                                <input class="review_place_content" type="text" value="리뷰내용" style="width:500px; height:70px;">
+                                <button class="review_delete">삭제</button>
+                            </p>
+                            <p>
+                                <label class="review_place_name">장소명  </label>
+                                <img class="review_place_image" th:src="@{/images/destination-5.jpg}" alt="review_place_image" width="80" height="70" style="margin:10px">
+                                <input class="review_place_content" type="text" value="리뷰내용" style="width:500px; height:70px;">
+                                <button class="review_delete">삭제</button>
+                            </p>
+                        </div>
+                    </div>
 
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
     </body>
 </div>
