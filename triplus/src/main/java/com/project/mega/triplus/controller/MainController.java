@@ -30,22 +30,19 @@ public class MainController {
         return "view/plan";
     }
 
-    // mypage controller
+    @GetMapping("/widgets")
+    public String w(){
+        return "view/admin/widgets";
+    }
+
     @GetMapping("/mypage_main")
     public String mypage(){
         return "view/mypage/mypage_main";
     }
 
-    @GetMapping("/mypage_info")
-    public String mypage_info(){return "view/mypage/mypage_info"; }
-
-    @GetMapping("/mypage_like")
-    public String mypage_like(){return "view/mypage/mypage_like"; }
-
-    @GetMapping("/mypage_review")
-    public String mypage_review(){return "view/mypage/mypage_review"; }
-
-    @GetMapping("/mypage_plan")
-    public String mypage_plan(){ return "view/mypage/mypage_plan"; }
+    @GetMapping("/admin")
+    public String admin(){
+        return "view/admin/admin";
+    }
 
 }

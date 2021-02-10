@@ -33,13 +33,17 @@
                             <div class="row">
                                 <h3 class="card-title mb-2 mr-sm-2">Day1</h3>
                                 <input type="text" class="form-control col-6 mb-2 mr-sm-2" placeholder="부제">
-                                <button type="button" id="delete" class="btn btn-default mb-2 mr-sm-2">
+
+                                <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
                                     delete
                                 </button>
                             </div>
-                            <input type="text" id="box" class="form-control mb-2 mr-sm-2">
+
+                            <!-- box -->
+                            <input type="text" id="box" class="form-control mb-2 mr-sm-2 box">
+
                             <div class="col text-center">
-                                <button type="button" id="add" class="btn btn-default mb-2 mr-sm-2" data-toggle="modal" data-target="#myModal">
+                                <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
                                     +
                                 </button>
                             </div>
@@ -49,8 +53,9 @@
                 </div>
             </div>
 
+
             <div class="col text-center">
-                <button type="button" id="btn1" class="btn btn-primary">
+                <button type="button" id="card_add" class="btn btn-primary card_add">
                     ADD
                 </button>
             </div>
@@ -86,41 +91,50 @@
 
     <script>
         $(document).ready(function(){
-            $("#btn1").click(function(){
-                $("#card").after($("<div class=\"card col-4\" id=\"card\" style=\"height: 400px\">\n" +
+            $(".card_add").click(function(){
+                console.log("ok");
+                $("#card").after("<div class=\"card col-4\" id=\"card\" style=\"height: 400px\">\n" +
                     "                        <div class=\"card-body\">\n" +
                     "                            <div class=\"row\">\n" +
                     "                                <h3 class=\"card-title mb-2 mr-sm-2\">Day1</h3>\n" +
                     "                                <input type=\"text\" class=\"form-control col-6 mb-2 mr-sm-2\" placeholder=\"부제\">\n" +
-                    "                                <button type=\"button\" id=\"delete\" class=\"btn btn-default mb-2 mr-sm-2\">\n" +
-                    "                                    -\n" +
+                    "                                <button type=\"button\" onclick=\"myFunction()\" class=\"btn btn-default mb-2 mr-sm-2 delete_btn\">\n" +
+                    "                                    delete\n" +
                     "                                </button>\n" +
                     "                            </div>\n" +
-                    "                            <input type=\"text\" id=\"box\" class=\"form-control mb-2 mr-sm-2\">\n" +
+                    "\n" +
+                    "                            <!-- box -->\n" +
+                    "                            <input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">\n" +
+                    "\n" +
                     "                            <div class=\"col text-center\">\n" +
-                    "                            <button type=\"button\" id=\"add\" class=\"btn btn-default mb-2 mr-sm-2\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
-                    "                                +\n" +
-                    "                            </button>\n" +
+                    "                                <button type=\"button\" class=\"btn btn-default mb-2 mr-sm-2 add_btn\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
+                    "                                    +\n" +
+                    "                                </button>\n" +
                     "                            </div>\n" +
                     "\n" +
-                    "                        </div>\n" +
-                    "                    </div>"));
+                    "                        </div>");
             });
 
-            $("#add").click(function(){
-                $("#box").after($("<input type=\"text\" id=\"box\" class=\"form-control mb-2 mr-sm-2\">"));
+            $("#add_btn").click(function(){
+                console.log("ok");
+                $("#box").after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
             });
 
-            $("#delete").click(function(){
-                $("#box").remove($("<input type=\"text\" id=\"box\" class=\"form-control mb-2 mr-sm-2\">"));
+            $(".delete_btn").click(function(){
+                console.log("ok");
+                $("#card").remove();
             });
 
+            // $("button").click(function(){
+            //     $("#div1").remove();
+            // });
 
-            $("button").click(function(){
-                $("p").remove(".test");
-            });
+            // $(".delete").click(deleteDiv(this));
+
         });
-
+        // function deleteDiv(id){
+        //
+        // }
     </script>
 
 </div>
