@@ -30,35 +30,110 @@
                 <div class="row">
                     <div class="card col-4" id="card" style="height: 400px">
                         <div class="card-body">
-                            <h4 class="card-title">Day1</h4>
-                            <p class="card-text">Some example text. Some example text.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                            <div class="row">
+                                <h3 class="card-title mb-2 mr-sm-2">Day1</h3>
+                                <input type="text" class="form-control col-6 mb-2 mr-sm-2" placeholder="부제">
+                                <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                    delete
+                                </button>
+                            </div>
+
+                            <!-- box -->
+                            <input type="text" id="box" class="form-control mb-2 mr-sm-2 box">
+
+                            <div class="col text-center">
+                                <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                    +
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="button" id="btn1" class="btn btn-primary text-center">
-                ADD
-            </button>
+
+
+            <div class="col text-center">
+                <button type="button" id="card_add" class="btn btn-primary card_add">
+                    ADD
+                </button>
+            </div>
 
         </div>
     </section>
 
+    <!- modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <script>
         $(document).ready(function(){
-            $("#btn1").click(function(){
-                $("#card").after($("<div class=\"card col-4\" id=\"card\" style=\"height: 400px\">\n" +
+            $(".card_add").click(function(){
+                console.log("ok");
+                $("#card").after("<div class=\"card col-4\" id=\"card\" style=\"height: 400px\">\n" +
                     "                        <div class=\"card-body\">\n" +
-                    "                            <h4 class=\"card-title\">Day1</h4>\n" +
-                    "                            <p class=\"card-text\">Some example text. Some example text.</p>\n" +
-                    "                            <a href=\"#\" class=\"card-link\">Card link</a>\n" +
-                    "                            <a href=\"#\" class=\"card-link\">Another link</a>\n" +
-                    "                        </div>\n" +
-                    "                    </div>"));
+                    "                            <div class=\"row\">\n" +
+                    "                                <h3 class=\"card-title mb-2 mr-sm-2\">Day1</h3>\n" +
+                    "                                <input type=\"text\" class=\"form-control col-6 mb-2 mr-sm-2\" placeholder=\"부제\">\n" +
+                    "                                <button type=\"button\" onclick=\"myFunction()\" class=\"btn btn-default mb-2 mr-sm-2 delete_btn\">\n" +
+                    "                                    delete\n" +
+                    "                                </button>\n" +
+                    "                            </div>\n" +
+                    "\n" +
+                    "                            <!-- box -->\n" +
+                    "                            <input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">\n" +
+                    "\n" +
+                    "                            <div class=\"col text-center\">\n" +
+                    "                                <button type=\"button\" class=\"btn btn-default mb-2 mr-sm-2 add_btn\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
+                    "                                    +\n" +
+                    "                                </button>\n" +
+                    "                            </div>\n" +
+                    "\n" +
+                    "                        </div>");
             });
+
+            $("#add_btn").click(function(){
+                console.log("ok");
+                $("#box").after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
+            });
+
+            $(".delete_btn").click(function(){
+                console.log("ok");
+                $("#card").remove();
+            });
+
+            // $("button").click(function(){
+            //     $("#div1").remove();
+            // });
+
+            // $(".delete").click(deleteDiv(this));
+
         });
+        // function deleteDiv(id){
+        //
+        // }
     </script>
 
 </div>
