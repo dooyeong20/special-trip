@@ -7,19 +7,9 @@
 
 <!-- TODO myhome 에서 긁어온거라 제대로 작동되는지 아직 확인 못함. -->
 <title th:text="${title} ?: 'triplus'">TRIPlus</title>
-
-<!-- config fragment 를 이곳에-->
 <th:block th:replace="fragment/config :: configFragment" ></th:block>
 
 <body>
-<!-- header fragment 를 이곳에 -->
-<th:block th:replace="fragment/header :: headerFragment"></th:block>
-<!--
-content fragment 사용
-현재 layout을 사용하는 content fragment의 내용을 삽입한다.
--->
 <th:block layout:fragment="content"></th:block>
-<!-- footer fragment 를 이곳에-->
-<th:block th:replace="fragment/footer :: footerFragment"></th:block>
 </body>
 </html>

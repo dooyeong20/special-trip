@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/common_layout">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <style>
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  margin: 0 ;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  font-weight: bold;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+</style>
+</head>
+
+
+<div layout:fragment="content">
+    <body>
+    <section class="ftco-section contact-section ftco-degree-bg">
+        <div class="container-fluid">
+            <div class="row d-flex mb-5 contact-info">
+
+                    <div class="sidebar">
+                    <!-- fontawesome에서 가져온 아이콘이 잘 먹히는거 보면 config.html 에 선언한 cdn 이 적용된다는건데.. 근데 index.html 하단에 있는 js 선언들을
+                        지우면 index.html 모양이 바뀌는 것일까...-->
+                    <a class="active" href="#home"><i class="fas fa-user-circle fa-7x"></i></a>
+                    <a href="#news">내 일정 보기</a>
+                    <a href="#contact">내 리뷰 보기</a>
+                    <a href="#about">찜 목록</a>
+                    </div>
+
+                    <div class="content">
+                        <h2>Responsive Sidebar Example</h2>
+                        <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
+                        <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
+                        <h3>Resize the browser window to see the effect.</h3>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+
+    </body>
+</div>
+</html>
