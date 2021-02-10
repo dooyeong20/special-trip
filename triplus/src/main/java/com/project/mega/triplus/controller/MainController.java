@@ -31,10 +31,18 @@ public class MainController {
     }
 
     // mypage controller
+
+    @GetMapping("/widgets")
+    public String w(){
+        return "view/admin/widgets";
+    }
+
+
     @GetMapping("/mypage_main")
     public String mypage(){
         return "view/mypage/mypage_main";
     }
+
 
     @GetMapping("/mypage_info")
     public String mypage_info(){return "view/mypage/mypage_info"; }
@@ -44,5 +52,10 @@ public class MainController {
 
     @GetMapping("/mypage_review")
     public String mypage_review(){return "view/mypage/mypage_review"; }
+
+    @GetMapping("/admin")
+    public String admin(){
+        return "view/admin/admin";
+    }
 
 }
