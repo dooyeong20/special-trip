@@ -6,14 +6,15 @@ import lombok.ToString;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
-@XmlRootElement(name = "body")
+@XmlRootElement(name = "items")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter @Setter @ToString
-public class XMLResponseBody {
-    private XMLResponseItems items;
-    private String numOfRows;
-    private String pageNo;
-    private String totalCount;
+public class XMLResponseItems {
+    @XmlElement(name = "item")
+    private List<XMLResponseItem> items = new ArrayList<>();
 }
