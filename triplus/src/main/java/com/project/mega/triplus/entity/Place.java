@@ -1,6 +1,8 @@
 package com.project.mega.triplus.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@NoArgsConstructor
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
