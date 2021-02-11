@@ -1,14 +1,28 @@
 package com.project.mega.triplus.controller;
 
+import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.service.PlaceService;
+import com.project.mega.triplus.service.PlanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 public class MainController {
 
-    @GetMapping("/")
-    public String index(){
+    @Autowired
+    private PlanService planService;
+    @Autowired
+    private PlaceService placeService;
 
+    @GetMapping("/")
+    public String index(Model model){
+
+        List<Place> placeList = placeService.getPlace();
+        model.addAttribute("placeList",placeList);
         return "index";
     }
 
@@ -29,7 +43,6 @@ public class MainController {
 
         return "view/plan";
     }
-
 
     @GetMapping("/widgets")
     public String w(){
