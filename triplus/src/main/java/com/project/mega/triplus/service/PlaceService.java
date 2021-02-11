@@ -19,7 +19,7 @@ public class PlaceService {
 
     public List<Place> getPlace() {
         // 좋아요(liked) 많은순(내림차순)으로 findAll.
-        List<Place> RecommendPlace = placeRepository.findAllByOrderByLikedDesc();
+        List<Place> RecommendPlace = placeRepository.findFirst6ByOrderByLikedDesc();
 
         return RecommendPlace;
     }
