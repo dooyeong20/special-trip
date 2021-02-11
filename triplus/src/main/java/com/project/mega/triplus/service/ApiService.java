@@ -1,10 +1,18 @@
 package com.project.mega.triplus.service;
 
+import com.project.mega.triplus.entity.Accomm;
+import com.project.mega.triplus.entity.Activity;
+import com.project.mega.triplus.entity.Place;
 import com.project.mega.triplus.entity.XMLResponse;
+import com.project.mega.triplus.entity.XMLResponseItem;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -16,21 +24,87 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
+@Slf4j
+@Transactional
 public class ApiService {
+    private final String PLACE = "12";
+    private final String ACTIVITY = "15";
+    private final String HOTEL = "32";
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     public ApiService(@Value("${my.api.key}") String KEY){
         this.KEY = KEY;
     }
 
+    public boolean loadPlaces() {
+        try {
+            loadPlaceWithContentType(PLACE);
+            loadPlaceWithContentType(ACTIVITY);
+            loadPlaceWithContentType(HOTEL);
+        } catch (IOException | JAXBException e) {
+            log.error(e.getMessage());
+            return false;
+        }
 
-    public String getAreaBasedListXML(int pageSize, int pageNo) throws IOException{
-        return getAreaBasedListXML(null, null, pageSize, pageNo);
+        return true;
+    }
+
+    private void loadPlaceWithContentType(String contentType) throws IOException, JAXBException {
+        List<XMLResponseItem> items;
+        String xmlString;
+        XMLResponse response;
+        int pageIdx = 0;
+        Place place = null;
+
+        while (true) {
+            xmlString = getAreaBasedListXML(contentType, null,500, ++pageIdx);
+            response = getXMLResponse(xmlString);
+            items = response.getBody().getItemContainer().getItems();
+
+            if (items.size() < 1) {
+                break;
+            }
+
+            for (XMLResponseItem item : items) {
+
+                if(contentType.equals(ACTIVITY)){
+                    place = new Activity();
+                }
+                else if(contentType.equals(PLACE)){
+                    place = new Place();
+                }
+                else if(contentType.equals(HOTEL)){
+                    place = new Accomm();
+                }
+
+                if(place != null) {
+                    place.setContentType(contentType);
+                    place.setName(item.getPlaceName());
+                    place.setContentId(item.getContentId());
+                    place.setMapX(item.getMapX());
+                    place.setMapY(item.getMapY());
+                    place.setCat1(item.getCat1());
+                    place.setCat2(item.getCat2());
+                    place.setCat3(item.getCat3());
+                    place.setThumbnailUrl(item.getImageUrl());
+                    place.setTel(item.getTel());
+
+                    // TODO: repository refactoring
+                    em.persist(place);
+                    em.flush();
+                    em.clear();
+                }
+            }
+        }
     }
 
     public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
@@ -111,6 +185,7 @@ public class ApiService {
 
         return (XMLResponse) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
     }
+
 }
 
 /*

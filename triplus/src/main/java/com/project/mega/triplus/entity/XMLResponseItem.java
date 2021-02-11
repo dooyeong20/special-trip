@@ -44,5 +44,12 @@ public class XMLResponseItem {
     @XmlElement(name = "title")
     private String placeName;
 
+    private String cat1;
+
+    private String cat2;
+
+    private String cat3;
+
+    private String tel;
 
 }
