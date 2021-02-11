@@ -15,16 +15,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XMLResponseItem {
 
     private String code;    // areaCode : 지역 코드
+
     private String name;    // areaCode : 지역 이름
+
     private String rnum;    // areaCode : 행 number
 
     private String addr1;           // 상세 주소
-    private String add2;            // 동
+
+    private String addr2;            // 동
+
     private String areaCode;        // 지역 코드
+
     @XmlElement(name = "contentid")
     private String contentId;       // 콘텐츠 고유 아이디
+
     @XmlElement(name = "contenttypeid")
     private String contentTypeId;   // 콘텐츠 타입 아이디()
+
+    @XmlElement(name = "firstimage")
+    private String ImageUrl;
+
+    @XmlElement(name = "mapx")
+    private String mapX;
+
+    @XmlElement(name = "mapy")
+    private String mapY;
+
+    @XmlElement(name = "title")
+    private String placeName;
 
 
 }

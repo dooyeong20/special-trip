@@ -7,7 +7,9 @@ import com.project.mega.triplus.entity.PlanStatus;
 import com.project.mega.triplus.entity.Role;
 import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.entity.XMLResponse;
+import com.project.mega.triplus.entity.XMLResponseItem;
 import com.project.mega.triplus.service.ApiService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +20,9 @@ import org.springframework.test.annotation.Rollback;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
-import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SpringBootTest
@@ -31,7 +31,7 @@ class TriplusApplicationTests {
 	@PersistenceContext
 	private EntityManager em;
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private ApiService apiService;
@@ -40,20 +40,37 @@ class TriplusApplicationTests {
 	void contextLoads() {
 	}
 
-
 	@Test
+	@Transactional
+	@Rollback(value = false)
 	void api_test() throws IOException, JAXBException {
+		String xmlString;
+		XMLResponse response;
+		List<XMLResponseItem> items;
+		int pageIdx = 0;
+		int cnt = 0;
 
-		String xmlString = apiService.getAreaCodeXML();
+		while(true){
+			xmlString = apiService.getAreaBasedListXML("12","7", 100, ++pageIdx);
+			response = apiService.getXMLResponse(xmlString);
+			items = response.getBody().getItemContainer().getItems();
 
-		System.out.println(xmlString);
+			if(items.size() < 1){
+				break;
+			}
 
-		JAXBContext jaxbContext = JAXBContext.newInstance(XMLResponse.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		XMLResponse response = (XMLResponse) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+			for(XMLResponseItem item : items){
+				Place place = new Place();
+				place.setName(item.getPlaceName());
+				em.persist(place);
+				em.flush();
+				em.clear();
+				logger.info("content id : " + item.getContentId() + ", image URL : " + item.getImageUrl());
+				++cnt;
+			}
+		}
 
-		logger.info(response.toString());
-
+		Assertions.assertThat(response.getBody().getTotalCount()).isEqualTo(String.valueOf(cnt));
 	}
 
 	@Test

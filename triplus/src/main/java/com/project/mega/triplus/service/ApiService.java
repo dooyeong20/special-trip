@@ -1,13 +1,17 @@
 package com.project.mega.triplus.service;
 
+import com.project.mega.triplus.entity.XMLResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -24,19 +28,47 @@ public class ApiService {
         this.KEY = KEY;
     }
 
+
+    public String getAreaBasedListXML(int pageSize, int pageNo) throws IOException{
+        return getAreaBasedListXML(null, null, pageSize, pageNo);
+    }
+
+    public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
+        StringBuilder urlBuilder = getStringBuilder("areaBasedList");
+
+        if(null != contentTypeId) {
+            addParam(urlBuilder, "contentTypeId", contentTypeId);
+        }
+
+        if(null != areaCode){
+            addParam(urlBuilder, "areaCode", areaCode);
+        }
+
+        addParam(urlBuilder, "numOfRows", String.valueOf(pageSize));
+        addParam(urlBuilder, "pageNo", String.valueOf(pageNo));
+
+        return getXMLString(urlBuilder);
+    }
+
+    // 테스트용 메서드
     public String getAreaCodeXML() throws IOException {
-        StringBuilder urlBuilder;
+        StringBuilder urlBuilder = getStringBuilder("areaCode");
 
-        urlBuilder = new StringBuilder(API_URL + "areaCode");
-        urlBuilder.append("?").append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8)).append("=").append(KEY);
-
-        addParam(urlBuilder, "numOfRows", "10");
+        addParam(urlBuilder, "numOfRows", "30");
         addParam(urlBuilder, "pageNo", "1");
-        addParam(urlBuilder, "MobileOS", "ETC");
-        addParam(urlBuilder, "MobileApp", APP_NAME);
         addParam(urlBuilder, "contentTypeId", "12");
 
         return getXMLString(urlBuilder);
+    }
+
+    private StringBuilder getStringBuilder(String service) {
+        StringBuilder urlBuilder= new StringBuilder(API_URL + service);
+        urlBuilder.append("?").append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8)).append("=").append(KEY);
+
+        addParam(urlBuilder, "MobileOS", "ETC");
+        addParam(urlBuilder, "MobileApp", APP_NAME);
+
+        return urlBuilder;
     }
 
     private String getXMLString(StringBuilder urlBuilder) throws IOException {
@@ -72,13 +104,24 @@ public class ApiService {
     private void addParam(StringBuilder sb, String title, String value){
         sb.append("&").append(URLEncoder.encode(title, StandardCharsets.UTF_8)).append("=").append(URLEncoder.encode(value, StandardCharsets.UTF_8));
     }
+
+    public XMLResponse getXMLResponse(String xmlString) throws JAXBException{
+        JAXBContext jaxbContext = JAXBContext.newInstance(XMLResponse.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+        return (XMLResponse) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+    }
 }
 
 /*
     basic url : http://api.visitkorea.or.kr/openapi/service/rest/KorService/
 
+
+    -------------------------------------------------------
     < 요청 api 종류 >
-    1	국문 관광정보 서비스	areaCode	지역코드 조회
+    국문 관광정보 서비스
+
+    1   areaCode	지역코드 조회
     2	categoryCode	서비스 분류코드 조회
     3	areaBasedList	지역기반 관광정보 조회
     4	locationBasedList	위치기반 관광정보 조회
@@ -89,7 +132,9 @@ public class ApiService {
     9	detailIntro	상세정보2 - 소개정보 조회
     10	detailInfo	상세정보3 - 반복정보 조회
     11	detailImage	상세정보4 - 이미지정보 조회
+    -------------------------------------------------------
 
+    ------------------------------
     < 콘텐츠 아이디(타입) 코드표 >
     관광지	        12
     문화시설	        14
@@ -99,4 +144,27 @@ public class ApiService {
     숙박	            32
     쇼핑	            38
     음식점	        39
+    -------------------------------
+
+    -------------------------------
+    < areaCode >
+
+    1 서울
+    2 인천
+    3 대전
+    4 대구
+    5 광주
+    6 부산
+    7 울산
+    8 세종특별자치시
+    31 경기도
+    32 강원도
+    33 충청북도
+    34 충청남도
+    35 경상북도
+    36 경상남도
+    37 전라북도
+    38 전라남도
+    39 제주도
+    -------------------------------
 */

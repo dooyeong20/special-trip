@@ -14,7 +14,7 @@ import java.util.List;
 @XmlRootElement(name = "items")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter @Setter @ToString
-public class XMLResponseItems {
+public class XMLResponseItemContainer {
     @XmlElement(name = "item")
     private List<XMLResponseItem> items = new ArrayList<>();
 }
