@@ -37,7 +37,7 @@
 									<p style="font-weight: bold;">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
 									<div class="row justify-content-center mt-5">
 										<div class="col-md-8">
-											<form action="/blog" class="subscribe-form">
+											<form th:action="@{/search}" class="subscribe-form">
 												<div class="form-group d-flex">
 													<input type="text" class="form-control" placeholder="지역을 검색해주세요">
 													<input type="submit" value="Search" class="submit px-3">
@@ -67,7 +67,7 @@
 	<!-- place 테이블에서 받은 데이터 뿌려지는 곳 -->
 	<section class="ftco-section ftco-destination">
 		<div class="container">
-			<div class="row justify-content-start mb-5 pb-3">
+			<div class="row justify-content-start">
 				<div class="col-md-7 heading-section ftco-animate">
 					<h2 class="mb-4"><strong>인기명소</strong> Top6 </h2>
 				</div>
