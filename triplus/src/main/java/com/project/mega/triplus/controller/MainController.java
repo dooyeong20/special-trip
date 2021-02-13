@@ -31,6 +31,7 @@ public class MainController {
 
     private final ApiService apiService;
 
+
     @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
@@ -89,28 +90,33 @@ public class MainController {
         return "view/admin/widgets";
     }
 
-    // mypage controller
-    @GetMapping("/mypage_main")
-    public String mypage(){
-        return "view/mypage/mypage_main";
-    }
-
-
-    @GetMapping("/mypage_info")
-    public String mypage_info(){return "view/mypage/mypage_info"; }
-
-    @GetMapping("/mypage_like")
-    public String mypage_like(){return "view/mypage/mypage_like"; }
-
-    @GetMapping("/mypage_review")
-    public String mypage_review(){return "view/mypage/mypage_review"; }
-
-    @GetMapping("/mypage_plan")
-    public String mypage_plan(){return "view/mypage/mypage_plan";}
+//    // mypage controller
+//    @GetMapping("/mypage_main")
+//    public String mypage(){
+//        return "view/mypage/mypage_main";
+//    }
+//
+//
+//    @GetMapping("/mypage_info")
+//    public String mypage_info(){return "view/mypage/mypage_info"; }
+//
+//    @GetMapping("/mypage_like")
+//    public String mypage_like(){return "view/mypage/mypage_like"; }
+//
+//    @GetMapping("/mypage_review")
+//    public String mypage_review(){return "view/mypage/mypage_review"; }
+//
+//    @GetMapping("/mypage_plan")
+//    public String mypage_plan(){return "view/mypage/mypage_plan";}
 
     @GetMapping("/admin")
     public String admin(){
         return "view/admin/admin";
+    }
+
+    @GetMapping("/mypage")
+    public String mypage(){
+        return "view/mypage";
     }
 
 }
