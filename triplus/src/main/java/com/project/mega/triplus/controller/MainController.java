@@ -3,9 +3,6 @@ package com.project.mega.triplus.controller;
 import com.project.mega.triplus.entity.Place;
 import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.PlanService;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.project.mega.triplus.entity.XMLResponse;
-import com.project.mega.triplus.entity.XMLResponseItem;
 import com.project.mega.triplus.service.ApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,28 +65,29 @@ public class MainController {
         return "view/admin/widgets";
     }
 
-    // mypage controller
-    @GetMapping("/mypage_main")
-    public String mypage(){
-        return "view/mypage/mypage_main";
-    }
+//    // mypage controller
+//    @GetMapping("/mypage_main")
+//    public String mypage(){
+//        return "view/mypage/mypage_main";
+//    }
+//
+//
+//    @GetMapping("/mypage_info")
+//    public String mypage_info(){return "view/mypage/mypage_info"; }
+//
+//    @GetMapping("/mypage_like")
+//    public String mypage_like(){return "view/mypage/mypage_like"; }
 
 
-    @GetMapping("/mypage_info")
-    public String mypage_info(){return "view/mypage/mypage_info"; }
-
-    @GetMapping("/mypage_like")
-    public String mypage_like(){return "view/mypage/mypage_like"; }
-
-    @GetMapping("/mypage_review")
-    public String mypage_review(){return "view/mypage/mypage_review"; }
-
-    @GetMapping("/mypage_plan")
-    public String mypage_plan(){return "view/mypage/mypage_plan";}
 
     @GetMapping("/admin")
     public String admin(){
         return "view/admin/admin";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(){
+        return "/view/myPage";
     }
 
 }
