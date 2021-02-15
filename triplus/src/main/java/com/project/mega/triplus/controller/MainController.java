@@ -1,11 +1,12 @@
 package com.project.mega.triplus.controller;
 
-import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Plan;
+import com.project.mega.triplus.entity.PlanStatus;
 import com.project.mega.triplus.repository.PlanRepository;
+import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.PlanService;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.project.mega.triplus.service.ApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class MainController {
     private final ApiService apiService;
 
 
-    @PostConstruct
+//    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
