@@ -119,16 +119,4 @@ public class MainController {
         return "view/mypage";
     }
 
-    @GetMapping("/pre")
-    public String pre(){
-        return "view/pre";
-    }
-
-    @GetMapping("/template")
-    public String template(){
-        return "view/template";
-    }
-
-
 }
-
