@@ -4,7 +4,6 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -15,3 +14,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+my:
+  api:
+    key: s3r5PXGQygPdPN0nbod5z5ro7B44y3ZU0MhLkAwYmKy652rhUS3LYDS4v9GgDbcL53oJtC1XW5Vo3q9lDc%2FndA%3D%3D

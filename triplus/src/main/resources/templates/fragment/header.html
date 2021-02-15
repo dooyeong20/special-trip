@@ -1,59 +1,135 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
-    <div th:fragment="headerFragment">
+<div th:fragment="headerFragment">
 
-        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-            <div class="container-fluid">
-                <a class="navbar-brand text-dark" style="font-weight: bold;" th:href="@{/}">TRIPLus.</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="oi oi-menu"></span> Menu
-                </button>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand text-dark" style="font-weight: bold;" th:href="@{/}">TRIPLus.</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
 
-                <div class="collapse navbar-collapse" id="ftco-nav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a th:href="@{/}" class="nav-link text-dark" style="font-weight: bold;">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">여행일정</a></li>
-                        <li class="nav-item"><a th:href="@{/tour}" class="nav-link text-dark" style="font-weight: bold;">여행지</a></li>
-                        <li class="nav-item"><a th:href="@{/plan}" class="nav-link text-dark" style="font-weight: bold;">일정 만들기</a></li>
-                        <li class="nav-item"><a th:href="@{/mypage_main}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a th:href="@{/}" class="nav-link text-dark" style="font-weight: bold;">Home</a></li>
+                    <li class="nav-item"><a th:href="@{/blog}" class="nav-link text-dark" style="font-weight: bold;">여행일정</a></li>
+                    <li class="nav-item"><a th:href="@{/tour}" class="nav-link text-dark" style="font-weight: bold;">여행지</a></li>
+                    <li class="nav-item"><a th:href="@{/plan}" class="nav-link text-dark" style="font-weight: bold;">일정 만들기</a></li>
+                    <li class="nav-item"><a th:href="@{/mypage}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>
 
-                        <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#myModal">
-                            LOGIN
-                        </button>
-                        <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#myModal">
-                            JOIN
-                        </button>
+                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#loginModal">
+                        LOGIN
+                    </button>
+                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#joinModal">
+                        JOIN
+                    </button>
 
-                    </ul>
+                </ul>
 
-                </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- The Modal -->
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-title text-center">
+                        <h4>Login</h4>
                     </div>
+                    <div class="d-flex flex-column text-center">
+                        <form>
+                            <div class="form-group">
+                                <input type="id" class="form-control" id="login_id"placeholder="ID">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="login_pw" placeholder="Password">
+                            </div>
+                            <small id ="password_help_text" class="form-text text-muted">
+                                패스워드가 기억나지 않으세요? <a href="#" th:href="@{/change-password}">패스워드 변경 링크 보내기</a>
+                            </small>
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Login</button>
+                        </form>
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        Modal body..
+                        <div class="d-flex justify-content-center social-buttons">
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </button>
+                            </di>
+                        </div>
                     </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="joinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-title text-center">
+                        <h4>Join</h4>
+                    </div>
+                    <div class="d-flex flex-column text-center">
+                        <form>
+                            <div class="form-group">
+                                <input type="nickname" class="form-control" id="join_name" placeholder="Nickname">
+                            </div>
+                            <div class="form-group">
+                                <input type="id" class="form-control" id="join_id"placeholder="Id">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="join_pw" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="join_email" placeholder="Email">
+                            </div>
+
+                            <hr class="col-12 my-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="agreement">회원가입 약관에 동의합니다.</input>
+
+                            </div>
+                            <hr class="col-12 my-4">
+
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Join</button>
+                        </form>
+
+                        <div class="d-flex justify-content-center social-buttons">
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </button>
+                            </di>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </html>
