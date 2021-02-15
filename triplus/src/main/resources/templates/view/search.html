@@ -1,0 +1,340 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/common_layout">
+
+<div layout:fragment="content">
+  <section class="ftco-section bg-light">
+    <div class="container">
+      <div class="col-md-12 text-center">
+        <h2 class="mb-4"><strong>제주도</strong> 추천일정</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+          <div class="destination">
+            <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
+              <div class="icon d-flex justify-content-center align-items-center">
+                <span class="icon-search2"></span>
+              </div>
+            </a>
+            <div class="text p-3">
+              <div class="d-flex">
+                <div class="one">
+                  <h3><a href="#">Paris, Italy</a></h3>
+                  <p class="rate">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star-o"></i>
+                    <span>8 Rating</span>
+                  </p>
+                </div>
+                <div class="two">
+                  <span class="price">$200</span>
+                </div>
+              </div>
+              <p>Far far away, behind the word mountains, far from the countries</p>
+              <p class="days"><span>2 days 3 nights</span></p>
+              <hr>
+              <p class="bottom-area d-flex">
+                <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                <span class="ml-auto"><a href="#">Discover</a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+          <div class="destination">
+            <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-2.jpg);">
+              <div class="icon d-flex justify-content-center align-items-center">
+                <span class="icon-search2"></span>
+              </div>
+            </a>
+            <div class="text p-3">
+              <div class="d-flex">
+                <div class="one">
+                  <h3><a href="#">Paris, Italy</a></h3>
+                  <p class="rate">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star-o"></i>
+                    <span>8 Rating</span>
+                  </p>
+                </div>
+                <div class="two">
+                  <span class="price">$200</span>
+                </div>
+              </div>
+              <p>Far far away, behind the word mountains, far from the countries</p>
+              <p class="days"><span>2 days 3 nights</span></p>
+              <hr>
+              <p class="bottom-area d-flex">
+                <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                <span class="ml-auto"><a href="#">Discover</a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+          <div class="destination">
+            <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-3.jpg);">
+              <div class="icon d-flex justify-content-center align-items-center">
+                <span class="icon-search2"></span>
+              </div>
+            </a>
+            <div class="text p-3">
+              <div class="d-flex">
+                <div class="one">
+                  <h3><a href="#">Paris, Italy</a></h3>
+                  <p class="rate">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star-o"></i>
+                    <span>8 Rating</span>
+                  </p>
+                </div>
+                <div class="two">
+                  <span class="price">$200</span>
+                </div>
+              </div>
+              <p>Far far away, behind the word mountains, far from the countries</p>
+              <p class="days"><span>2 days 3 nights</span></p>
+              <hr>
+              <p class="bottom-area d-flex">
+                <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                <span class="ml-auto"><a href="#">Discover</a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <h2 class="mb-4"><strong>제주도</strong> 추천여행지</h2>
+      </div>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#home" style="font-size: 20px">관광명소</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#menu1" style="font-size: 20px">음식점</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#menu2" style="font-size: 20px">쇼핑</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#menu3" style="font-size: 20px">축제</a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div id="home" class="container tab-pane active"><br>
+          <div class="row d-flex">
+            <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
+              <div class="blog-entry align-self-stretch">
+                <a th:href="@{/detail}" class="block-20" style="background-image: url('images/image_1.jpg');">
+                </a>
+                <div class="text p-4 d-block">
+                  <span class="tag">Tips, Travel</span>
+                  <h3 class="heading mt-3"><a th:href="@{/detail}">8 Best homestay in Philippines that you don't miss out</a></h3>
+                  <div class="meta mb-3">
+                    <div><a th:href="@{/detail}">August 12, 2018</a></div>
+                    <div><a th:href="@{/detail}">Admin</a></div>
+                    <div><a th:href="@{/detail}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
+              <div class="blog-entry align-self-stretch">
+                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
+                </a>
+                <div class="text p-4">
+                  <span class="tag">Culture</span>
+                  <h3 class="heading mt-3"><a th:href="@{/detail}">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                  <div class="meta mb-3">
+                    <div><a th:href="@{/detail}">August 12, 2018</a></div>
+                    <div><a th:href="@{/detail}">Admin</a></div>
+                    <div><a th:href="@{/detail}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
+              <div class="blog-entry align-self-stretch">
+                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
+                </a>
+                <div class="text p-4">
+                  <span class="tag">Tips, Travel</span>
+                  <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                  <div class="meta mb-3">
+                    <div><a href="#">August 12, 2018</a></div>
+                    <div><a href="#">Admin</a></div>
+                    <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
+              <div class="blog-entry align-self-stretch">
+                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_4.jpg');">
+                </a>
+                <div class="text p-4">
+                  <span class="tag">Tips, Travel</span>
+                  <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                  <div class="meta mb-3">
+                    <div><a href="#">August 12, 2018</a></div>
+                    <div><a href="#">Admin</a></div>
+                    <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="menu1" class="container tab-pane fade"><br>
+          <div class="row">
+            <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+              <div class="destination">
+                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
+                  <div class="icon d-flex justify-content-center align-items-center">
+                    <span class="icon-search2"></span>
+                  </div>
+                </a>
+                <div class="text p-3">
+                  <div class="d-flex">
+                    <div class="one">
+                      <h3><a href="#">Paris, Italy</a></h3>
+                      <p class="rate">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star-o"></i>
+                        <span>8 Rating</span>
+                      </p>
+                    </div>
+                    <div class="two">
+                      <span class="price">$200</span>
+                    </div>
+                  </div>
+                  <p>Far far away, behind the word mountains, far from the countries</p>
+                  <p class="days"><span>2 days 3 nights</span></p>
+                  <hr>
+                  <p class="bottom-area d-flex">
+                    <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                    <span class="ml-auto"><a href="#">Discover</a></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+              <div class="destination">
+                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-2.jpg);">
+                  <div class="icon d-flex justify-content-center align-items-center">
+                    <span class="icon-search2"></span>
+                  </div>
+                </a>
+                <div class="text p-3">
+                  <div class="d-flex">
+                    <div class="one">
+                      <h3><a href="#">Paris, Italy</a></h3>
+                      <p class="rate">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star-o"></i>
+                        <span>8 Rating</span>
+                      </p>
+                    </div>
+                    <div class="two">
+                      <span class="price">$200</span>
+                    </div>
+                  </div>
+                  <p>Far far away, behind the word mountains, far from the countries</p>
+                  <p class="days"><span>2 days 3 nights</span></p>
+                  <hr>
+                  <p class="bottom-area d-flex">
+                    <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                    <span class="ml-auto"><a href="#">Discover</a></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+              <div class="destination">
+                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-3.jpg);">
+                  <div class="icon d-flex justify-content-center align-items-center">
+                    <span class="icon-search2"></span>
+                  </div>
+                </a>
+                <div class="text p-3">
+                  <div class="d-flex">
+                    <div class="one">
+                      <h3><a href="#">Paris, Italy</a></h3>
+                      <p class="rate">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star-o"></i>
+                        <span>8 Rating</span>
+                      </p>
+                    </div>
+                    <div class="two">
+                      <span class="price">$200</span>
+                    </div>
+                  </div>
+                  <p>Far far away, behind the word mountains, far from the countries</p>
+                  <p class="days"><span>2 days 3 nights</span></p>
+                  <hr>
+                  <p class="bottom-area d-flex">
+                    <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                    <span class="ml-auto"><a href="#">Discover</a></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="menu2" class="container tab-pane fade"><br>
+          <h3>쇼핑</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+        <div id="menu3" class="container tab-pane fade"><br>
+          <h3>축제</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col text-center">
+          <div class="block-27">
+            <ul>
+              <li><a href="#">&lt;</a></li>
+              <li class="active"><span>1</span></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">&gt;</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+</html>

@@ -67,15 +67,15 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/blog")
-    public String blog(){
-        return "view/blog";
+    @GetMapping("/search")
+    public String search(){
+        return "view/search";
     }
 
 
-    @GetMapping("/tour")
-    public String tour(){
-        return "view/tour";
+    @GetMapping("/detail")
+    public String detail(){
+        return "view/detail";
     }
 
 
@@ -119,4 +119,13 @@ public class MainController {
         return "view/mypage";
     }
 
+    @GetMapping("/total_plan")
+    public String totalPlan(){
+        return "view/total_plan";
+    }
+
+    @GetMapping("/total_place")
+    public String totalPlace(){
+        return "view/total_place";
+    }
 }
