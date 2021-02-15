@@ -1,21 +1,33 @@
 package com.project.mega.triplus.controller;
 
+
+import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.repository.PlaceRepository;
+
 import com.project.mega.triplus.entity.Place;
 import com.project.mega.triplus.entity.Plan;
 import com.project.mega.triplus.entity.PlanStatus;
+
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.PlaceService;
+
+import com.project.mega.triplus.service.ApiService;
+
 import com.project.mega.triplus.service.PlanService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +35,7 @@ import java.util.List;
 public class MainController {
 
 
-    private final PlanService planService;
+    private final PlaceRepository placeRepository;
 
     private final PlanRepository planRepository;
 
@@ -32,7 +44,12 @@ public class MainController {
     private final ApiService apiService;
 
 
+
+    @PostConstruct
+    @Transactional
+
 //    @PostConstruct
+
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -41,25 +58,57 @@ public class MainController {
 
         // 추천일정 top3 더미데이터 생성하기
         Plan plan1=new Plan();
-        plan1.setName("제주도 여행");
+        Day plan1_day1=new Day();
+        Day plan1_day2=new Day();
+
+        // Place 테이블에서 실제 장소 데이터 빼오기.
+        Optional<Place> place1=placeRepository.findById(250L);
+        Optional<Place> place2=placeRepository.findById(350L);
+        Optional<Place> place3=placeRepository.findById(450L);
+        Optional<Place> place4=placeRepository.findById(550L);
+
+        if(place1.isPresent() && place2.isPresent() && place3.isPresent() && place4.isPresent()){
+
+            // day1에 장소들 임의로 추가.
+            plan1_day1.addPlace(place1.get());
+            plan1_day1.addPlace(place2.get());
+            plan1_day2.addPlace(place3.get());
+            plan1_day2.addPlace(place4.get());
+
+            // plan1_day1, plan1_day2 은 plan1 소속이다.
+            plan1_day1.setPlan(plan1);
+            plan1_day2.setPlan(plan1);
+
+            plan1_day1.setName("FirstDay");
+            plan1_day2.setName("SecondDay");
+        }
+
+        // TODO plan1_day1, plan1_day2 는 index 로 어떻게 넘겨야하는가? (day1, day2 에 속한 place 리스트도)
+
+        plan1.setName("나의 첫번째 여행");
         plan1.setStatus(PlanStatus.COMPLETE);
         plan1.setLiked(10);
         plan1.setUpdate(LocalDateTime.now());
-
-        Plan plan2=new Plan();
-        plan2.setName("부산 여행");
-        plan2.setStatus(PlanStatus.COMPLETE);
-        plan2.setLiked(6);
-        plan2.setUpdate(LocalDateTime.now());
-
+        plan1.setDays(List.of(plan1_day1,plan1_day2));
         planRepository.save(plan1);
-        planRepository.save(plan2);
+
+        // TODO Place 의 imageUrl 은 어디서 어떻게 가져와야하는가?
+
+//        List<List<String>> imageUrlsList = new ArrayList<>();
+//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
+//
+//        System.out.println(imageUrlsList);
     }
+
 
     @GetMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
+
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
