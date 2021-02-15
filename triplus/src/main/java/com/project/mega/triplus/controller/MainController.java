@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.annotation.PostConstruct;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ public class MainController {
             plan1_day1.setName("FirstDay");
             plan1_day2.setName("SecondDay");
         }
-        // TODO Place 의 imageUrl 은 어디서 어떻게 가져와야하는가?
+
         // TODO plan1_day1, plan1_day2 는 index 로 어떻게 넘겨야하는가? (day1, day2 에 속한 place 리스트도)
 
         plan1.setName("나의 첫번째 여행");
@@ -76,6 +77,16 @@ public class MainController {
         plan1.setUpdate(LocalDateTime.now());
         plan1.setDays(List.of(plan1_day1,plan1_day2));
         planRepository.save(plan1);
+
+        // TODO Place 의 imageUrl 은 어디서 어떻게 가져와야하는가?
+
+//        List<List<String>> imageUrlsList = new ArrayList<>();
+//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
+//
+//        System.out.println(imageUrlsList);
     }
 
 
@@ -83,6 +94,7 @@ public class MainController {
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
+
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
