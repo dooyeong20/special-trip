@@ -1,10 +1,21 @@
 package com.project.mega.triplus.controller;
 
+
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
+
+import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Plan;
+import com.project.mega.triplus.entity.PlanStatus;
+
 import com.project.mega.triplus.repository.PlanRepository;
-import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.ApiService;
+import com.project.mega.triplus.service.PlaceService;
+
+import com.project.mega.triplus.service.ApiService;
+
+import com.project.mega.triplus.service.PlanService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +44,12 @@ public class MainController {
     private final ApiService apiService;
 
 
+
     @PostConstruct
     @Transactional
+
+//    @PostConstruct
+
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -102,15 +116,15 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/blog")
-    public String blog(){
-        return "view/blog";
+    @GetMapping("/search")
+    public String search(){
+        return "view/search";
     }
 
 
-    @GetMapping("/tour")
-    public String tour(){
-        return "view/tour";
+    @GetMapping("/detail")
+    public String detail(){
+        return "view/detail";
     }
 
 
@@ -154,4 +168,13 @@ public class MainController {
         return "view/mypage";
     }
 
+    @GetMapping("/total_plan")
+    public String totalPlan(){
+        return "view/total_plan";
+    }
+
+    @GetMapping("/total_place")
+    public String totalPlace(){
+        return "view/total_place";
+    }
 }
