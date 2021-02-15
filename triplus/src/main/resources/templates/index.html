@@ -29,21 +29,22 @@
 				<div class="container">
 					<div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true" style="height: 700px;">
 
-						<div class="parallax-img d-flex align-items-center">
+						<div class="col-12 align-items-center">
 
 							<div class="row d-flex justify-content-center">
-								<div class="col-md-8 text-center heading-section heading-section-white ftco-animate fadeInUp ftco-animated">
+								<div class="col-6 text-center heading-section heading-section-white ftco-animate fadeInUp ftco-animated">
 									<h2 style="font-weight: bold;">어디로 떠나나요?</h2>
-									<p style="font-weight: bold;">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
-									<div class="row justify-content-center mt-5">
-										<div class="col-md-8">
-											<form th:action="@{/search}" class="subscribe-form">
-												<div class="form-group d-flex">
+
+									<div class="block-17 my-4">
+										<form th:action="@{/search}" class="d-block d-flex">
+											<div class="fields d-block d-flex">
+												<div class="textfield-search one-third">
 													<input type="text" class="form-control" placeholder="지역을 검색해주세요">
-													<input type="submit" value="Search" class="submit px-3">
 												</div>
-											</form>
-										</div>
+
+											</div>
+											<input type="submit" class="search-submit btn btn-primary" value="Search">
+										</form>
 									</div>
 								</div>
 							</div>
@@ -96,6 +97,7 @@
 
 	<section class="ftco-section ftco-degree-bg">
 		<div class="container">
+			<div class="row justify-content-start">
 			<div class="col-md-7 heading-section ftco-animate fadeInUp ftco-animated">
 				<h2 class="mb-4"><strong>추천일정</strong> Top3 </h2>
 			</div>
@@ -136,7 +138,7 @@
 				</div>
 
 			</div>
-
+			</div>
 		</div>
 	</section>
 
