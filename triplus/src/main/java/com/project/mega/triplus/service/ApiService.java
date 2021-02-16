@@ -36,6 +36,7 @@ public class ApiService {
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
+    private final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
 
     @PersistenceContext
     private EntityManager em;
@@ -88,6 +89,9 @@ public class ApiService {
                     place.setCat1(item.getCat1());
                     place.setCat2(item.getCat2());
                     place.setCat3(item.getCat3());
+                    if(item.getImageUrl() == null){
+                        item.setImageUrl(DEFAULT_IMAGE);
+                    }
                     place.setThumbnailUrl(item.getImageUrl());
                     place.setTel(item.getTel());
 

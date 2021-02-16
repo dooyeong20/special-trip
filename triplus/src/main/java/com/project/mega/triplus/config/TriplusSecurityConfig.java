@@ -53,14 +53,11 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
+//                .loginPage("/login")
                 .permitAll()
 
                 .and()
-                .exceptionHandling().accessDeniedPage("/access_denied")
-
-                .and()
-                .httpBasic();
-
+                .exceptionHandling().accessDeniedPage("/access_denied");
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {
