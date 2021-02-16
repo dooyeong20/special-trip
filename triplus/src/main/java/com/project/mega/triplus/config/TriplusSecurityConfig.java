@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
