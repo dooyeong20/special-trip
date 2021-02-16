@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,13 +57,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and()
-                .exceptionHandling().accessDeniedPage("/access_denied")
-                .and()
-                .oauth2Login()
-                .and()
-                .exceptionHandling();
-//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
-
+                .exceptionHandling().accessDeniedPage("/access_denied");
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {

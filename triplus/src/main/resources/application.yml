@@ -19,6 +19,9 @@ spring:
             clientSecret: JmLCzJlYh-bs4iyCrzSRbWww
 
 
+profiles:
+  active: dev
+
 logging:
   level:
     org.hibernate.SQL: debug
