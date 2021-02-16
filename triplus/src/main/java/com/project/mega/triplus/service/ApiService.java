@@ -36,6 +36,7 @@ public class ApiService {
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
+    private final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
 
     @PersistenceContext
     private EntityManager em;
@@ -65,28 +66,21 @@ public class ApiService {
         int pageIdx = 0;
         Place place = null;
 
-        while (true) {
-            xmlString = getAreaBasedListXML(contentType, null,500, ++pageIdx);
+        do {
+            xmlString = getAreaBasedListXML(contentType, null, 10000, ++pageIdx);
             response = getXMLResponse(xmlString);
             items = response.getBody().getItemContainer().getItems();
 
-            if (items.size() < 1) {
-                break;
-            }
-
             for (XMLResponseItem item : items) {
-
-                if(contentType.equals(ACTIVITY)){
+                if (contentType.equals(ACTIVITY)) {
                     place = new Activity();
-                }
-                else if(contentType.equals(PLACE)){
+                } else if (contentType.equals(PLACE)) {
                     place = new Place();
-                }
-                else if(contentType.equals(HOTEL)){
+                } else if (contentType.equals(HOTEL)) {
                     place = new Accomm();
                 }
 
-                if(place != null) {
+                if (place != null) {
                     place.setContentType(contentType);
                     place.setName(item.getPlaceName());
                     place.setContentId(item.getContentId());
@@ -95,6 +89,9 @@ public class ApiService {
                     place.setCat1(item.getCat1());
                     place.setCat2(item.getCat2());
                     place.setCat3(item.getCat3());
+                    if(item.getImageUrl() == null){
+                        item.setImageUrl(DEFAULT_IMAGE);
+                    }
                     place.setThumbnailUrl(item.getImageUrl());
                     place.setTel(item.getTel());
 
@@ -104,7 +101,8 @@ public class ApiService {
                     em.clear();
                 }
             }
-        }
+
+        } while (Integer.parseInt(response.getBody().getNumOfRows()) * Integer.parseInt(response.getBody().getPageNo()) <= Integer.parseInt(response.getBody().getTotalCount()));
     }
 
     public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
