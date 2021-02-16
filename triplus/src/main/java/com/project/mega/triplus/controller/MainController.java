@@ -174,4 +174,9 @@ public class MainController {
     public String totalPlace(){
         return "view/total_place";
     }
+
+    @GetMapping("/access_denied")
+    public String accessDenied(){
+        return "view/access_denied";
+    }
 }
