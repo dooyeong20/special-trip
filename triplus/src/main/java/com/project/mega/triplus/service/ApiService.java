@@ -65,28 +65,21 @@ public class ApiService {
         int pageIdx = 0;
         Place place = null;
 
-        while (true) {
-            xmlString = getAreaBasedListXML(contentType, null,500, ++pageIdx);
+        do {
+            xmlString = getAreaBasedListXML(contentType, null, 10000, ++pageIdx);
             response = getXMLResponse(xmlString);
             items = response.getBody().getItemContainer().getItems();
 
-            if (items.size() < 1) {
-                break;
-            }
-
             for (XMLResponseItem item : items) {
-
-                if(contentType.equals(ACTIVITY)){
+                if (contentType.equals(ACTIVITY)) {
                     place = new Activity();
-                }
-                else if(contentType.equals(PLACE)){
+                } else if (contentType.equals(PLACE)) {
                     place = new Place();
-                }
-                else if(contentType.equals(HOTEL)){
+                } else if (contentType.equals(HOTEL)) {
                     place = new Accomm();
                 }
 
-                if(place != null) {
+                if (place != null) {
                     place.setContentType(contentType);
                     place.setName(item.getPlaceName());
                     place.setContentId(item.getContentId());
@@ -104,7 +97,8 @@ public class ApiService {
                     em.clear();
                 }
             }
-        }
+
+        } while (Integer.parseInt(response.getBody().getNumOfRows()) * Integer.parseInt(response.getBody().getPageNo()) <= Integer.parseInt(response.getBody().getTotalCount()));
     }
 
     public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
