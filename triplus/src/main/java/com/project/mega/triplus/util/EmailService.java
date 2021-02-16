@@ -1,2 +1,8 @@
-package com.project.mega.triplus.util;public interface EmailService {
+package com.project.mega.triplus.util;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface EmailService {
+    void sendEmail(EmailMessage emailMessage);
 }
