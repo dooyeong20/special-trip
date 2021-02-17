@@ -1,5 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
+
+<body>
+
 <div th:fragment="headerFragment">
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -59,7 +62,7 @@
 
                         <div class="d-flex justify-content-center social-buttons">
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Google">
-                                <i class="fab fa-google"></i>
+                                <a href="javascript:;" class="btn_social" data-social="google"><i class="fab fa-google"></i></a>
                             </button>
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
                                 <i class="fab fa-facebook"></i>
@@ -131,5 +134,16 @@
     </div>
 
 </div>
+
+<script>
+    let socials = document.getElementsByClassName("btn_social");
+    for(let social of socials) {
+        social.addEventListener('click', function(){
+            let socialType = this.getAttribute('data-social');
+            location.href="/oauth2/authorization/" + socialType;
+        })
+    }
+</script>
+</body>
 
 </html>

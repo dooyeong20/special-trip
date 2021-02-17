@@ -18,7 +18,6 @@ spring:
             clientId: 786057057179-1c4giqb03t8tlp68qkt41pnageoiva6r.apps.googleusercontent.com
             clientSecret: JmLCzJlYh-bs4iyCrzSRbWww
 
-
 profiles:
   active: dev
 

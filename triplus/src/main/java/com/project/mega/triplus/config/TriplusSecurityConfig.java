@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,8 +49,19 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/mypage/**").hasRole("USER")
+
+                .antMatchers("/oauth2/**")
+                .permitAll()
+
                 .anyRequest().authenticated()
                 .accessDecisionManager(getMyAccessDecisionManager())
+
+                .and()
+                .oauth2Login()
+                .and()
+                .exceptionHandling()
+                // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/" 페이지로 리다이렉트 되도록 맞춰준다.
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
 
                 .and()
                 .formLogin()
