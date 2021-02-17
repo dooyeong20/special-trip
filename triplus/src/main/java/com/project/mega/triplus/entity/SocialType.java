@@ -1,16 +1,16 @@
 package com.project.mega.triplus.entity;
 
 public enum SocialType {
-    GOOGLE("google");
+    FACEBOOK("facebook"), GOOGLE("google"), KAKAO("kakao"), NAVER("naver");
 
-    private final String ROLE_PREFIX="ROLE_";
-    private String name;
+    private final String ROLE_PREFIX = "ROLE_";
 
-    SocialType(String name){this.name=name;}
+    private String name; SocialType(String name) { this.name = name; }
 
-    public String getRoleType(){return ROLE_PREFIX + name.toUpperCase();}
+    public String getRoleType() { return ROLE_PREFIX + name.toUpperCase(); }
 
-    public String getValue(){return name;}
+    public String getValue() { return name; }
 
-    public boolean isEquals(String authority){return this.getRoleType().equals(authority);}
+    public boolean isEquals(String authority) { return this.getRoleType().equals(authority);}
+
 }

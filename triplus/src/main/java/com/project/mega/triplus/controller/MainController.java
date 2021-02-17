@@ -104,6 +104,12 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("status", "login");
+        return index(model);
+    }
+
     @GetMapping("/search")
     public String search(){
         return "view/search";

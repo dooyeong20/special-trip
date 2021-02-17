@@ -162,5 +162,19 @@
 		<script src="js/main.js"></script>
 	</div>
 
+<script th:if="${status == 'login'}">
+$("#loginModal").modal();
+</script>
+
+<script>
+    let socials = document.getElementsByClassName("btn_social");
+    for(let social of socials) {
+        social.addEventListener('click', function(){
+            let socialType = this.getAttribute('data-social');
+            location.href="/oauth2/authorization/" + socialType;
+        })
+    }
+</script>
+
 </div>
 </html>

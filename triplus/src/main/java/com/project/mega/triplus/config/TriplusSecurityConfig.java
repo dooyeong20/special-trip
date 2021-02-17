@@ -1,7 +1,10 @@
 package com.project.mega.triplus.config;
 
+import com.project.mega.triplus.service.CustomOAuth2UserService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +17,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -23,6 +30,10 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.project.mega.triplus.entity.SocialType.*;
 
 @Configuration
 @EnableWebSecurity
@@ -52,16 +63,18 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/oauth2/**")
                 .permitAll()
-
+                .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
+                .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
+                .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
+                .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
                 .anyRequest().authenticated()
+
                 .accessDecisionManager(getMyAccessDecisionManager())
 
                 .and()
                 .oauth2Login()
+                .userInfoEndpoint().userService(new CustomOAuth2UserService())
                 .and()
-                .exceptionHandling()
-                // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/" 페이지로 리다이렉트 되도록 맞춰준다.
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
 
                 .and()
                 .formLogin()
@@ -69,7 +82,10 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and()
-                .exceptionHandling().accessDeniedPage("/access_denied");
+                .exceptionHandling()
+                .accessDeniedPage("/access_denied")
+                // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/login" 모달을 띄워준다.
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {
@@ -110,4 +126,68 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository(
+            OAuth2ClientProperties oAuth2ClientProperties,
+            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
+            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret,
+            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.naver.client-id}") String naverClientId,
+            @Value("${custom.oauth2.naver.client-secret}") String naverClientSecret) {
+        List<ClientRegistration> registrations = oAuth2ClientProperties
+                .getRegistration().keySet().stream()
+                .map(client -> getRegistration(oAuth2ClientProperties, client))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
+                .clientId(kakaoClientId)
+                .clientSecret(kakaoClientSecret)
+                .jwkSetUri("temp")
+                .build());
+
+        registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
+                .clientId(naverClientId)
+                .clientSecret(naverClientSecret)
+                .jwkSetUri("temp")
+                .build());
+        return new InMemoryClientRegistrationRepository(registrations);
+    }
+
+    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client) {
+        if("google".equals(client)) {
+            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
+            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
+                    .clientId(registration.getClientId())
+                    .clientSecret(registration.getClientSecret())
+                    .scope("email", "profile")
+                    .build();
+        }
+
+        if("facebook".equals(client)) {
+            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("facebook");
+            return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
+                    .clientId(registration.getClientId())
+                    .clientSecret(registration.getClientSecret())
+                    .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
+                    .scope("email")
+                    .build();
+        }
+
+        return null;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

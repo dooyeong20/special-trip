@@ -1,8 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 
-<body>
-
 <div th:fragment="headerFragment">
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -65,10 +63,13 @@
                                 <a href="javascript:;" class="btn_social" data-social="google"><i class="fab fa-google"></i></a>
                             </button>
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
-                                <i class="fab fa-facebook"></i>
+                                <a href="javascript:;" class="btn_social" data-social="facebook"><i class="fab fa-facebook"></i></a>
                             </button>
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
-                                <i class="fab fa-linkedin"></i>
+                                <a href="javascript:;" class="btn_social" data-social="kakao">카카오 로그인</a>
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
+                                <a href="javascript:;" class="btn_social" data-social="naver">네이버 로그인</a>
                             </button>
                             </di>
                         </div>
@@ -135,15 +136,5 @@
 
 </div>
 
-<script>
-    let socials = document.getElementsByClassName("btn_social");
-    for(let social of socials) {
-        social.addEventListener('click', function(){
-            let socialType = this.getAttribute('data-social');
-            location.href="/oauth2/authorization/" + socialType;
-        })
-    }
-</script>
-</body>
 
 </html>
