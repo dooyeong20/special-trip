@@ -6,14 +6,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class SignupForm {
+public class JoinForm {
+
+    @NotBlank
+    private String nickname;
 
     @NotBlank
     @Email
     private String email;
-
-    @NotBlank
-    private String nickname;
 
     @NotBlank
     private String password;

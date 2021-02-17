@@ -3,8 +3,8 @@ package com.project.mega.triplus.service;
 import com.project.mega.triplus.config.AppProperties;
 import com.project.mega.triplus.entity.Role;
 import com.project.mega.triplus.entity.User;
-import com.project.mega.triplus.form.SignupForm;
-import com.project.mega.triplus.form.SignupFormValidator;
+import com.project.mega.triplus.form.JoinForm;
+import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.util.EmailMessage;
 import com.project.mega.triplus.util.EmailService;
@@ -17,11 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import javax.annotation.PostConstruct;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +27,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private final SignupFormValidator signupFormValidator;
+    private final JoinFormValidator joinFormValidator;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -41,13 +38,13 @@ public class UserService implements UserDetailsService {
     private final EmailService emailService;
 
     @InitBinder("signupForm")
-    public void initBinder(WebDataBinder webDataBinder){ webDataBinder.addValidators(signupFormValidator);}
+    public void initBinder(WebDataBinder webDataBinder){ webDataBinder.addValidators(joinFormValidator);}
 
-    public User saveNewUser(SignupForm signupForm){
+    public User saveNewUser(JoinForm joinForm){
         User user = User.builder()
-                .email(signupForm.getEmail())
-                .password(passwordEncoder.encode(signupForm.getPassword()))
-                .nickName(signupForm.getNickname())
+                .email(joinForm.getEmail())
+                .password(passwordEncoder.encode(joinForm.getPassword()))
+                .nickName(joinForm.getNickname())
                 .build();
         User newUser = userRepository.save(user);
         return newUser;
@@ -57,8 +54,8 @@ public class UserService implements UserDetailsService {
         sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token");
     }
 
-    public User processNewNumber(SignupForm signupForm){
-        User newUser = saveNewUser(signupForm);
+    public User processNewNumber(JoinForm joinForm){
+        User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
         sendSignupConfirmEmail(newUser);

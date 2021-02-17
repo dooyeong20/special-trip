@@ -7,26 +7,26 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class SignupFormValidator implements Validator {
+public class JoinFormValidator implements Validator {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(SignupForm.class);
+        return clazz.isAssignableFrom(JoinForm.class);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        SignupForm signupForm = (SignupForm) target;
+        JoinForm joinForm = (JoinForm) target;
 
         // 이메일 중복 확인인
-        if(userRepository.existsByEmail(signupForm.getEmail())){
+        if(userRepository.existsByEmail(joinForm.getEmail())){
             errors.rejectValue(
                     "email",
                     "invalid.email",
-                    new Object[]{signupForm.getEmail()},
+                    new Object[]{joinForm.getEmail()},
                     "이미 사용 중인 이메일입니다."
             );
         }

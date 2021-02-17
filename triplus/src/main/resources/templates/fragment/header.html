@@ -1,5 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
+<th:block>
+    <script th:src="@{/js/common/form-validation.js}"></script>
+</th:block>
 <div th:fragment="headerFragment">
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -20,10 +23,10 @@
                     <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#loginModal">
                         LOGIN
                     </button>
-                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#joinModal">
+
+                    <button type="button" th:class="'btn btn-primary mb-2 mr-sm-2' + (${activeTab == 'join'}? 'active': '')" data-toggle="modal" data-target="#joinModal">
                         JOIN
                     </button>
-
                 </ul>
 
             </div>
@@ -88,28 +91,39 @@
                         <h4>Join</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
-                        <form>
+                        <form class="needs-validation" th:action="@{/join}" th:object="${joinForm}" method="post" name="joinForm" novalidate>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="join_email" placeholder="Email">
+                                <input type="text" class="form-control" id="join_nickname" placeholder="Nickname" required>
+                                <div class="invalid-feedback">
+                                    닉네임을 입력해주세요.
+                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="join_pw" placeholder="Password">
+                                <input type="email" class="form-control" id="join_email" placeholder="Email" required>
+                                <div class="invalid-feedback">
+                                    이메일을 입력해주세요.
+                                    <button type="button" class="btn btn-primary btn-block" name="emailCheck" id="emailCheck">
+                                        <span class="glyphicon glyphicon-off"></span> 중복확인
+                                    </button>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="nickname" class="form-control" id="join_name" placeholder="Nickname">
+                                <input type="password" class="form-control" id="join_pw" placeholder="Password" required>
+                                <div class="invalid-feedback">
+                                    비밀번호를 입력해주세요.
+                                </div>
                             </div>
 
-                            <!-- 약관동의
                             <hr class="col-12 my-4">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="agreement">회원가입 약관에 동의합니다.</input>
-
+                                <input type="checkbox" class="form-check-input" id="agreement" th:value="${'true'}">
+                                <label class="form-check-label" for="agreement">회원가입 약관에 동의합니다.</label>
+                                <div class="invalid-feedback">약관에 동의하셔야 합니다.</div>
                             </div>
-                            !-->
 
                             <hr class="col-12 my-4">
 
-                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Join</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Join</button>
                         </form>
 
                         <div class="d-flex justify-content-center social-buttons">
