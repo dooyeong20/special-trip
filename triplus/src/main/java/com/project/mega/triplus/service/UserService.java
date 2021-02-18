@@ -10,6 +10,9 @@ import com.project.mega.triplus.util.EmailMessage;
 import com.project.mega.triplus.util.EmailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,6 +55,19 @@ public class UserService implements UserDetailsService {
 
     public void sendSignupConfirmEmail(User newUser){
         sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token");
+    }
+
+    public void login(User user){
+        UserUser userUser = new UserUser(user);
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(
+                        userUser,
+                        userUser.getUser().getPassword(),
+                        userUser.getAuthorities()
+                );
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(token);
     }
 
     public User processNewNumber(JoinForm joinForm){

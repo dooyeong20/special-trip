@@ -60,7 +60,7 @@ public class User {
     public boolean isValidToken(String token){ return token.equals(emailCheckToken);
     }
 
-    public void completeSignup(){
+    public void completeJoin(){
         setEmailVerified(true);
         setJoinedAt(LocalDateTime.now());
     }
