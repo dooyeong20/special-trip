@@ -26,7 +26,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SpringBootTest
-class TriplusApplicationTests {
+
+
+class jgTriplusApplicationTests {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -83,6 +85,7 @@ class TriplusApplicationTests {
 		Day day2 = new Day();
 		Place seoul = new Place();
 		Place ulsan = new Place();
+
 
 		kim.setNickName("kimkim");
 		kim.setPassword("secret");

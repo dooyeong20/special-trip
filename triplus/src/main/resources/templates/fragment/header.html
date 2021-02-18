@@ -1,6 +1,10 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="activeTab='login'" th:with="activeTab='join'">
 
-<div th:fragment="headerFragment">
+<div th:fragment="headerFragment(activeTab)">
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
@@ -15,13 +19,23 @@
                     <li class="nav-item"><a th:href="@{/total_plan}" class="nav-link text-dark" style="font-weight: bold;">여행일정</a></li>
                     <li class="nav-item"><a th:href="@{/total_place}" class="nav-link text-dark" style="font-weight: bold;">여행지</a></li>
                     <li class="nav-item"><a th:href="@{/plan}" class="nav-link text-dark" style="font-weight: bold;">일정 만들기</a></li>
-                    <li class="nav-item"><a th:href="@{/mypage}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>
+<!--                    <li class="nav-item"><a th:href="@{/mypage}" class="nav-link text-dark" style="font-weight: bold;">Mypage</a></li>-->
 
-                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#loginModal">
-                        LOGIN
+                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#loginModal"
+                            th:class="${activeTab == 'login'}? 'active':null" sec:authorize="!isAuthenticated()">
+                        로그인
                     </button>
-                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#joinModal">
-                        JOIN
+                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#joinModal"
+                            th:class="${activeTab == 'signup'}? 'active':null" sec:authorize="!isAuthenticated()">
+                        회원가입
+                    </button>
+
+                    <li class="nav-item" th:class="${activeTab == 'mypage'}? 'active':null" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/mypage}" sec:authentication="name"></a>
+                    </li>
+
+                    <button type="button" class="btn btn-primary mb-2 mr-sm-2" th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
+                        로그아웃
                     </button>
 
                 </ul>
@@ -41,20 +55,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-title text-center">
-                        <h4>Login</h4>
+                        <h4>로그인</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form>
                             <div class="form-group">
-                                <input type="id" class="form-control" id="login_id"placeholder="ID">
+                                <input type="email" class="form-control" id="login_email" placeholder="이메일">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="login_pw" placeholder="Password">
+                                <input type="password" class="form-control" id="login_pw" placeholder="비밀번호">
                             </div>
                             <small id ="password_help_text" class="form-text text-muted">
-                                패스워드가 기억나지 않으세요? <a href="#" th:href="@{/change-password}">패스워드 변경 링크 보내기</a>
+                                비밀번호가 기억나지 않으세요? <a href="#" th:href="@{/change-password}">비밀번호 변경 링크 보내기</a>
                             </small>
-                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Login</button>
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">로그인</button>
                         </form>
 
                         <div class="d-flex justify-content-center social-buttons">
@@ -85,21 +99,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-title text-center">
-                        <h4>Join</h4>
+                        <h4>회원가입</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form>
                             <div class="form-group">
-                                <input type="nickname" class="form-control" id="join_name" placeholder="Nickname">
+                                <input type="email" class="form-control" id="join_email" placeholder="이메일">
                             </div>
                             <div class="form-group">
-                                <input type="id" class="form-control" id="join_id"placeholder="Id">
+                                <input type="password" class="form-control" id="join_pw" placeholder="비밀번호">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="join_pw" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="join_email" placeholder="Email">
+                                <input type="nickname" class="form-control" id="join_name" placeholder="닉네임">
                             </div>
 
                             <hr class="col-12 my-4">
@@ -109,7 +120,7 @@
                             </div>
                             <hr class="col-12 my-4">
 
-                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Join</button>
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">회원가입</button>
                         </form>
 
                         <div class="d-flex justify-content-center social-buttons">
@@ -122,7 +133,7 @@
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
                                 <i class="fab fa-linkedin"></i>
                             </button>
-                            </di>
+                            </div>
                         </div>
                     </div>
                 </div>
