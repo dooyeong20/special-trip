@@ -63,21 +63,16 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/oauth2/**")
                 .permitAll()
-                .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
-                .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
-                .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
-                .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
                 .anyRequest().authenticated()
 
                 .accessDecisionManager(getMyAccessDecisionManager())
 
                 .and()
                 .oauth2Login()
-                .userInfoEndpoint().userService(new CustomOAuth2UserService())
+                .defaultSuccessUrl("/")
                 .and()
 
-                .and()
-                .formLogin()
+                .formLogin().successForwardUrl("/")
 //                .loginPage("/login")
                 .permitAll()
 
@@ -85,7 +80,8 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedPage("/access_denied")
                 // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/login" 모달을 띄워준다.
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                .and().csrf().disable();
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {

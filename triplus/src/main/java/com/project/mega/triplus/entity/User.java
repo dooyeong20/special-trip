@@ -1,16 +1,20 @@
 package com.project.mega.triplus.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter @Setter
-public class User {
+@NoArgsConstructor
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +25,8 @@ public class User {
     private String email;
 
     private String password;
+
+    private String principal;
 
     private String tel;
 
@@ -34,6 +40,9 @@ public class User {
 
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
     @OneToMany
     private List<Place> placeLikes;
 
@@ -45,4 +54,14 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
+
+    @Builder
+    public User(String nickName, String password, String principal,String email, SocialType socialType, LocalDateTime joinedAt){
+        this.nickName=nickName;
+        this.password=password;
+        this.email=email;
+        this.principal=principal;
+        this.socialType=socialType;
+        this.joinedAt=joinedAt;
+    }
 }

@@ -1,10 +1,8 @@
 package com.project.mega.triplus.controller;
 
 
-import com.project.mega.triplus.entity.Day;
-import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.Plan;
-import com.project.mega.triplus.entity.PlanStatus;
+import com.project.mega.triplus.annotation.SocialUser;
+import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
@@ -104,6 +102,7 @@ public class MainController {
         return "index";
     }
 
+
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("status", "login");
@@ -176,4 +175,5 @@ public class MainController {
     public String accessDenied(){
         return "view/access_denied";
     }
+
 }
