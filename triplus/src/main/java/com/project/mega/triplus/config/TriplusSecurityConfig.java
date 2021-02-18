@@ -1,8 +1,9 @@
 package com.project.mega.triplus.config;
 
-import com.project.mega.triplus.service.CustomOAuth2UserService;
+import com.project.mega.triplus.entity.SocialType;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -27,13 +28,13 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.project.mega.triplus.entity.SocialType.*;
+import static com.project.mega.triplus.entity.SocialType.GOOGLE;
+import static org.springframework.security.config.oauth2.client.CommonOAuth2Provider.FACEBOOK;
 
 @Configuration
 @EnableWebSecurity
@@ -51,37 +52,41 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 //                csrf().disable();
 
         http.authorizeRequests()
-                .mvcMatchers(
+                .antMatchers(
                         "/",
                         "/search",
                         "/detail",
                         "total_plan",
-                        "total_place"
+                        "total_place",
+                        "/oauth2/**",
+                        "/login"
                 ).permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .mvcMatchers("/mypage/**").hasRole("USER")
-
-                .antMatchers("/oauth2/**")
-                .permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/mypage/**").hasRole("USER")
+                .antMatchers("/facebook").hasAuthority(SocialType.FACEBOOK.getRoleType())
+                .antMatchers("/google").hasAuthority(SocialType.GOOGLE.getRoleType())
+                .antMatchers("/kakao").hasAuthority(SocialType.KAKAO.getRoleType())
+                .antMatchers("/naver").hasAuthority(SocialType.NAVER.getRoleType())
                 .anyRequest().authenticated()
-
                 .accessDecisionManager(getMyAccessDecisionManager())
 
                 .and()
-                .oauth2Login()
-                .defaultSuccessUrl("/")
+                .oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
                 .and()
-
-                .formLogin().successForwardUrl("/")
-//                .loginPage("/login")
-                .permitAll()
+                .headers().frameOptions().disable()
 
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access_denied")
                 // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/login" 모달을 띄워준다.
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                .and().csrf().disable();
+
+                .and()
+                .formLogin().successForwardUrl("/")
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .and()
+                .csrf().disable();
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {
@@ -125,32 +130,36 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository(
-            OAuth2ClientProperties oAuth2ClientProperties,
-            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
-            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret,
-            @org.springframework.beans.factory.annotation.Value("${custom.oauth2.naver.client-id}") String naverClientId,
-            @Value("${custom.oauth2.naver.client-secret}") String naverClientSecret) {
-        List<ClientRegistration> registrations = oAuth2ClientProperties
-                .getRegistration().keySet().stream()
-                .map(client -> getRegistration(oAuth2ClientProperties, client))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            OAuth2ClientProperties properties,
+            @Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
+            @Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret,
+            @Value("${custom.oauth2.naver.client-id}") String naverClientId,
+            @Value("${custom.oauth2.naver.client-secret}") String naverClientSecret){
 
-        registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
+        List<ClientRegistration> registrations=properties.getRegistration().keySet().stream()
+                .map(client -> getRegistration(properties, client))
+                .filter(Objects::nonNull).collect(Collectors.toList());
+
+        // 카카오 OAuth2 정보 추가
+        registrations.add(
+                CustomOAuth2Provider.KAKAO.getBuilder("kakao")
                 .clientId(kakaoClientId)
                 .clientSecret(kakaoClientSecret)
-                .jwkSetUri("temp")
-                .build());
+                .jwkSetUri("tmp")
+                .build()
+        );
 
         registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
                 .clientId(naverClientId)
                 .clientSecret(naverClientSecret)
                 .jwkSetUri("temp")
                 .build());
+
         return new InMemoryClientRegistrationRepository(registrations);
     }
 
-    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client) {
+
+    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client){
         if("google".equals(client)) {
             OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
             return CommonOAuth2Provider.GOOGLE.getBuilder(client)
@@ -169,9 +178,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                     .scope("email")
                     .build();
         }
-
         return null;
     }
+
 }
 
 

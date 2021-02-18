@@ -13,8 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
-public class User implements Serializable {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +24,6 @@ public class User implements Serializable {
     private String email;
 
     private String password;
-
-    private String principal;
 
     private String tel;
 
@@ -40,9 +37,6 @@ public class User implements Serializable {
 
     private Role role;
 
-    @Enumerated(EnumType.STRING)
-    private SocialType socialType;
-
     @OneToMany
     private List<Place> placeLikes;
 
@@ -55,13 +49,5 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
 
-    @Builder
-    public User(String nickName, String password, String principal,String email, SocialType socialType, LocalDateTime joinedAt){
-        this.nickName=nickName;
-        this.password=password;
-        this.email=email;
-        this.principal=principal;
-        this.socialType=socialType;
-        this.joinedAt=joinedAt;
-    }
+
 }
