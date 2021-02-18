@@ -1,6 +1,7 @@
 package com.project.mega.triplus.form;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class JoinForm {
 
     @NotBlank
     @Email
+    @Length(min = 5, max = 40)
     private String email;
 
     @NotBlank
