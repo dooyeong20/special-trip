@@ -179,7 +179,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clientId(registration.getClientId())
                     .clientSecret(registration.getClientSecret())
                     .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
-                    .scope("email", "profile")
+                    .scope("email")
                     .build();
         }
         return null;
