@@ -30,3 +30,4 @@ public class JoinForm implements Serializable {
     @NotBlank
     private String agreeTermsOfService;
 }
+

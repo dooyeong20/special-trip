@@ -15,4 +15,6 @@ public class UserUser extends org.springframework.security.core.userdetails.User
         super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
         this.user = user;
     }
+
+
 }

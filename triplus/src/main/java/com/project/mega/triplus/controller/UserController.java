@@ -11,8 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @Controller
@@ -26,12 +27,23 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+//    // 닉네임 중복 체크 컨트롤러
+//    @RequestMapping(value = "/user/nicknameCheck", method = RequestMethod.GET)
+//    @ResponseBody
+//    public int nicknameCheck(@RequestParam("nickname") String nickname) {
+//        return userService.nicknameCheck(nickname);
+//    }
+
+
     @Transactional
-    public String joinSubmit(@Valid JoinForm joinForm, Errors errors){
-        if (errors.hasErrors()){
-            logger.info("!!!!!!!!!!!!!!!!!!!!!");
-            return "fragment/header";
-        }
+    @PostMapping("join")
+    public String joinSubmit(Model model){
+        JoinForm joinForm = new JoinForm();
+
+        joinForm.setNickname((String)model.getAttribute("nickname"));
+        joinForm.setEmail((String)model.getAttribute("email"));
+        joinForm.setPassword((String)model.getAttribute("password"));
+        joinForm.setAgreeTermsOfService((String)model.getAttribute("checklist"));
 
         User newUser = userService.processNewNumber(joinForm);
         userService.login(newUser);
