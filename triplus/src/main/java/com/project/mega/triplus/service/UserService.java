@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -29,16 +30,6 @@ public class UserService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if(user == null){
-            throw new UsernameNotFoundException(email);
-        }
-        return new UserUser(user);
-    }
-
     // id : a@a.a
     // pw : 1234
     @PostConstruct
@@ -50,6 +41,7 @@ public class UserService implements UserDetailsService {
         user.generateEmailCheckToken();
         userRepository.save(user);
     }
+
 
     public void login(User user){
         UserUser userUser = new UserUser(user);
@@ -63,5 +55,16 @@ public class UserService implements UserDetailsService {
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);
     }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if(user == null){
+            throw new UsernameNotFoundException(email);
+        }
+        return new UserUser(user);
+    }
+
 
 }

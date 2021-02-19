@@ -1,5 +1,7 @@
 package com.project.mega.triplus.config;
 
+import com.project.mega.triplus.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests().
                 antMatchers("/**").permitAll().
                 anyRequest().authenticated().

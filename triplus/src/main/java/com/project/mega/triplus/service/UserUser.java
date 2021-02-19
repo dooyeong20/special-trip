@@ -12,7 +12,7 @@ public class UserUser extends org.springframework.security.core.userdetails.User
     private User user;
 
     public UserUser(User user){
-        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER"))); // TODO 사용자 권한 관련
+        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
         this.user = user;
     }
 
