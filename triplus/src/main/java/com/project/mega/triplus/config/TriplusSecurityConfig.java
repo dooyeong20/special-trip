@@ -1,6 +1,5 @@
 package com.project.mega.triplus.config;
 
-import com.project.mega.triplus.service.CustomOAuth2UserService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +26,10 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static com.project.mega.triplus.entity.SocialType.*;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +57,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/mypage/**").hasRole("USER")
 
-                .antMatchers("/oauth2/**")
+                .antMatchers("/oauth2/**", "/login")
                 .permitAll()
                 .anyRequest().authenticated()
 
@@ -69,19 +65,22 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("/")
-                .and()
-
-                .formLogin().successForwardUrl("/")
-//                .loginPage("/login")
-                .permitAll()
+                .defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
+                .and().headers().frameOptions().disable()
 
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access_denied")
                 // 인증이 진행되지 않은 상태에서 페이지에 접근할 경우, 자동으로 "/login" 모달을 띄워준다.
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                .and().csrf().disable();
+
+                .and()
+                //formLogin().successForwardUrl("/mypage").successForwardUrl("/plan")
+                .formLogin().successForwardUrl("/loginSuccess")
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .and()
+                .csrf().disable();
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {
@@ -166,7 +165,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clientId(registration.getClientId())
                     .clientSecret(registration.getClientSecret())
                     .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
-                    .scope("email")
+                    .scope("email", "profile")
                     .build();
         }
 

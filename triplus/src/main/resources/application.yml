@@ -15,7 +15,7 @@ spring:
       hibernate:
         format_sql: true
 
-# .gitignore 에 넣어야함!!
+
   security:
     oauth2:
       client:
@@ -35,9 +35,6 @@ custom:
     naver:
       client-id: VdtKZoajeHfXYfPlODRN
       client-secret: q762e5xrL7
-
-profiles:
-  active: dev
 
 logging:
   level:

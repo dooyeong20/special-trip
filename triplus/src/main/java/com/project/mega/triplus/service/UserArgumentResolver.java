@@ -21,9 +21,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
-import static com.project.mega.triplus.entity.SocialType.GOOGLE;
+import static com.project.mega.triplus.entity.SocialType.*;
 
 @RequiredArgsConstructor
 @Component
@@ -68,6 +69,15 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         if(GOOGLE.getValue().equals(authority))
             return getModernUser(GOOGLE, map);
 
+        if(FACEBOOK.getValue().equals(authority))
+            return getFACEBOOKUser(FACEBOOK, map);
+
+        if(KAKAO.getValue().equals(authority))
+            return getKaKaoUser(map);
+
+        if (NAVER.getValue().equals(authority))
+            return getNAVERUser(map);
+
         return null;
     }
 
@@ -77,6 +87,44 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
                 .email(String.valueOf(map.get("email")))
                 .principal(String.valueOf(map.get("id")))
                 .socialType(socialType)
+                .joinedAt(LocalDateTime.now())
+                .build();
+    }
+
+    private User getFACEBOOKUser(SocialType socialType, Map<String, Object> map){
+        return User.builder()
+                .nickName(String.valueOf(map.get("nickName")))
+                .email(String.valueOf(map.get("email")))
+                .principal(String.valueOf(map.get("id")))
+                .socialType(socialType)
+                .joinedAt(LocalDateTime.now())
+                .build();
+    }
+
+    private User getKaKaoUser(Map<String, Object> map){
+        HashMap<String, String> propertyMap=(HashMap<String, String>) map.get("properties");
+
+        HashMap<String, String> accountMap=(HashMap<String, String>) map.get("kakao_account");
+
+        return User.builder()
+                .nickName(propertyMap.get("nickName"))
+                .email(propertyMap.get("email"))
+                .principal(propertyMap.get("id"))
+                .socialType(KAKAO)
+                .joinedAt(LocalDateTime.now())
+                .build();
+    }
+
+    private User getNAVERUser(Map<String, Object> map){
+        HashMap<String, String> propertyMap=(HashMap<String, String>) map.get("properties");
+
+        HashMap<String, String> accountMap=(HashMap<String, String>) map.get("naver_account");
+
+        return User.builder()
+                .nickName(propertyMap.get("nickName"))
+                .email(propertyMap.get("email"))
+                .principal(propertyMap.get("id"))
+                .socialType(NAVER)
                 .joinedAt(LocalDateTime.now())
                 .build();
     }

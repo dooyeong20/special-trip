@@ -160,21 +160,23 @@
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 		<script src="js/google-map.js"></script>
 		<script src="js/main.js"></script>
+
 	</div>
 
-<script th:if="${status == 'login'}">
-$("#loginModal").modal();
-</script>
 
-<script>
-    let socials = document.getElementsByClassName("btn_social");
-    for(let social of socials) {
-        social.addEventListener('click', function(){
-            let socialType = this.getAttribute('data-social');
-            location.href="/oauth2/authorization/" + socialType;
-        })
-    }
-</script>
+	<script>
+			let socials = document.getElementsByClassName("btn_social");
+			for(let social of socials) {
+				social.addEventListener('click', function(){
+					let socialType = this.getAttribute('data-social');
+					location.href="/oauth2/authorization/" + socialType;
+				})
+			}
+	</script>
+
+	<script th:if="${status == 'login'}">
+		$("#loginModal").modal();
+	</script>
 
 </div>
 </html>

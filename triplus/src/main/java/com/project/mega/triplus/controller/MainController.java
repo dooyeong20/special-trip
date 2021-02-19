@@ -121,9 +121,8 @@ public class MainController {
     }
 
 
-    @GetMapping("/plan")
+    @GetMapping({"/plan", "/loginSuccess"})
     public String plan(){
-
         return "view/plan";
     }
 
@@ -156,7 +155,7 @@ public class MainController {
         return "view/admin/admin";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping({"/mypage", "/loginSuccess"})
     public String mypage(){
         return "view/mypage";
     }
