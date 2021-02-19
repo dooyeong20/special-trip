@@ -54,8 +54,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
                 Map<String, Object> map = token.getPrincipal().getAttributes();
 
                 Oauth2User convertUser = convertUser(token.getAuthorizedClientRegistrationId(), map);
-
                 oauth2User = oauth2UserRepository.findByEmail(convertUser.getEmail());
+
                 if (oauth2User == null)
                     oauth2User = oauth2UserRepository.save(convertUser);
 
@@ -93,7 +93,6 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
 
     private void setRoleIfNotSame(Oauth2User oauth2User, OAuth2AuthenticationToken token, Map<String, Object> map) {
-
         if (!token.getAuthorities().contains(
                 new SimpleGrantedAuthority(oauth2User.getSocialType().getRoleType()))) {
             SecurityContextHolder.getContext().setAuthentication(

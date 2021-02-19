@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -90,7 +91,7 @@ public class MainController {
     }
 
 
-    @GetMapping({"/", ""})
+    @GetMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
@@ -102,6 +103,10 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/loginSuccess")
+    public String loginComplete(){
+        return "index";
+    }
 
     @GetMapping("/login")
     public String login(Model model){
@@ -121,9 +126,8 @@ public class MainController {
     }
 
 
-    @GetMapping({"/plan", "/loginSuccess"})
+    @GetMapping("/plan")
     public String plan(){ return "view/plan"; }
-
 
     @GetMapping("/widgets")
     public String w(){
@@ -135,7 +139,7 @@ public class MainController {
         return "view/admin/admin";
     }
 
-    @GetMapping({"/mypage", "/loginSuccess"})
+    @GetMapping("/mypage")
     public String mypage(){
         return "view/mypage";
     }
