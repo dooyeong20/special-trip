@@ -114,8 +114,14 @@ public class MainController {
 
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
+        String radius = "50000";
+
         XMLResponseItem item = apiService.getItemByContentId(contentId);
+        List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+
         model.addAttribute("item", item);
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(1, 10));
+
         return "view/detail";
     }
 
