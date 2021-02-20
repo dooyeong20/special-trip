@@ -5,16 +5,19 @@ import com.project.mega.triplus.entity.Day;
 import com.project.mega.triplus.entity.Place;
 import com.project.mega.triplus.entity.Plan;
 import com.project.mega.triplus.entity.PlanStatus;
+import com.project.mega.triplus.entity.XMLResponseItem;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -26,7 +29,6 @@ import java.util.Optional;
 @Slf4j
 public class MainController {
 
-
     private final PlaceRepository placeRepository;
 
     private final PlanRepository planRepository;
@@ -37,6 +39,9 @@ public class MainController {
 
 
     @Transactional
+
+//    @PostConstruct
+
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -110,7 +115,9 @@ public class MainController {
 
 
     @GetMapping("/detail")
-    public String detail(){
+    public String detail(@RequestParam(value = "content_id") String contentId, Model model){
+        XMLResponseItem item = apiService.getItemByContentId(contentId);
+        model.addAttribute("item", item);
         return "view/detail";
     }
 
