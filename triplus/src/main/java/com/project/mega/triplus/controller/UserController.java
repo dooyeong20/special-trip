@@ -36,7 +36,7 @@ public class UserController {
 
 
     @Transactional
-    @PostMapping("join")
+    @PostMapping("/join")
     public String joinSubmit(Model model){
         JoinForm joinForm = new JoinForm();
 
@@ -45,7 +45,7 @@ public class UserController {
         joinForm.setPassword((String)model.getAttribute("password"));
         joinForm.setAgreeTermsOfService((String)model.getAttribute("checklist"));
 
-        User newUser = userService.processNewNumber(joinForm);
+        User newUser = userService.processNewUser(joinForm);
         userService.login(newUser);
 
         return "redirect:/";

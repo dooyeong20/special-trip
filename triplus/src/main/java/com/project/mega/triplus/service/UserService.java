@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
         context.setAuthentication(token);
     }
 
-    public User processNewNumber(JoinForm joinForm){
+    public User processNewUser(JoinForm joinForm){
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
