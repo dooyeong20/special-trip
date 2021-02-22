@@ -31,26 +31,29 @@ public class UserService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
-//    // id : a@a.a
-//    // pw : 1234
-//    @PostConstruct
-//    public void createTestUser(){
-//        User user1 = User.builder()
-//                .email("a@a.a")
-//                .password(passwordEncoder.encode("1234"))
-//                .build();
-//        user1.generateEmailCheckToken();
-//        userRepository.save(user1);
-//
-//    }
-
-
+    // id : a@a.a
+    // pw : 1234
     @PostConstruct
-    public void createUser(User user){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    public void createTestUser(){
+        User user1 = User.builder()
+                .email("a@a.a")
+                .password(passwordEncoder.encode("1234"))
+                .build();
+        user1.generateEmailCheckToken();
+        userRepository.save(user1);
+
     }
+
+
+//    @PostConstruct
+//    public User saveNewUser(User user){
+//                 User.builder()
+//                .email(user.getEmail())
+//                .password(passwordEncoder.encode(user.getPassword()))
+//                .build();
+//        User newUser = userRepository.save(user);
+//        return newUser;
+//    }
 
 
     @Override

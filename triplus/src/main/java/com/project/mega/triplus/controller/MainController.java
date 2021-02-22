@@ -1,14 +1,11 @@
 package com.project.mega.triplus.controller;
 
 
-import com.project.mega.triplus.entity.Day;
-import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.Plan;
-import com.project.mega.triplus.entity.PlanStatus;
-import com.project.mega.triplus.entity.XMLResponseItem;
+import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
+import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -111,8 +108,15 @@ public class MainController {
 
 
     @GetMapping("/search")
-    public String searchForm(@RequestParam(value = "area") String area, Model model){
-        model.addAttribute("area", area);
+    public String search(@RequestParam(value = "area") String area, Model model){
+
+        List<XMLResponseItem> itemList= apiService.getKeywordResultList(area);
+
+        List<Place> attraction = null;
+        List<Place> food = null;
+        List<Place> shop = null;
+        List<Place> festival = null;
+
         return "view/search";
     }
 
@@ -122,7 +126,6 @@ public class MainController {
 //        model.addAttribute("item", item);
 //        return "view/search";
 //    }
-
 
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){

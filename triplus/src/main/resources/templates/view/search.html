@@ -121,22 +121,22 @@
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#home" style="font-weight: bold; font-size: 20px">관광명소</a>
+          <a class="nav-link active" data-toggle="tab" href="#place" style="font-weight: bold; font-size: 20px">관광명소</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu1" style="font-weight: bold; font-size: 20px">음식점</a>
+          <a class="nav-link" data-toggle="tab" href="#food" style="font-weight: bold; font-size: 20px">음식점</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu2" style="font-weight: bold; font-size: 20px">쇼핑</a>
+          <a class="nav-link" data-toggle="tab" href="#shop" style="font-weight: bold; font-size: 20px">쇼핑</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu3" style="font-weight: bold; font-size: 20px">축제</a>
+          <a class="nav-link" data-toggle="tab" href="#festival" style="font-weight: bold; font-size: 20px">축제</a>
         </li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div id="home" class="container tab-pane active"><br>
+        <div id="place" class="container tab-pane active"><br>
           <div class="row d-flex">
             <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
               <div class="blog-entry align-self-stretch">
@@ -154,11 +154,11 @@
             </div>
             <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
               <div class="blog-entry align-self-stretch">
-                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
+                <a th:href="@{/detail(content_id=${contentId})}" class="block-20" style="background-image: url('images/image_2.jpg');">
                 </a>
                 <div class="text p-4">
                   <span class="tag">Culture</span>
-                  <h3 class="heading mt-3"><a th:href="@{/detail}">관광명소2</a></h3>
+                  <h3 class="heading mt-3"><a th:href="@{/detail(content_id=${contentId})}">관광명소2</a></h3>
                   <div class="meta mb-3">
                     <div><a>August 12, 2018</a></div>
                     <div><a>Admin</a></div>
@@ -199,7 +199,7 @@
             </div>
           </div>
         </div>
-        <div id="menu1" class="container tab-pane fade"><br>
+        <div id="food" class="container tab-pane fade"><br>
           <div class="row">
             <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
               <div class="destination">
@@ -305,11 +305,11 @@
             </div>
           </div>
         </div>
-        <div id="menu2" class="container tab-pane fade"><br>
+        <div id="shop" class="container tab-pane fade"><br>
           <h3>쇼핑</h3>
           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
         </div>
-        <div id="menu3" class="container tab-pane fade"><br>
+        <div id="festival" class="container tab-pane fade"><br>
           <h3>축제</h3>
           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
         </div>

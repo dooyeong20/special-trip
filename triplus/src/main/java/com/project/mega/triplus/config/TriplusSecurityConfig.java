@@ -111,12 +111,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
 }
 
 
