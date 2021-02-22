@@ -22,24 +22,19 @@ public class Oauth2User {
     @Column(nullable = false)
     private String email;
 
-    @Column
-    private String picture;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Oauth2Role role;
 
     @Builder
-    public Oauth2User(String name, String email, String picture, Oauth2Role role){
+    public Oauth2User(String name, String email, Oauth2Role role){
         this.name=name;
         this.email=email;
-        this.picture=picture;
         this.role=role;
     }
 
-    public Oauth2User update(String name, String picture){
+    public Oauth2User update(String name){
         this.name=name;
-        this.picture=picture;
 
         return this;
     }
