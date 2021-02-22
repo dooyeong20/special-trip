@@ -24,7 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -36,6 +38,9 @@ public class ApiService {
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
+    private final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
+    private final String Y = "Y";
+    private final String PAGE_SIZE = "10000";
 
     @PersistenceContext
     private EntityManager em;
@@ -62,31 +67,29 @@ public class ApiService {
         List<XMLResponseItem> items;
         String xmlString;
         XMLResponse response;
+
         int pageIdx = 0;
         Place place = null;
 
-        while (true) {
-            xmlString = getAreaBasedListXML(contentType, null,500, ++pageIdx);
+        do {
+            xmlString = getAreaBasedListXML(contentType, null, ++pageIdx);
             response = getXMLResponse(xmlString);
             items = response.getBody().getItemContainer().getItems();
 
-            if (items.size() < 1) {
-                break;
-            }
-
             for (XMLResponseItem item : items) {
+                switch (contentType) {
+                    case ACTIVITY:
+                        place = new Activity();
+                        break;
+                    case PLACE:
+                        place = new Place();
+                        break;
+                    case HOTEL:
+                        place = new Accomm();
+                        break;
+                }
 
-                if(contentType.equals(ACTIVITY)){
-                    place = new Activity();
-                }
-                else if(contentType.equals(PLACE)){
-                    place = new Place();
-                }
-                else if(contentType.equals(HOTEL)){
-                    place = new Accomm();
-                }
-
-                if(place != null) {
+                if (place != null) {
                     place.setContentType(contentType);
                     place.setName(item.getPlaceName());
                     place.setContentId(item.getContentId());
@@ -95,6 +98,9 @@ public class ApiService {
                     place.setCat1(item.getCat1());
                     place.setCat2(item.getCat2());
                     place.setCat3(item.getCat3());
+                    if(item.getImageUrl() == null){
+                        item.setImageUrl(DEFAULT_IMAGE);
+                    }
                     place.setThumbnailUrl(item.getImageUrl());
                     place.setTel(item.getTel());
 
@@ -104,10 +110,48 @@ public class ApiService {
                     em.clear();
                 }
             }
-        }
+
+        } while (Integer.parseInt(response.getBody().getNumOfRows()) * Integer.parseInt(response.getBody().getPageNo()) <= Integer.parseInt(response.getBody().getTotalCount()));
     }
 
-    public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
+    public String getDetailCommonXML(String contentId) throws IOException{
+        StringBuilder urlBuilder = getStringBuilder("detailCommon");
+
+        addParam(urlBuilder, "contentId", contentId);
+        addParam(urlBuilder, "defaultYN", Y);
+        addParam(urlBuilder, "firstImageYN", Y);
+        addParam(urlBuilder, "addrinfoYN", Y);
+        addParam(urlBuilder, "areacodeYN", Y);
+        addParam(urlBuilder, "mapinfoYN", Y);
+        addParam(urlBuilder, "overviewYN", Y);
+
+        return getXMLString(urlBuilder);
+    }
+
+
+    private String getDetailImageXML(String contentId) throws IOException {
+        StringBuilder urlBuilder = getStringBuilder("detailImage");
+
+        addParam(urlBuilder, "contentId", contentId);
+        addParam(urlBuilder, "imageYN", Y);
+        addParam(urlBuilder, "subImageYN", Y);
+
+        return getXMLString(urlBuilder);
+    }
+
+    private String getLocationBasedListXML(String mapX, String mapY, String radius, String contentTypeId) throws IOException{
+        StringBuilder urlBuilder = getStringBuilder("locationBasedList");
+
+        addParam(urlBuilder, "mapX", mapX);
+        addParam(urlBuilder, "mapY", mapY);
+        addParam(urlBuilder, "radius", radius);
+        addParam(urlBuilder, "listYN", Y);
+        addParam(urlBuilder, "contentTypeId", contentTypeId);
+
+        return getXMLString(urlBuilder);
+    }
+
+    public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageNo) throws IOException{
         StringBuilder urlBuilder = getStringBuilder("areaBasedList");
 
         if(null != contentTypeId) {
@@ -118,19 +162,7 @@ public class ApiService {
             addParam(urlBuilder, "areaCode", areaCode);
         }
 
-        addParam(urlBuilder, "numOfRows", String.valueOf(pageSize));
         addParam(urlBuilder, "pageNo", String.valueOf(pageNo));
-
-        return getXMLString(urlBuilder);
-    }
-
-    // 테스트용 메서드
-    public String getAreaCodeXML() throws IOException {
-        StringBuilder urlBuilder = getStringBuilder("areaCode");
-
-        addParam(urlBuilder, "numOfRows", "30");
-        addParam(urlBuilder, "pageNo", "1");
-        addParam(urlBuilder, "contentTypeId", "12");
 
         return getXMLString(urlBuilder);
     }
@@ -141,6 +173,7 @@ public class ApiService {
 
         addParam(urlBuilder, "MobileOS", "ETC");
         addParam(urlBuilder, "MobileApp", APP_NAME);
+        addParam(urlBuilder, "numOfRows", PAGE_SIZE);
 
         return urlBuilder;
     }
@@ -184,6 +217,53 @@ public class ApiService {
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
         return (XMLResponse) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+    }
+
+    public XMLResponseItem getItemByContentId(String contentId) {
+        String xmlString;
+        XMLResponse response;
+        XMLResponseItem item = null;
+        List<XMLResponseItem> images;
+
+        try{
+            // get item
+            xmlString = getDetailCommonXML(contentId);
+            response = getXMLResponse(xmlString);
+            item = response.getBody().getItemContainer().getItems().get(0);
+
+            // get item's images
+            xmlString = getDetailImageXML(contentId);
+            response = getXMLResponse(xmlString);
+            images = response.getBody().getItemContainer().getItems();
+
+            for(XMLResponseItem image : images){
+                item.getImageUrls().add(image.getOriginImageUrl());
+            }
+
+        } catch (IOException | JAXBException e){
+            log.error(e.getMessage());
+        }
+
+        return item;
+    }
+
+    public List<XMLResponseItem> getItemByMapXAndMapY(String mapX, String mapY, String radius, String contentTypeId) {
+        String xmlString;
+        XMLResponse response;
+        List<XMLResponseItem> itemList;
+
+        try{
+            xmlString = getLocationBasedListXML(mapX, mapY, radius, contentTypeId);
+            response = getXMLResponse(xmlString);
+
+            itemList = new ArrayList<>(response.getBody().getItemContainer().getItems());
+
+        } catch (IOException | JAXBException e){
+            log.error(e.getMessage());
+            itemList = null;
+        }
+
+        return itemList;
     }
 
 }

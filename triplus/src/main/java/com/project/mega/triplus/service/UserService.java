@@ -9,6 +9,7 @@ import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.util.EmailMessage;
 import com.project.mega.triplus.util.EmailService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -26,6 +27,7 @@ import org.thymeleaf.context.Context;
 @Service
 @AllArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -79,16 +81,7 @@ public class UserService implements UserDetailsService {
         return newUser;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if(user == null){
-            throw new UsernameNotFoundException(username);
-        }
-        return new UserUser(user);
-    }
-
-    private void sendEmail(User user, String subject, String url){
+    private void sendEmail(User user, String subject, String url) {
         Context context = new Context();
         context.setVariable("link", url + "?token=" + user.getEmailCheckToken() + "&email=" + user.getEmail());
         context.setVariable("host", appProperties.getHost());
@@ -104,4 +97,16 @@ public class UserService implements UserDetailsService {
                 .build();
         emailService.sendEmail(emailMessage);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().getAuthority())
+                .build();
+    }
+
 }

@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
+import java.util.Set;
 
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,7 +35,7 @@ public class XMLResponseItem {
     private String contentTypeId;   // 콘텐츠 타입 아이디()
 
     @XmlElement(name = "firstimage")
-    private String ImageUrl;
+    private String imageUrl;
 
     @XmlElement(name = "mapx")
     private String mapX;
@@ -44,6 +46,8 @@ public class XMLResponseItem {
     @XmlElement(name = "title")
     private String placeName;
 
+    private String overview;
+
     private String cat1;
 
     private String cat2;
@@ -52,4 +56,20 @@ public class XMLResponseItem {
 
     private String tel;
 
+    private String homepage;
+
+    // for images
+
+    @XmlElement(name = "originimgurl")
+    private String originImageUrl;
+
+    private Set<String> imageUrls = new HashSet<>();
+
+    /*
+    @XmlElement(name = "infoname")
+    private String infoName;
+
+    @XmlElement(name = "infotext")
+    private String infoText;
+     */
 }

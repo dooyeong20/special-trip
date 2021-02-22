@@ -53,7 +53,7 @@ class jgTriplusApplicationTests {
 		int cnt = 0;
 
 		while(true){
-			xmlString = apiService.getAreaBasedListXML("12","7", 100, ++pageIdx);
+			xmlString = apiService.getAreaBasedListXML("12","7", ++pageIdx);
 			response = apiService.getXMLResponse(xmlString);
 			items = response.getBody().getItemContainer().getItems();
 

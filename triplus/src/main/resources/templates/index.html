@@ -137,7 +137,74 @@
 						</div>
 					</div>
 				</div>
-
+				<div class="col-md-4 ftco-animate fadeInUp ftco-animated" th:each="plan : ${planList}">
+					<div class="destination">
+						<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
+							<div class="icon d-flex justify-content-center align-items-center">
+								<span class="icon-search2"></span>
+							</div>
+						</a>
+						<div class="text p-3">
+							<div class="d-flex">
+								<div class="one">
+									<h3><a href="#" th:text="${plan.name}"></a></h3>
+									<p class="rate">
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star-o"></i>
+										<span>8 Rating</span>
+									</p>
+								</div>
+								<div class="two">
+									<a>좋아요: <span class="price" th:text="${plan.liked}"></span></a>
+								</div>
+							</div>
+							<p>Far far away, behind the word mountains, far from the countries</p>
+							<p class="days"><a>등록시간: <span th:text="${plan.update}"></span></a></p>
+							<hr>
+							<p class="bottom-area d-flex">
+								<span><i class="icon-map-o"></i> San Franciso, CA</span>
+								<span class="ml-auto"><a href="#">Discover</a></span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ftco-animate fadeInUp ftco-animated" th:each="plan : ${planList}">
+					<div class="destination">
+						<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
+							<div class="icon d-flex justify-content-center align-items-center">
+								<span class="icon-search2"></span>
+							</div>
+						</a>
+						<div class="text p-3">
+							<div class="d-flex">
+								<div class="one">
+									<h3><a href="#" th:text="${plan.name}"></a></h3>
+									<p class="rate">
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star"></i>
+										<i class="icon-star-o"></i>
+										<span>8 Rating</span>
+									</p>
+								</div>
+								<div class="two">
+									<a>좋아요: <span class="price" th:text="${plan.liked}"></span></a>
+								</div>
+							</div>
+							<p>Far far away, behind the word mountains, far from the countries</p>
+							<p class="days"><a>등록시간: <span th:text="${plan.update}"></span></a></p>
+							<hr>
+							<p class="bottom-area d-flex">
+								<span><i class="icon-map-o"></i> San Franciso, CA</span>
+								<span class="ml-auto"><a href="#">Discover</a></span>
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 			</div>
 		</div>
@@ -161,7 +228,23 @@
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 		<script src="js/google-map.js"></script>
 		<script src="js/main.js"></script>
+
 	</div>
+
+
+<!--	<script>-->
+<!--			let socials = document.getElementsByClassName("btn_social");-->
+<!--			for(let social of socials) {-->
+<!--				social.addEventListener('click', function(){-->
+<!--					let socialType = this.getAttribute('data-social');-->
+<!--					location.href="/oauth2/authorization/" + socialType;-->
+<!--				})-->
+<!--			}-->
+<!--	</script>-->
+
+	<script th:if="${status == 'login'}">
+		$("#loginModal").modal();
+	</script>
 
 </div>
 </html>
