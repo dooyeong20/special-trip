@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -14,12 +15,12 @@ import javax.mail.internet.MimeMessage;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class HtmlEmailService implements EmailService{
+public class HtmlEmailService implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
     @Override
-    public void sendEmail(EmailMessage emailMessage){
+    public void sendEmail(EmailMessage emailMessage) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
@@ -29,6 +30,7 @@ public class HtmlEmailService implements EmailService{
             helper.setText(emailMessage.getMessage(), true);
             javaMailSender.send(mimeMessage);
             log.info("Email has sent: {}", emailMessage.getMessage());
+
         } catch (MessagingException e){
             log.error("Failed to send email", e);
         }

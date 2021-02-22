@@ -37,13 +37,18 @@ public class UserController {
 
     @Transactional
     @PostMapping("/join")
-    public String joinSubmit(Model model){
+    public String joinSubmit(Model model,
+                             @RequestParam(value = "nickname") String nickname,
+                             @RequestParam(value = "email") String email,
+                             @RequestParam(value = "password") String password,
+                             @RequestParam(value = "checklist") String checklist
+                             ){
         JoinForm joinForm = new JoinForm();
 
-        joinForm.setNickname((String)model.getAttribute("nickname"));
-        joinForm.setEmail((String)model.getAttribute("email"));
-        joinForm.setPassword((String)model.getAttribute("password"));
-        joinForm.setAgreeTermsOfService((String)model.getAttribute("checklist"));
+        joinForm.setNickname(nickname);
+        joinForm.setEmail(email);
+        joinForm.setPassword(password);
+        joinForm.setAgreeTermsOfService(checklist);
 
         User newUser = userService.processNewUser(joinForm);
         userService.login(newUser);

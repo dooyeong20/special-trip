@@ -49,11 +49,11 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(joinForm.getPassword()))
                 .nickName(joinForm.getNickname())
                 .build();
-        User newUser = userRepository.save(user);
-        return newUser;
+
+        return userRepository.save(user);
     }
 
-    public void sendSignupConfirmEmail(User newUser){
+    public void sendJoinConfirmEmail(User newUser){
         sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token");
     }
 
@@ -74,7 +74,8 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        sendSignupConfirmEmail(newUser);
+        sendJoinConfirmEmail(newUser);
+
         return newUser;
     }
 

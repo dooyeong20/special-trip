@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Profile("local")
 @Service
 @Slf4j
-public class ConsoleEmailService implements EmailService{
+public class ConsoleEmailService implements EmailService {
     @Override
     public void sendEmail(EmailMessage emailMessage) {
         log.info("email has sent : {}", emailMessage.getMessage());

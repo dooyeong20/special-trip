@@ -28,15 +28,11 @@ public class User {
     @NotNull
     private String password;
 
-    private String tel;
-
     private LocalDateTime joinedAt;
 
     private boolean emailVerified;
 
     private String emailCheckToken;
-
-    private boolean telVerified;
 
     @Enumerated(EnumType.STRING)
     private Role role;
