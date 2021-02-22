@@ -33,6 +33,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -55,7 +56,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/js/**",
                         "/scss/**",
-                        "/font/**"
+                        "/font/**",
+                        "/join/**",
+                        "/check-email-token/**"
                 ).permitAll()
 
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -107,9 +110,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("user")).roles("USER")
+                .withUser("user").password(passwordEncoder.encode("user")).roles("USER")
                 .and()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+                .withUser("admin").password(passwordEncoder.encode("admin")).roles("ADMIN");
 
         auth.userDetailsService(userService);
     }
@@ -119,12 +122,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
 
 }
 
