@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
@@ -108,16 +109,31 @@ public class MainController {
         return "index";
     }
 
+
     @GetMapping("/search")
-    public String search(){
+    public String searchForm(@RequestParam(value = "area") String area, Model model){
+        model.addAttribute("area", area);
         return "view/search";
     }
+
+//    @GetMapping("/search")
+//    public String searchSubmit(@RequestParam(value = "content_id") String contentId,Model model){
+//        XMLResponseItem item = apiService.getItemByContentId(contentId);
+//        model.addAttribute("item", item);
+//        return "view/search";
+//    }
 
 
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
+        String radius = "50000";
+
         XMLResponseItem item = apiService.getItemByContentId(contentId);
+        List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+
         model.addAttribute("item", item);
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(1, 10));
+
         return "view/detail";
     }
 
@@ -133,24 +149,6 @@ public class MainController {
         return "view/admin/widgets";
     }
 
-//    // mypage controller
-//    @GetMapping("/mypage_main")
-//    public String mypage(){
-//        return "view/mypage/mypage_main";
-//    }
-//
-//
-//    @GetMapping("/mypage_info")
-//    public String mypage_info(){return "view/mypage/mypage_info"; }
-//
-//    @GetMapping("/mypage_like")
-//    public String mypage_like(){return "view/mypage/mypage_like"; }
-//
-//    @GetMapping("/mypage_review")
-//    public String mypage_review(){return "view/mypage/mypage_review"; }
-//
-//    @GetMapping("/mypage_plan")
-//    public String mypage_plan(){return "view/mypage/mypage_plan";}
 
     @GetMapping("/admin")
     public String admin(){

@@ -36,14 +36,11 @@
 									<h2 style="font-weight: bold;">어디로 떠나나요?</h2>
 
 									<div class="block-17 my-4">
-										<form th:action="@{/search}" class="d-block d-flex">
+										<form th:action="@{/search}" th:method="get" class="d-block d-flex">
 											<div class="fields d-block d-flex">
-												<div class="textfield-search one-third">
-													<input type="text" class="form-control" placeholder="지역을 검색해주세요">
-												</div>
-
+												<input type="text" class="form-control" name="area" placeholder="지역을 검색해주세요">
 											</div>
-											<input type="submit" class="search-submit btn btn-primary" value="Search">
+												<input type="submit" class="search-submit btn btn-primary" value="Search">
 										</form>
 									</div>
 								</div>
