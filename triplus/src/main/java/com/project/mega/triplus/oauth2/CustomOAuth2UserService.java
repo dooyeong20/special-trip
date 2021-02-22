@@ -1,5 +1,6 @@
 package com.project.mega.triplus.oauth2;
 
+import com.project.mega.triplus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -51,12 +52,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private Oauth2User saveOrUpdate(OAuthAttributes attributes) {
         Oauth2User oauth2User = oauth2UserRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
-                                            attributes.getPicture()))
+                        attributes.getPicture()))
                 .orElse(attributes.toEntity());
 
         return oauth2UserRepository.save(oauth2User);
     }
-
 
 }
 

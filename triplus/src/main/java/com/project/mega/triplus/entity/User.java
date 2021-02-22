@@ -1,5 +1,7 @@
 package com.project.mega.triplus.entity;
 
+import com.project.mega.triplus.oauth2.Oauth2Role;
+import com.project.mega.triplus.oauth2.Oauth2User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +50,5 @@ public class User{
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
-
 
 }

@@ -68,16 +68,12 @@ public class MainController {
             plan1_day2.setName("SecondDay");
         }
 
-        // TODO plan1_day1, plan1_day2 는 index 로 어떻게 넘겨야하는가? (day1, day2 에 속한 place 리스트도)
-
         plan1.setName("나의 첫번째 여행");
         plan1.setStatus(PlanStatus.COMPLETE);
         plan1.setLiked(10);
         plan1.setUpdate(LocalDateTime.now());
         plan1.setDays(List.of(plan1_day1,plan1_day2));
         planRepository.save(plan1);
-
-        // TODO Place 의 imageUrl 은 어디서 어떻게 가져와야하는가?
 
 //        List<List<String>> imageUrlsList = new ArrayList<>();
 //        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
