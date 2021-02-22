@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class MainController {
 
 
     @Transactional
-//    @PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){

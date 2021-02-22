@@ -25,7 +25,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
