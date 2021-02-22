@@ -8,11 +8,11 @@ import java.io.Serializable;
 public class SessionUser implements Serializable {
     private String name;
     private String email;
-    private String picture;
+
 
     public SessionUser(Oauth2User oauth2User) {
         this.name = oauth2User.getName();
         this.email = oauth2User.getEmail();
-        this.picture = oauth2User.getPicture();
+
     }
 }
