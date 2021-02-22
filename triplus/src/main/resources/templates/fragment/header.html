@@ -1,5 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
+
 <div th:fragment="headerFragment">
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -58,15 +59,18 @@
                         </form>
 
                         <div class="d-flex justify-content-center social-buttons">
-                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Twitter">
-                                <i class="fab fa-twitter"></i>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Google">
+                                <a href="/oauth2/authorization/google" class="btn_social"><i class="fab fa-google"></i></a>
                             </button>
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
-                                <i class="fab fa-facebook"></i>
+                                <a href="/oauth2/authorization/facebook" class="btn_social"><i class="fab fa-facebook"></i></a>
                             </button>
-                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">
-                                <i class="fab fa-linkedin"></i>
-                            </button>
+<!--                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">-->
+<!--                                <a href="/oauth2/authorization/kakao" class="btn_social">카카오 로그인</a>-->
+<!--                            </button>-->
+<!--                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Linkedin">-->
+<!--                                <a href="/oauth2/authorization/naver" class="btn_social">네이버 로그인</a>-->
+<!--                            </button>-->
                             </di>
                         </div>
                     </div>
@@ -113,8 +117,8 @@
                         </form>
 
                         <div class="d-flex justify-content-center social-buttons">
-                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Twitter">
-                                <i class="fab fa-twitter"></i>
+                            <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Google">
+                                <i class="fab fa-google"></i>
                             </button>
                             <button type="button" class="btn btn-secondary btn-round mb-2 mr-sm-2" data-toggle="tooltip" data-placement="top" title="Facebook">
                                 <i class="fab fa-facebook"></i>
@@ -131,5 +135,6 @@
     </div>
 
 </div>
+
 
 </html>

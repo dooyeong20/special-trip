@@ -1,11 +1,8 @@
 package com.project.mega.triplus.controller;
 
 
-import com.project.mega.triplus.entity.Day;
-import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.Plan;
-import com.project.mega.triplus.entity.PlanStatus;
-import com.project.mega.triplus.entity.XMLResponseItem;
+
+import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
@@ -19,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -106,6 +102,18 @@ public class MainController {
         return "index";
     }
 
+
+    @GetMapping("/loginSuccess")
+    public String loginComplete(){
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("status", "login");
+        return index(model);
+    }
+
     @GetMapping("/search")
     public String search(){
         return "view/search";
@@ -121,34 +129,12 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(){
-
-        return "view/plan";
-    }
+    public String plan(){ return "view/plan"; }
 
     @GetMapping("/widgets")
     public String w(){
         return "view/admin/widgets";
     }
-
-//    // mypage controller
-//    @GetMapping("/mypage_main")
-//    public String mypage(){
-//        return "view/mypage/mypage_main";
-//    }
-//
-//
-//    @GetMapping("/mypage_info")
-//    public String mypage_info(){return "view/mypage/mypage_info"; }
-//
-//    @GetMapping("/mypage_like")
-//    public String mypage_like(){return "view/mypage/mypage_like"; }
-//
-//    @GetMapping("/mypage_review")
-//    public String mypage_review(){return "view/mypage/mypage_review"; }
-//
-//    @GetMapping("/mypage_plan")
-//    public String mypage_plan(){return "view/mypage/mypage_plan";}
 
     @GetMapping("/admin")
     public String admin(){
@@ -174,4 +160,5 @@ public class MainController {
     public String accessDenied(){
         return "view/access_denied";
     }
+
 }
