@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
-@Getter @Setter
-public class Oauth2User implements Serializable {
+@Getter
+public class Oauth2User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
