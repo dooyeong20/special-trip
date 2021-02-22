@@ -1,4 +1,4 @@
-package com.project.mega.triplus.config;
+package com.project.mega.triplus.oauth2;
 
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -25,10 +25,11 @@ public enum CustomOAuth2Provider {
         public ClientRegistration.Builder getBuilder(String registrationId) {
             ClientRegistration.Builder builder = getBuilder(registrationId,
                     ClientAuthenticationMethod.POST, DEFAULT_LOGIN_REDIRECT_URL);
-            builder.scope("profile");
+            builder.scope("name", "email", "profile_image");
             builder.authorizationUri("https://nid.naver.com/oauth2.0/authorize");
             builder.tokenUri("https://nid.naver.com/oauth2.0/token");
             builder.userInfoUri("https://openapi.naver.com/v1/nid/me");
+            builder.redirectUri("{ baseUrl }/{action}/oauth2/code/{registrationId}");
             builder.userNameAttributeName("id");
             builder.clientName("NAVER");
             return builder;

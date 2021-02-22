@@ -1,7 +1,6 @@
 package com.project.mega.triplus.controller;
 
 
-import com.project.mega.triplus.annotation.SocialUser;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +99,7 @@ public class MainController {
 
         return "index";
     }
+
 
     @GetMapping("/loginSuccess")
     public String loginComplete(){

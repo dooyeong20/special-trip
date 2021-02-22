@@ -1,4 +1,4 @@
-package com.project.mega.triplus.annotation;
+package com.project.mega.triplus.oauth2;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

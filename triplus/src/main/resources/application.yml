@@ -23,6 +23,7 @@ spring:
           google:
             clientId: 786057057179-1c4giqb03t8tlp68qkt41pnageoiva6r.apps.googleusercontent.com
             clientSecret: JmLCzJlYh-bs4iyCrzSRbWww
+            scope: profile, email
           facebook:
             clientId: 715398855700681
             clientSecret: 9333fb59fa8922a23709c26f82c9dadb
@@ -35,6 +36,7 @@ custom:
     naver:
       client-id: VdtKZoajeHfXYfPlODRN
       client-secret: q762e5xrL7
+
 
 logging:
   level:

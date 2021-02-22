@@ -2,6 +2,8 @@ package com.project.mega.triplus.config;
 
 import com.project.mega.triplus.entity.SocialType;
 
+import com.project.mega.triplus.oauth2.CustomOAuth2Provider;
+import com.project.mega.triplus.oauth2.CustomOAuth2UserService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +43,7 @@ import java.util.stream.Collectors;
 public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,15 +61,20 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "total_plan",
                         "total_place",
                         "/oauth2/**",
-                        "/login"
+                        "/login",
+                        "/css/**",
+                        "/images/**",
+                        "/js/**",
+                        "/scss/**",
+                        "/font/**"
                 ).permitAll()
 
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/mypage/**").hasRole("USER")
-                .antMatchers("/facebook").hasAuthority(SocialType.FACEBOOK.getRoleType())
-                .antMatchers("/google").hasAuthority(SocialType.GOOGLE.getRoleType())
-                .antMatchers("/kakao").hasAuthority(SocialType.KAKAO.getRoleType())
-                .antMatchers("/naver").hasAuthority(SocialType.NAVER.getRoleType())
+                .antMatchers("/mypage/**", "/api/v1/**").hasRole("USER")
+//                .antMatchers("/facebook").hasAuthority(SocialType.FACEBOOK.getRoleType())
+//                .antMatchers("/google").hasAuthority(SocialType.GOOGLE.getRoleType())
+//                .antMatchers("/kakao").hasAuthority(SocialType.KAKAO.getRoleType())
+//                .antMatchers("/naver").hasAuthority(SocialType.NAVER.getRoleType())
 
                 .anyRequest().authenticated()
                 .accessDecisionManager(getMyAccessDecisionManager())
@@ -74,9 +82,8 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
+                .userInfoEndpoint().userService(customOAuth2UserService)
                 .and()
-                .headers().frameOptions().disable()
-
 
                 .and()
                 .exceptionHandling()
@@ -133,58 +140,58 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository(
-            OAuth2ClientProperties properties,
-            @Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
-            @Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret,
-            @Value("${custom.oauth2.naver.client-id}") String naverClientId,
-            @Value("${custom.oauth2.naver.client-secret}") String naverClientSecret){
-
-        List<ClientRegistration> registrations=properties.getRegistration().keySet().stream()
-                .map(client -> getRegistration(properties, client))
-                .filter(Objects::nonNull).collect(Collectors.toList());
-
-        // 카카오 OAuth2 정보 추가
-        registrations.add(
-                CustomOAuth2Provider.KAKAO.getBuilder("kakao")
-                .clientId(kakaoClientId)
-                .clientSecret(kakaoClientSecret)
-                .jwkSetUri("tmp")
-                .build()
-        );
-
-        registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
-                .clientId(naverClientId)
-                .clientSecret(naverClientSecret)
-                .jwkSetUri("tmp")
-                .build());
-
-        return new InMemoryClientRegistrationRepository(registrations);
-    }
-
-
-    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client){
-        if("google".equals(client)) {
-            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
-            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
-                    .clientId(registration.getClientId())
-                    .clientSecret(registration.getClientSecret())
-                    .scope("email", "profile")
-                    .build();
-        }
-
-        if("facebook".equals(client)) {
-            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("facebook");
-            return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
-                    .clientId(registration.getClientId())
-                    .clientSecret(registration.getClientSecret())
-                    .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
-                    .scope("email")
-                    .build();
-        }
-        return null;
-    }
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository(
+//            OAuth2ClientProperties properties,
+//            @Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
+//            @Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret,
+//            @Value("${custom.oauth2.naver.client-id}") String naverClientId,
+//            @Value("${custom.oauth2.naver.client-secret}") String naverClientSecret){
+//
+//        List<ClientRegistration> registrations=properties.getRegistration().keySet().stream()
+//                .map(client -> getRegistration(properties, client))
+//                .filter(Objects::nonNull).collect(Collectors.toList());
+//
+//        // 카카오 OAuth2 정보 추가
+//        registrations.add(
+//                CustomOAuth2Provider.KAKAO.getBuilder("kakao")
+//                .clientId(kakaoClientId)
+//                .clientSecret(kakaoClientSecret)
+//                .jwkSetUri("tmp")
+//                .build()
+//        );
+//
+//        registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
+//                .clientId(naverClientId)
+//                .clientSecret(naverClientSecret)
+//                .jwkSetUri("tmp")
+//                .build());
+//
+//        return new InMemoryClientRegistrationRepository(registrations);
+//    }
+//
+//
+//    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client){
+//        if("google".equals(client)) {
+//            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
+//            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
+//                    .clientId(registration.getClientId())
+//                    .clientSecret(registration.getClientSecret())
+//                    .scope("email", "profile")
+//                    .build();
+//        }
+//
+//        if("facebook".equals(client)) {
+//            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("facebook");
+//            return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
+//                    .clientId(registration.getClientId())
+//                    .clientSecret(registration.getClientSecret())
+//                    .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
+//                    .scope("email")
+//                    .build();
+//        }
+//        return null;
+//    }
 
 }
 
