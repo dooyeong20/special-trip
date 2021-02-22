@@ -12,14 +12,12 @@ import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -99,7 +97,6 @@ public class MainController {
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
-
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
@@ -115,12 +112,14 @@ public class MainController {
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
+        int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
 
         model.addAttribute("item", item);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(1, 10));
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + cnt));
 
         return "view/detail";
     }
