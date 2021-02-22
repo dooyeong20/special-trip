@@ -63,17 +63,21 @@ public class UserController {
 
         if(user == null){
             model.addAttribute("error", "wrong.email");
-            return "user/checked-email";
+            return "index";
         }
 
         if(!user.isValidToken(token)){
             model.addAttribute("error", "wrong.token");
-            return "user/checked-email";
+            return "index";
         }
+
         user.completeJoin();
         userService.login(user);
-        model.addAttribute("email", user.getEmail());
-        return "user/checked-email";
+
+        model.addAttribute("nickname", user.getNickName());
+        model.addAttribute("checked", true);
+
+        return "index";
     }
 
 

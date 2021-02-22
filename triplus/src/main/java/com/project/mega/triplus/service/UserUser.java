@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 public class UserUser extends org.springframework.security.core.userdetails.User {
-    private User user;
+    private final User user;
 
     public UserUser(User user){
         super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
