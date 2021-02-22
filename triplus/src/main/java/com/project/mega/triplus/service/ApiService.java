@@ -40,6 +40,7 @@ public class ApiService {
     private final String APP_NAME = "TRIPLus";
     private final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
     private final String Y = "Y";
+    private final String PAGE_SIZE = "10000";
 
     @PersistenceContext
     private EntityManager em;
@@ -71,7 +72,7 @@ public class ApiService {
         Place place = null;
 
         do {
-            xmlString = getAreaBasedListXML(contentType, null, 10000, ++pageIdx);
+            xmlString = getAreaBasedListXML(contentType, null, ++pageIdx);
             response = getXMLResponse(xmlString);
             items = response.getBody().getItemContainer().getItems();
 
@@ -113,11 +114,10 @@ public class ApiService {
         } while (Integer.parseInt(response.getBody().getNumOfRows()) * Integer.parseInt(response.getBody().getPageNo()) <= Integer.parseInt(response.getBody().getTotalCount()));
     }
 
-    public String getDetailCommonXML(String contentId, int pageSize) throws IOException{
+    public String getDetailCommonXML(String contentId) throws IOException{
         StringBuilder urlBuilder = getStringBuilder("detailCommon");
 
         addParam(urlBuilder, "contentId", contentId);
-        addParam(urlBuilder, "numOfRows", String.valueOf(pageSize));
         addParam(urlBuilder, "defaultYN", Y);
         addParam(urlBuilder, "firstImageYN", Y);
         addParam(urlBuilder, "addrinfoYN", Y);
@@ -128,18 +128,30 @@ public class ApiService {
         return getXMLString(urlBuilder);
     }
 
-    private String getDetailImageXML(String contentId, int pageSize) throws IOException {
+
+    private String getDetailImageXML(String contentId) throws IOException {
         StringBuilder urlBuilder = getStringBuilder("detailImage");
 
         addParam(urlBuilder, "contentId", contentId);
-        addParam(urlBuilder, "numOfRows", String.valueOf(pageSize));
         addParam(urlBuilder, "imageYN", Y);
         addParam(urlBuilder, "subImageYN", Y);
 
         return getXMLString(urlBuilder);
     }
 
-    public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageSize, int pageNo) throws IOException{
+    private String getLocationBasedListXML(String mapX, String mapY, String radius, String contentTypeId) throws IOException{
+        StringBuilder urlBuilder = getStringBuilder("locationBasedList");
+
+        addParam(urlBuilder, "mapX", mapX);
+        addParam(urlBuilder, "mapY", mapY);
+        addParam(urlBuilder, "radius", radius);
+        addParam(urlBuilder, "listYN", Y);
+        addParam(urlBuilder, "contentTypeId", contentTypeId);
+
+        return getXMLString(urlBuilder);
+    }
+
+    public String getAreaBasedListXML(String contentTypeId, String areaCode, int pageNo) throws IOException{
         StringBuilder urlBuilder = getStringBuilder("areaBasedList");
 
         if(null != contentTypeId) {
@@ -150,7 +162,6 @@ public class ApiService {
             addParam(urlBuilder, "areaCode", areaCode);
         }
 
-        addParam(urlBuilder, "numOfRows", String.valueOf(pageSize));
         addParam(urlBuilder, "pageNo", String.valueOf(pageNo));
 
         return getXMLString(urlBuilder);
@@ -162,6 +173,7 @@ public class ApiService {
 
         addParam(urlBuilder, "MobileOS", "ETC");
         addParam(urlBuilder, "MobileApp", APP_NAME);
+        addParam(urlBuilder, "numOfRows", PAGE_SIZE);
 
         return urlBuilder;
     }
@@ -215,12 +227,12 @@ public class ApiService {
 
         try{
             // get item
-            xmlString = getDetailCommonXML(contentId, 100);
+            xmlString = getDetailCommonXML(contentId);
             response = getXMLResponse(xmlString);
             item = response.getBody().getItemContainer().getItems().get(0);
 
             // get item's images
-            xmlString = getDetailImageXML(contentId, 100);
+            xmlString = getDetailImageXML(contentId);
             response = getXMLResponse(xmlString);
             images = response.getBody().getItemContainer().getItems();
 
@@ -234,6 +246,26 @@ public class ApiService {
 
         return item;
     }
+
+    public List<XMLResponseItem> getItemByMapXAndMapY(String mapX, String mapY, String radius, String contentTypeId) {
+        String xmlString;
+        XMLResponse response;
+        List<XMLResponseItem> itemList;
+
+        try{
+            xmlString = getLocationBasedListXML(mapX, mapY, radius, contentTypeId);
+            response = getXMLResponse(xmlString);
+
+            itemList = new ArrayList<>(response.getBody().getItemContainer().getItems());
+
+        } catch (IOException | JAXBException e){
+            log.error(e.getMessage());
+            itemList = null;
+        }
+
+        return itemList;
+    }
+
 }
 
 /*
