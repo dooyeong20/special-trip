@@ -6,26 +6,35 @@ import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
-import com.project.mega.triplus.util.EmailMessage;
-import com.project.mega.triplus.util.EmailService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import com.project.mega.triplus.util.EmailMessage;
+import com.project.mega.triplus.util.EmailService;
+
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+
 @Service
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -107,4 +116,12 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
+
+    public void sendMailResetPassword(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if(user == null) {
+            return;
+        }
+    }
 }

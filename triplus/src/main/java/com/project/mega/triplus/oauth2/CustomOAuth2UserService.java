@@ -1,5 +1,6 @@
 package com.project.mega.triplus.oauth2;
 
+import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -17,7 +19,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final Oauth2UserRepository oauth2UserRepository;
+    private final UserRepository userRepository;
     private final HttpSession httpSession;
 
     @Override
@@ -37,24 +39,28 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        Oauth2User oauth2User = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new  SessionUser(oauth2User));
+        User user = saveOrUpdate(attributes);
+        httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
                 Collections.singleton(
-                        new SimpleGrantedAuthority(oauth2User.getRoleKey())
+                        new SimpleGrantedAuthority(user.getRoleKey())
                 ),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
         );
     }
 
-    private Oauth2User saveOrUpdate(OAuthAttributes attributes) {
-        Oauth2User oauth2User = oauth2UserRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName()))
-                .orElse(attributes.toEntity());
+    @Transactional
+    private User saveOrUpdate(OAuthAttributes attributes) {
+        User user = userRepository.findByEmail(attributes.getEmail());
+        if (user == null) {
+            user = attributes.toEntity();
+            user = userRepository.save(user);
+        }
+        user.setNickName(attributes.getName());
 
-        return oauth2UserRepository.save(oauth2User);
+        return user;
     }
 
 }

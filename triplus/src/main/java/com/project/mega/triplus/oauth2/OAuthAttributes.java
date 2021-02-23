@@ -50,11 +50,11 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public Oauth2User toEntity(){
-        return Oauth2User.builder()
-                .name(name)
+    public User toEntity(){
+        return User.builder()
+                .nickName(name)
                 .email(email)
-                .role(Oauth2Role.USER)
+                .role(Role.USER)
                 .build();
     }
 }

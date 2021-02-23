@@ -1,5 +1,6 @@
 package com.project.mega.triplus.controller;
 
+
 import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.repository.UserRepository;
@@ -23,6 +24,25 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/change-password")
+    public String changePasswordForm(){
+        return "view/user/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String changePasswordSubmit(String email, Model model){
+
+        // 메일 보내기
+        userService.sendMailResetPassword(email);
+
+        // 결과 view 에
+        model.addAttribute("email", email);
+        model.addAttribute("result_code", "password.reset.send");
+
+        // view/notify 로 이동
+        return "view/notify";
+    }
 
     @Autowired
     UserRepository userRepository;
@@ -79,6 +99,5 @@ public class UserController {
 
         return "index";
     }
-
 
 }
