@@ -19,13 +19,12 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String nickName;
 
     @NotNull
     private String email;
 
-    @NotNull
+
     private String password;
 
     private LocalDateTime joinedAt;
@@ -63,6 +62,24 @@ public class User{
     public void completeJoin(){
         setEmailVerified(true);
         setJoinedAt(LocalDateTime.now());
+    }
+
+    @Builder
+    public User(String nickName, String email, Role role){
+        this.nickName=nickName;
+        this.email=email;
+        this.role=role;
+    }
+
+    public User update(String nickName, String email){
+        this.nickName=nickName;
+        this.email=email;
+
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
     }
 
 }

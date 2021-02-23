@@ -44,15 +44,6 @@ spring:
             clientId: 715398855700681
             clientSecret: 9333fb59fa8922a23709c26f82c9dadb
 
-custom:
-  oauth2:
-    kakao:
-      client-id: 271eef0e6400b2c07f10d224da1c7cc1
-      client-secret: qmuEyZ79daA6wAOmtgnGweyBvQBVnaV0
-    naver:
-      client-id: VdtKZoajeHfXYfPlODRN
-      client-secret: q762e5xrL7
-
 logging:
   level:
     org.hibernate.SQL: debug

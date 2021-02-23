@@ -1,18 +1,19 @@
 package com.project.mega.triplus.oauth2;
 
+import com.project.mega.triplus.entity.User;
 import lombok.Getter;
 
 import java.io.Serializable;
 
 @Getter
 public class SessionUser implements Serializable {
-    private String name;
+    private String nickName;
     private String email;
 
 
-    public SessionUser(Oauth2User oauth2User) {
-        this.name = oauth2User.getName();
-        this.email = oauth2User.getEmail();
+    public SessionUser(User user) {
+        this.nickName = user.getNickName();
+        this.email = user.getEmail();
 
     }
 }
