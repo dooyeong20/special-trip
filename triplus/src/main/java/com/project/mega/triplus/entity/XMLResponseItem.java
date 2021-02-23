@@ -26,7 +26,7 @@ public class XMLResponseItem {
 
     private String addr2;            // 동
 
-    private String areaCode;        // 지역 코드
+    private String areacode;        // 지역 코드
 
     @XmlElement(name = "contentid")
     private String contentId;       // 콘텐츠 고유 아이디

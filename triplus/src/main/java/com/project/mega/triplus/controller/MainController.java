@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +37,7 @@ public class MainController {
 
 
     @Transactional
-    //@PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -164,7 +168,34 @@ public class MainController {
     }
 
     @GetMapping("/total_place")
-    public String totalPlace(){
+    public String totalPlace(Model model){
+        /*
+        < areaCode >
+
+        1 서울
+        2 인천
+        3 대전
+        4 대구
+        5 광주
+        6 부산
+        7 울산
+        8 세종특별자치시
+        31 경기도
+        32 강원도
+        33 충청북도
+        34 충청남도
+        35 경상북도
+        36 경상남도
+        37 전라북도
+        38 전라남도
+        39 제주도
+         */
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+        List<Place> placeList = placeRepository.findAllByContentType("12")
+                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList());
+
+        model.addAttribute("placeList", placeList);
+
         return "view/total_place";
     }
 

@@ -18,4 +18,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     List<Place> findFirstByOrderByLikedDesc();
 
+
+    List<Place> findAllByContentType(String contentType);
 }

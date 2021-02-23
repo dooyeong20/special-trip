@@ -98,6 +98,7 @@ public class ApiService {
                     place.setCat1(item.getCat1());
                     place.setCat2(item.getCat2());
                     place.setCat3(item.getCat3());
+                    place.setAreaCode(item.getAreacode());
                     if(item.getImageUrl() == null){
                         item.setImageUrl(DEFAULT_IMAGE);
                     }
