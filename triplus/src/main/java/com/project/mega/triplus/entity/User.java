@@ -64,7 +64,6 @@ public class User{
         setJoinedAt(LocalDateTime.now());
     }
 
-
     @Builder
     public User(String nickName, String email, Role role){
         this.nickName=nickName;
@@ -82,4 +81,5 @@ public class User{
     public String getRoleKey(){
         return this.role.getKey();
     }
+
 }
