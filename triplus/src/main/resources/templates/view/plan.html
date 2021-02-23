@@ -27,26 +27,46 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="card col-4" id="card_1" style="height: 400px">
-                        <div class="card-body">
-                            <div class="row">
-                                <h3 class="card-title mb-2 mr-sm-2">Day 1</h3>
-                                <input type="text" class="form-control col-6 mb-2 mr-sm-2" placeholder="부제">
+                    <div class="col-4" id="day_1">
+                        <h2 class="text-center">Day 1</h2>
+                        <div>
+                    <div class="card" id="card_1" style="height: 500px">
+                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                        delete
+                                    </button>
+                                </div>
 
-                                <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                    delete
-                                </button>
+                                <!-- box -->
+                                    <input type="text" id="box" class="form-control mb-2 mr-sm-2 box">
+
+                                    <!--                         돌하르방 div-->
+                                    <div class="block-21 mb-4 mt-4 d-flex">
+                                        <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                        <div class="text">
+                                            <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                            <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="block-21 mb-4 mt-4 d-flex">
+                                        <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                        <div class="text">
+                                            <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                            <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        </div>
+                                    </div>
+
+                                <div class="col text-center">
+                                    <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                        +
+                                    </button>
+                                </div>
                             </div>
-
-                            <!-- box -->
-                            <input type="text" id="box" class="form-control mb-2 mr-sm-2 box">
-
-                            <div class="col text-center">
-                                <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                    +
-                                </button>
+                        </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -76,7 +96,90 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    Modal body..
+                    <div class="ftco-animate fadeInUp ftco-animated">
+                        <h3>인근 명소</h3>
+                        <div style="height:500px; overflow-y: scroll;">
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/20/2661520_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=2661523">북촌리 4.3길</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌3길 3</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/01/2676401_image2_1.JPG); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=1906195">선흘 동백동산</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 동백로 77</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
@@ -93,52 +196,59 @@
         $(document).ready(function(){
             var i = 1;
 
-
-
             $(".card_add").click(function(){
-                console.log("ok");
-                var card_id = "#card_" + i;
-                var add_btn_id = "#add_btn_" + i;
-                var box_id = "#box_" + i;
+                console.log("card_add");
+                var day_id = "#day_" + i;
 
-                var htmlStr = "<div class=\"card col-4\" id=\"card_" + ++i + "\" style=\"height: 400px\">\n" +
+                var htmlStr =
+                    "<div class=\"row\">\n" +
+                    "<div class=\"col-4\" id=\"day_\" + ++i + "\">\n" +
+                    "<h2 class=\"text-center\">Day</h2>\n" +
+                    "<div>\n" +
+                    "<div class=\"card\" style="height: 500px" id=\"card_\" + i + "\">\n" +
+                    "<div style=\"height:450px; overflow-y: scroll;\" class=\"mt-4\">\n" +
                     "                        <div class=\"card-body\">\n" +
                     "                            <div class=\"row\">\n" +
-                    "                                <h3 class=\"card-title mb-2 mr-sm-2\">Day " + i + "</h3>\n" +
-                    "                                <input type=\"text\" class=\"form-control col-6 mb-2 mr-sm-2\" placeholder=\"부제\">\n" +
                     "                                <button type=\"button\" onclick=\"myFunction()\" class=\"btn btn-default mb-2 mr-sm-2 delete_btn\">\n" +
                     "                                    delete\n" +
                     "                                </button>\n" +
                     "                            </div>\n" +
                     "\n" +
                     "                            <!-- box -->\n" +
-                    "                            <input type=\"text\" id=\"box1\" class=\"form-control mb-2 mr-sm-2 box1\">\n" +
+                    "                            <input type=\"text\" class=\"form-control mb-2 mr-sm-2 box_" + i + "\">\n" +
                     "\n" +
                     "                            <div class=\"col text-center\">\n" +
-                    "                                <button type=\"button\" id=\"add_btn_" + i + "\" class=\"btn btn-default mb-2 mr-sm-2 add_btn1\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
+                    "                                <button type=\"button\" id=\"add_btn_" + i + "\" class=\"btn btn-default mb-2 mr-sm-2 add_btn_" + i + "\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
                     "                                    +\n" +
                     "                                </button>\n" +
                     "                            </div>\n" +
                     "\n" +
-                    "                        </div>"
+                    "                        </div>"+
+                    "        </div>"
 
-                $(card_id).after(htmlStr);
 
+                var card_id = "#card_" + i;
+                var box_id = "#box_" + i;
+                var add_btn_id = "#add_btn_" + i;
 
+                $(day_id).after(htmlStr);
+
+                $(add_btn_id).click(function(){
+                console.log("add_btn_id");
+                $(box_id).after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
+                });
             });
 
+            // 여기 수정 해야됨
             $("#add_btn").click(function(){
-                console.log("ok");
+                console.log("add_btn");
                 $("#box").after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
             });
 
-            $("#add_btn1").click(function(){
-                console.log("ok");
-                $("#box1").after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
-            });
 
+        <!-- 여기부터 해야 할 것 -->
             $(".delete_btn").click(function(){
-                console.log("ok");
+                console.log("delete_btn");
                 $("#card").remove();
             });
 
