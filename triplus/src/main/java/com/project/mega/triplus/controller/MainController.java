@@ -1,7 +1,5 @@
 package com.project.mega.triplus.controller;
 
-
-
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
@@ -109,8 +107,19 @@ public class MainController {
         return index(model);
     }
 
+
     @GetMapping("/search")
-    public String search(){
+    public String search(@RequestParam(value = "area") String area, Model model){
+        int rand, cnt = 4;
+
+        List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
+
+        rand = (int)(Math.random() * (itemList.size() - cnt));
+
+        model.addAttribute("area", area);
+        model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+
+
         return "view/search";
     }
 
@@ -118,6 +127,8 @@ public class MainController {
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
+        int rand, cnt = 10;
+
         int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);

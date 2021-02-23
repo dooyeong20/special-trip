@@ -68,7 +68,6 @@ public class XMLResponseItem {
     /*
     @XmlElement(name = "infoname")
     private String infoName;
-
     @XmlElement(name = "infotext")
     private String infoText;
      */

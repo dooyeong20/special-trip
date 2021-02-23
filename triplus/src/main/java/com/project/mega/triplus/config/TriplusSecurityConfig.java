@@ -84,9 +84,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().successForwardUrl("/")
 
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-                .and()
-                .csrf().disable();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {

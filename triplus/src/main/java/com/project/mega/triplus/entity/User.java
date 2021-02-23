@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "nickname"})})
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +34,9 @@ public class User{
 
     private String emailCheckToken;
 
+    private boolean telVerified;
+
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -49,6 +52,7 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
 
+
     public void generateEmailCheckToken(){
         emailCheckToken = UUID.randomUUID().toString();
     }
@@ -60,4 +64,5 @@ public class User{
         setEmailVerified(true);
         setJoinedAt(LocalDateTime.now());
     }
+
 }
