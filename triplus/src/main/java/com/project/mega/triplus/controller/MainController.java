@@ -114,11 +114,21 @@ public class MainController {
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
 
+        List<Place> attractionList = placeRepository.findAllByContentType("12");
+        List<Place> foodList = placeRepository.findAllByContentType("39");
+        List<Place> shopList = placeRepository.findAllByContentType("38");
+        List<Place> festivalList = placeRepository.findAllByContentType("15");
+
         rand = (int)(Math.random() * (itemList.size() - cnt));
 
         model.addAttribute("area", area);
+        // null check
         model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
 
+        model.addAttribute("attractionList", attractionList);
+        model.addAttribute("foodList", foodList);
+        model.addAttribute("shopList", shopList);
+        model.addAttribute("festivalList", festivalList);
 
         return "view/search";
     }
@@ -129,7 +139,6 @@ public class MainController {
         String radius = "50000";
         int rand, cnt = 10;
 
-        int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");

@@ -76,7 +76,7 @@
 					<div class="destination-slider owl-carousel ftco-animate">
 						<div class="item" th:each="place : ${placeList}">
 							<div class="destination">
-								<a href="#">
+								<a th:href="@{/detail?content_id={id}(id=${place.contentId})}">
 									<img class="img d-flex justify-content-center align-items-center" th:src="${place.thumbnailUrl}"/>
 								</a>
 								<div class="text p-3">
