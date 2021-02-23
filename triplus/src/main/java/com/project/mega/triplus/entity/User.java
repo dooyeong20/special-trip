@@ -19,9 +19,6 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-
     private String nickName;
 
     @NotNull
@@ -64,14 +61,14 @@ public class User{
     }
 
     @Builder
-    public User(String name, String email, Role role){
-        this.name=name;
+    public User(String nickName, String email, Role role){
+        this.nickName=nickName;
         this.email=email;
         this.role=role;
     }
 
-    public User update(String name, String email){
-        this.name=name;
+    public User update(String nickName, String email){
+        this.nickName=nickName;
         this.email=email;
 
         return this;
