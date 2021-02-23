@@ -1,16 +1,21 @@
 package com.project.mega.triplus.controller;
 
 import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
+import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
+import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +35,8 @@ public class MainController {
     private final PlaceService placeService;
 
     private final ApiService apiService;
+
+    private final UserService userService;
 
 
     @Transactional
@@ -84,17 +91,19 @@ public class MainController {
     }
 
 
-    @GetMapping("/")
-    public String index(Model model){
+    @RequestMapping("/")
+    public String index(@CurrentUser User user, Model model){
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
+        if(user!=null){
+            model.addAttribute(user);
+        }
         return "index";
     }
-
 
     @GetMapping("/loginSuccess")
     public String loginComplete(){
@@ -102,11 +111,10 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login(Model model){
+    public String login(@CurrentUser User user,Model model){
         model.addAttribute("status", "login");
-        return index(model);
+        return index(user,model);
     }
-
 
     @GetMapping("/search")
     public String search(@RequestParam(value = "area") String area, Model model){
@@ -123,13 +131,11 @@ public class MainController {
         return "view/search";
     }
 
-
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
         int rand, cnt = 10;
 
-        int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
