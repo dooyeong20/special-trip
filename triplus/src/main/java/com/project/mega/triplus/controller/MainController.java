@@ -129,8 +129,6 @@ public class MainController {
         String radius = "50000";
         int rand, cnt = 10;
 
-        int rand, cnt = 10;
-
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
         rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
