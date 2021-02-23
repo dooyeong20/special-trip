@@ -4,7 +4,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       >
 
+
 <div th:fragment="headerFragment(activeTab)">
+
+<th:block>
+    <script th:src="@{/js/common/form-validation.js}"></script>
+</th:block>
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
@@ -25,6 +30,7 @@
                             th:class="'btn btn-primary mb-2 mr-sm-2' + (${activeTab == 'login'}? 'active':'')" sec:authorize="!isAuthenticated()">
                         로그인
                     </button>
+
                     <button type="button" data-toggle="modal" data-target="#joinModal"
                             th:class="'btn btn-primary mb-2 mr-sm-2' + (${activeTab == 'join'}? 'active':'')" sec:authorize="!isAuthenticated()">
                         회원가입
@@ -95,6 +101,7 @@
         </div>
     </div>
 
+    <!-- joinModal !-->
     <div class="modal fade" id="joinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -108,34 +115,55 @@
                         <h4>회원가입</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
-                        <form>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="join_email" placeholder="이메일">
+
+                        <form class="needs-validation" th:action="@{/join}" method="post" id="joinForm" name="joinForm" novalidate>
+
+                            <!-- 닉네임 -->
+                            <div class="form-group" style="float: left; width: 75%">
+                                <input type="text" autocomplete="nickname" class="form-control" id="nickname" name="nickname" placeholder="Nickname" required>
+<!--                                <div class="check_font" id="nickname_check">닉네임을 입력해주세요.</div>-->
                             </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="join_pw" placeholder="비밀번호">
+
+                          <!-- 중복확인 버튼 -->
+                            <div class="form-group"	style="float: right; margin-top: 25px" id="divNameCheck">
+                                <button type="button" class="btn btn-primary btn-block" name="emailCheck" id="NameCheck">
+                                    <span class="glyphicon glyphicon-off"></span> 중복확인
+                                </button>
                             </div>
+
+                            <!-- 이메일 -->
                             <div class="form-group">
-                                <input type="nickname" class="form-control" id="join_name" placeholder="닉네임">
+
+                                <input type="email" autocomplete="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                <div class="invalid-feedback">
+                                    이메일을 입력해주세요.
+                                </div>
+
+
+                            <!-- 비밀번호 -->
+                            <div class="form-group">
+                                <input type="password" autocomplete="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <div class="invalid-feedback">
+                                    비밀번호를 입력해주세요.
+                                </div>
                             </div>
 
                             <hr class="col-12 my-4">
+
+                            <!-- 약관 -->
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="agreement">회원가입 약관에 동의합니다.</input>
-
+                                <input type="checkbox" class="form-check-input" id="agreement" value="true" name="checklist">
+                                <label class="form-check-label" for="agreement">회원가입 약관에 동의합니다.</label>
+                                <div class="invalid-feedback">약관에 동의하셔야 합니다.</div>
                             </div>
-                            <hr class="col-12 my-4">
 
-                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">회원가입</button>
+                            <hr class="col-12 my-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">Join</button>
+                            </div>
                         </form>
 
-                        <div class="d-flex flex-column text-center">
-                            <a href="javascript:;" class="btn_social" data-social="google"><img src="/images/google.png" style="width: 200px; height: 50px"></a>
-                            <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
-                            <a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" style="width: 200px; height: 50px"></a>
-                            <a href="javascript:;" class="btn_social" data-social="naver"><img src="/images/naver.PNG" style="width: 200px; height: 50px"></a>
-                        </div>
-                        </div>
+                        <!-- join modal 끝 !-->
+
                     </div>
                 </div>
             </div>
@@ -144,6 +172,8 @@
 
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v9.0" nonce="3sFZh7TM"></script>
+
+    </div>
 
 </div>
 

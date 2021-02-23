@@ -1,25 +1,36 @@
 package com.project.mega.triplus.service;
 
+import com.project.mega.triplus.config.AppProperties;
+import com.project.mega.triplus.entity.Role;
 import com.project.mega.triplus.entity.User;
+import com.project.mega.triplus.form.JoinForm;
+import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
+
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.project.mega.triplus.util.EmailMessage;
+import com.project.mega.triplus.util.EmailService;
+
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 
 @Service
@@ -29,32 +40,71 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private final JoinFormValidator joinFormValidator;
+
     private final PasswordEncoder passwordEncoder;
 
-    // id : a@a.a
-    // pw : 1234
-    @PostConstruct
-    public void createTestUser(){
-        User user1 = User.builder()
-                .email("a@a.a")
-                .password(passwordEncoder.encode("1234"))
-                .build();
-        user1.generateEmailCheckToken();
-        userRepository.save(user1);
+    private final AppProperties appProperties;
 
+    private final TemplateEngine templateEngine;
+
+    private final EmailService emailService;
+
+    @InitBinder("signupForm")
+    public void initBinder(WebDataBinder webDataBinder){ webDataBinder.addValidators(joinFormValidator);}
+
+    public User saveNewUser(JoinForm joinForm){
+        User user = User.builder()
+                .email(joinForm.getEmail())
+                .password(passwordEncoder.encode(joinForm.getPassword()))
+                .nickName(joinForm.getNickname())
+                .build();
+
+        return userRepository.save(user);
     }
 
+    public void sendJoinConfirmEmail(User newUser){
+        sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token");
+    }
 
-//    @PostConstruct
-//    public User saveNewUser(User user){
-//                 User.builder()
-//                .email(user.getEmail())
-//                .password(passwordEncoder.encode(user.getPassword()))
-//                .build();
-//        User newUser = userRepository.save(user);
-//        return newUser;
-//    }
+    public void login(User user){
+        UserUser userUser = new UserUser(user);
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(
+                        userUser,
+                        userUser.getUser().getPassword(),
+                        userUser.getAuthorities()
+                );
 
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(token);
+    }
+
+    public User processNewUser(JoinForm joinForm){
+        User newUser = saveNewUser(joinForm);
+        newUser.generateEmailCheckToken();
+        newUser.setRole(Role.USER);
+        sendJoinConfirmEmail(newUser);
+
+        return newUser;
+    }
+
+    private void sendEmail(User user, String subject, String url) {
+        Context context = new Context();
+        context.setVariable("link", url + "?token=" + user.getEmailCheckToken() + "&email=" + user.getEmail());
+        context.setVariable("host", appProperties.getHost());
+        context.setVariable("linkName", "이메일 인증하기");
+        context.setVariable("message", "서비스 이용을 위해 링크를 클릭해주세요.");
+
+        String html = templateEngine.process("mail/simple-link", context);
+
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(user.getEmail())
+                .subject(subject)
+                .message(html)
+                .build();
+        emailService.sendEmail(emailMessage);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

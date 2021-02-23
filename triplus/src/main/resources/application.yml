@@ -1,15 +1,37 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/triplus
+    url: jdbc:h2:tcp://localhost/~/triplus;AUTO_SERVER=TRUE
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /console
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
+
+  devtools:
+    restart:
+      enabled: false
+  profiles:
+      active: dev
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: jiae.my.book.store@gmail.com  # 내 이메일
+      password: slizncpgbjjajlie    # 내 App 패스워드
+      properties:
+        mail:
+          smtp:
+            auth: true
+            timeout: 5000
+            starttls.enable: true
+
   security:
     oauth2:
       client:
@@ -17,11 +39,25 @@ spring:
           google:
             clientId: 786057057179-1c4giqb03t8tlp68qkt41pnageoiva6r.apps.googleusercontent.com
             clientSecret: JmLCzJlYh-bs4iyCrzSRbWww
+            scope: profile, email
+          facebook:
+            clientId: 715398855700681
+            clientSecret: 9333fb59fa8922a23709c26f82c9dadb
 
+custom:
+  oauth2:
+    kakao:
+      client-id: 271eef0e6400b2c07f10d224da1c7cc1
+      client-secret: qmuEyZ79daA6wAOmtgnGweyBvQBVnaV0
+    naver:
+      client-id: VdtKZoajeHfXYfPlODRN
+      client-secret: q762e5xrL7
 
 logging:
   level:
     org.hibernate.SQL: debug
+
+app.host: http://127.0.0.1:8080
 
 my:
   api:

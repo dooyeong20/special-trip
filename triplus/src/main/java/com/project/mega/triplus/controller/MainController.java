@@ -1,6 +1,5 @@
 package com.project.mega.triplus.controller;
 
-
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
@@ -9,7 +8,6 @@ import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -37,9 +35,7 @@ public class MainController {
 
 
     @Transactional
-
-//    @PostConstruct
-
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -73,16 +69,12 @@ public class MainController {
             plan1_day2.setName("SecondDay");
         }
 
-        // TODO plan1_day1, plan1_day2 는 index 로 어떻게 넘겨야하는가? (day1, day2 에 속한 place 리스트도)
-
         plan1.setName("나의 첫번째 여행");
         plan1.setStatus(PlanStatus.COMPLETE);
         plan1.setLiked(10);
         plan1.setUpdate(LocalDateTime.now());
         plan1.setDays(List.of(plan1_day1,plan1_day2));
         planRepository.save(plan1);
-
-        // TODO Place 의 imageUrl 은 어디서 어떻게 가져와야하는가?
 
 //        List<List<String>> imageUrlsList = new ArrayList<>();
 //        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
@@ -99,11 +91,22 @@ public class MainController {
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
-
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
         return "index";
+    }
+
+
+    @GetMapping("/loginSuccess")
+    public String loginComplete(){
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("status", "login");
+        return index(model);
     }
 
 
@@ -120,38 +123,31 @@ public class MainController {
         return "view/search";
     }
 
-//    @GetMapping("/search")
-//    public String searchSubmit(@RequestParam(value = "content_id") String contentId,Model model){
-//        XMLResponseItem item = apiService.getItemByContentId(contentId);
-//        model.addAttribute("item", item);
-//        return "view/search";
-//    }
 
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
 
+        int rand, cnt = 10;
+
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
 
         model.addAttribute("item", item);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(1, 10));
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + cnt));
 
         return "view/detail";
     }
 
 
     @GetMapping("/plan")
-    public String plan(){
-
-        return "view/plan";
-    }
+    public String plan(){ return "view/plan"; }
 
     @GetMapping("/widgets")
     public String w(){
         return "view/admin/widgets";
     }
-
 
     @GetMapping("/admin")
     public String admin(){
@@ -177,4 +173,5 @@ public class MainController {
     public String accessDenied(){
         return "view/access_denied";
     }
+
 }

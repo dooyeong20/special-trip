@@ -1,10 +1,9 @@
 package com.project.mega.triplus.config;
 
+import com.project.mega.triplus.oauth2.CustomOAuth2UserService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +32,8 @@ import java.util.List;
 public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,20 +48,30 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/search",
                         "/detail",
-                        "total_plan",
-                        "total_place",
+                        "/total_plan",
+                        "/total_place",
                         "/oauth2/**",
-                        "/login"
+                        "/login",
+                        "/css/**",
+                        "/images/**",
+                        "/js/**",
+                        "/scss/**",
+                        "/font/**",
+                        "/join/**",
+                        "/check-email-token/**"
                 ).permitAll()
+
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/mypage/**").hasRole("USER")
+                .antMatchers("/mypage/**", "/api/v1/**").hasRole("USER")
+
                 .anyRequest().authenticated()
                 .accessDecisionManager(getMyAccessDecisionManager())
 
                 .and()
+
                 .oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
+                .userInfoEndpoint().userService(customOAuth2UserService)
                 .and()
-                .headers().frameOptions().disable()
 
                 .and()
                 .exceptionHandling()
@@ -69,11 +80,11 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
 
                 .and()
+
                 .formLogin().successForwardUrl("/")
+
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-                .and()
-                .csrf().disable();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     private AccessDecisionManager getMyAccessDecisionManager() {
@@ -94,22 +105,21 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AffirmativeBased(voters);
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password(passwordEncoder().encode("user")).roles("USER")
-//                .and()
-//                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-//
-//        auth.userDetailsService(userService);
-//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user").password(passwordEncoder.encode("user")).roles("USER")
+                .and()
+                .withUser("admin").password(passwordEncoder.encode("admin")).roles("ADMIN");
+
+        auth.userDetailsService(userService);
+    }
 
     @Override
     public void configure(WebSecurity web)throws Exception{
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
-
 
 }
 

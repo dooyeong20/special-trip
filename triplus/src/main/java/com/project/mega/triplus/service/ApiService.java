@@ -275,7 +275,6 @@ public class ApiService {
         return itemList;
     }
 
-
     // 키워드 조회
     public List<XMLResponseItem> getKeywordResultList(String area) {
         String xmlString;
@@ -294,6 +293,7 @@ public class ApiService {
 
         return itemList;
     }
+
 }
 
 /*
