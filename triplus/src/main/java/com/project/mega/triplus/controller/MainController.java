@@ -5,19 +5,15 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.ApiService;
-import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -99,7 +95,6 @@ public class MainController {
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
-
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
@@ -109,33 +104,31 @@ public class MainController {
 
     @GetMapping("/search")
     public String search(@RequestParam(value = "area") String area, Model model){
+        int rand, cnt = 4;
 
-        List<XMLResponseItem> itemList= apiService.getKeywordResultList(area);
+        List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
 
-        List<Place> attraction = null;
-        List<Place> food = null;
-        List<Place> shop = null;
-        List<Place> festival = null;
+        rand = (int)(Math.random() * (itemList.size() - cnt));
+
+        model.addAttribute("area", area);
+        model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+
 
         return "view/search";
     }
 
-//    @GetMapping("/search")
-//    public String searchSubmit(@RequestParam(value = "content_id") String contentId,Model model){
-//        XMLResponseItem item = apiService.getItemByContentId(contentId);
-//        model.addAttribute("item", item);
-//        return "view/search";
-//    }
 
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
+        int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
 
         model.addAttribute("item", item);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(1, 10));
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + cnt));
 
         return "view/detail";
     }

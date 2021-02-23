@@ -15,4 +15,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     // Liked 내림차순 처음 6개
     List<Place> findFirst6ByOrderByLikedDesc();
+
+    List<Place> findFirstByOrderByLikedDesc();
+
 }
