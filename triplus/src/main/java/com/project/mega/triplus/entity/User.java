@@ -1,5 +1,7 @@
 package com.project.mega.triplus.entity;
 
+import com.project.mega.triplus.oauth2.Oauth2Role;
+import com.project.mega.triplus.oauth2.Oauth2User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,13 +21,15 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    private String name;
+
+
     private String nickName;
 
     @NotNull
     private String email;
 
-    @NotNull
+
     private String password;
 
     private LocalDateTime joinedAt;
@@ -59,5 +63,23 @@ public class User{
     public void completeJoin(){
         setEmailVerified(true);
         setJoinedAt(LocalDateTime.now());
+    }
+
+    @Builder
+    public User(String name, String email, Role role){
+        this.name=name;
+        this.email=email;
+        this.role=role;
+    }
+
+    public User update(String name, String email){
+        this.name=name;
+        this.email=email;
+
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
     }
 }
