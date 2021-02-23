@@ -7,7 +7,6 @@ import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
