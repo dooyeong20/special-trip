@@ -1,7 +1,5 @@
 package com.project.mega.triplus.entity;
 
-import com.project.mega.triplus.oauth2.Oauth2Role;
-import com.project.mega.triplus.oauth2.Oauth2User;
 import lombok.*;
 
 import javax.persistence.*;
