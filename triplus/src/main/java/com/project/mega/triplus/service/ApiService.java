@@ -114,6 +114,14 @@ public class ApiService {
         } while (Integer.parseInt(response.getBody().getNumOfRows()) * Integer.parseInt(response.getBody().getPageNo()) <= Integer.parseInt(response.getBody().getTotalCount()));
     }
 
+    public String getSearchKeywordXML(String keyword) throws IOException {
+        StringBuilder urlBuilder = getStringBuilder("searchKeyword");
+
+        addParam(urlBuilder, "keyword", keyword);
+
+        return getXMLString(urlBuilder);
+    }
+
     public String getDetailCommonXML(String contentId) throws IOException{
         StringBuilder urlBuilder = getStringBuilder("detailCommon");
 
@@ -167,6 +175,7 @@ public class ApiService {
         return getXMLString(urlBuilder);
     }
 
+    // 기본 제공 param
     private StringBuilder getStringBuilder(String service) {
         StringBuilder urlBuilder= new StringBuilder(API_URL + service);
         urlBuilder.append("?").append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8)).append("=").append(KEY);
@@ -261,6 +270,25 @@ public class ApiService {
         } catch (IOException | JAXBException e){
             log.error(e.getMessage());
             itemList = null;
+        }
+
+        return itemList;
+    }
+
+    // 키워드 조회
+    public List<XMLResponseItem> getKeywordResultList(String area) {
+        String xmlString;
+        XMLResponse response;
+        List<XMLResponseItem> itemList;
+
+        try{
+            xmlString = getSearchKeywordXML(area);
+            response = getXMLResponse(xmlString);
+            itemList = response.getBody().getItemContainer().getItems();
+
+        } catch (IOException | JAXBException e){
+            itemList = null;
+            log.error(e.getMessage());
         }
 
         return itemList;
