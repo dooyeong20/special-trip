@@ -118,11 +118,10 @@ public class MainController {
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
 
-        rand = (int)(Math.random() * (itemList.size() - cnt));
+        rand = Math.max((int) (Math.random() * (itemList.size() - cnt)), 0);
 
         model.addAttribute("area", area);
-        model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
-
+        model.addAttribute("itemList", itemList.subList(rand, rand + Math.min(itemList.size(), cnt)));
 
         return "view/search";
     }
@@ -135,10 +134,10 @@ public class MainController {
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
-        rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
+        rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + cnt));
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
 
         return "view/detail";
     }
@@ -191,10 +190,9 @@ public class MainController {
         39 제주도
          */
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
-        List<Place> placeList = placeRepository.findAllByContentType("12")
-                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList());
 
-        model.addAttribute("placeList", placeList);
+        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
+                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
 
         return "view/total_place";
     }
