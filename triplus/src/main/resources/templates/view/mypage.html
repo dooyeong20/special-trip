@@ -16,7 +16,7 @@
 
                 <ul class="nav nav-tabs flex-column col-3" role="tablist">
                     <a class="active text-center" th:href="@{/mypage}"><i class="fas fa-user-circle fa-10x mb-2 mr-sm-2"></i></a>
-                    <p class="text-center">OOO님</p>
+                    <p class="text-center" th:text="${nickName}"></p>
 
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#myPlan" style="font-weight: bold; font-size: 18px"><i class="far fa-calendar-alt fa-lg mb-2 mr-sm-2"></i>내 일정 보기</a>
