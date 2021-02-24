@@ -21,6 +21,8 @@ public class Place {
 
     private String homepage;
 
+    private String areaCode;
+
     private String tel;
 
     private String content;
