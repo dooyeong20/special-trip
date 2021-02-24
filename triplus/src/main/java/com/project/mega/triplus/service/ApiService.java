@@ -35,6 +35,8 @@ public class ApiService {
     private final String PLACE = "12";
     private final String ACTIVITY = "15";
     private final String HOTEL = "32";
+//    private final String SHOP = "38";
+//    private final String FOOD = "39";
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
@@ -55,6 +57,8 @@ public class ApiService {
             loadPlaceWithContentType(PLACE);
             loadPlaceWithContentType(ACTIVITY);
             loadPlaceWithContentType(HOTEL);
+//            loadPlaceWithContentType(SHOP);
+//            loadPlaceWithContentType(FOOD);
         } catch (IOException | JAXBException e) {
             log.error(e.getMessage());
             return false;
@@ -277,13 +281,13 @@ public class ApiService {
     }
 
     // 키워드 조회
-    public List<XMLResponseItem> getKeywordResultList(String area) {
+    public List<XMLResponseItem> getKeywordResultList(String keyword) {
         String xmlString;
         XMLResponse response;
         List<XMLResponseItem> itemList;
 
         try{
-            xmlString = getSearchKeywordXML(area);
+            xmlString = getSearchKeywordXML(keyword);
             response = getXMLResponse(xmlString);
             itemList = response.getBody().getItemContainer().getItems();
 

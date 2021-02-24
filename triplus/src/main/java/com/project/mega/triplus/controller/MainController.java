@@ -22,6 +22,9 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
+
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -94,7 +97,6 @@ public class MainController {
 //        System.out.println(imageUrlsList);
     }
 
-
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
@@ -119,15 +121,49 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(value = "area") String area, Model model){
+    public String search(@RequestParam(value = "keyword") String keyword, Model model){
         int rand, cnt = 4;
 
-        List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
+        List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
+        List<XMLResponseItem> attractionList = new ArrayList<>();
+        List<XMLResponseItem> foodList = new ArrayList<>();
+        List<XMLResponseItem> shopList = new ArrayList<>();
+        List<XMLResponseItem> festivalList = new ArrayList<>();
 
-        rand = Math.max((int) (Math.random() * (itemList.size() - cnt)), 0);
+        for(XMLResponseItem item : itemList){
+            switch (item.getContentTypeId()){
+                case "12":
+                    attractionList.add(item);
+                    break;
+                case "39":
+                    foodList.add(item);
+                    break;
+                case "38":
+                    shopList.add(item);
+                    break;
+                case "15":
+                    festivalList.add(item);
+                default:
+                    break;
+            }
+        }
 
-        model.addAttribute("area", area);
-        model.addAttribute("itemList", itemList.subList(rand, rand + Math.min(itemList.size(), cnt)));
+        model.addAttribute("keyword", keyword);
+        // null check
+        // model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+        rand = Math.max((int)(Math.random() * (attractionList.size() - cnt)), 0);
+        model.addAttribute("attractionList", attractionList.subList(rand, Math.min(rand + cnt, attractionList.size())));
+
+
+        rand = Math.max((int)(Math.random() * (foodList.size() - cnt)), 0);
+        model.addAttribute("foodList", foodList.subList(rand, Math.min(rand + cnt, foodList.size())));
+
+        rand = Math.max((int)(Math.random() * (shopList.size() - cnt)), 0);
+        model.addAttribute("shopList", shopList.subList(rand, Math.min(rand + cnt, shopList.size())));
+
+        rand = Math.max((int)(Math.random() * (festivalList.size() - cnt)), 0);
+        model.addAttribute("festivalList", festivalList.subList(rand, Math.min(rand + cnt, festivalList.size())));
+
 
         return "view/search";
     }
