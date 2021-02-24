@@ -36,8 +36,10 @@
                         회원가입
                     </button>
 
-                    <li class="nav-item" th:class="${activeTab == 'mypage'}? 'active':null" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/mypage}" sec:authentication="name"></a>
+                    <li class="nav-item" th:class="${activeTab == 'mypage'}? 'active' : null" sec:authorize="isAuthenticated()">
+<!--                        <a class="nav-link" th:href="@{/mypage}" sec:authentication="name"></a>-->
+                        <a class="nav-link" th:href="@{/mypage}"><span style="opacity: 1; color: gray;"><i class="fas fa-user-circle fa-2x"></i></span></a>
+
                     </li>
 
                     <form th:action="@{/logout}"  th:method="post">
@@ -90,7 +92,7 @@
 
                         <div class="d-flex flex-column text-center">
                             <a href="/oauth2/authorization/google" class="btn_social" ><img src="/images/google.png" style="width: 200px; height: 50px"></a>
-                            <a href="/oauth2/authorization/google" class="btn_social" ><img src="/images/facebook.png" style="width: 200px; height: 50px"></a>
+                            <a href="/oauth2/authorization/facebook" class="btn_social" ><img src="/images/facebook.png" style="width: 200px; height: 50px"></a>
                         </div>
                     </div>
                 </div>

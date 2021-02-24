@@ -92,16 +92,13 @@ public class MainController {
 
 
     @RequestMapping("/")
-    public String index(@CurrentUser User user, Model model){
+    public String index(Model model){
         List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
-        if(user!=null){
-            model.addAttribute(user);
-        }
         return "index";
     }
 
@@ -111,9 +108,10 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login(@CurrentUser User user,Model model){
+    public String login(Model model){
         model.addAttribute("status", "login");
-        return index(user,model);
+
+        return index(model);
     }
 
     @GetMapping("/search")
