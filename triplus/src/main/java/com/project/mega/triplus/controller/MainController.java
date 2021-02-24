@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -44,6 +45,8 @@ public class MainController {
     private final ApiService apiService;
 
     private final UserService userService;
+
+    private final HttpSession  httpSession;
 
 
     @Transactional
@@ -198,7 +201,13 @@ public class MainController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(){
+    public String mypage(@CurrentUser User user, Model model){
+        if(user == null){
+            user = (User)httpSession.getAttribute("user");
+        }
+        String nickName = user.getNickName();
+        model.addAttribute("nickName", nickName);
+
         return "view/mypage";
     }
 
