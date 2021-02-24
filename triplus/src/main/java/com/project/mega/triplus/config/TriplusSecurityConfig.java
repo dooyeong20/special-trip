@@ -97,11 +97,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
                 .and()
-<<<<<<< HEAD
-=======
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-                .and()
->>>>>>> harim
+
                 .csrf().disable();
     }
 
