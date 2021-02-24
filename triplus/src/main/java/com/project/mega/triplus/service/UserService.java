@@ -102,6 +102,7 @@ public class UserService implements UserDetailsService {
                 .subject(subject)
                 .message(html)
                 .build();
+
         emailService.sendEmail(emailMessage);
     }
 

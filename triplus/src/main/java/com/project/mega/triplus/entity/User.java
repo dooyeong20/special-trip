@@ -24,7 +24,6 @@ public class User{
     @NotNull
     private String email;
 
-
     private String password;
 
     private LocalDateTime joinedAt;
