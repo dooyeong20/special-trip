@@ -10,6 +10,7 @@ import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -164,14 +165,16 @@ public class MainController {
 
     @GetMapping("/mypage")
     public String mypage(@CurrentUser User user, Model model){
-        if(user == null){
+        if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
+
         String nickName = user.getNickName();
         model.addAttribute("nickName", nickName);
 
         return "view/mypage";
     }
+
 
     @GetMapping("/total_plan")
     public String totalPlan(){

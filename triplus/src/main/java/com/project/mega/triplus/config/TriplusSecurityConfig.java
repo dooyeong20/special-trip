@@ -61,9 +61,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/check-email-token/**"
                 ).permitAll()
 
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/mypage/**", "/api/v1/**").hasRole("USER")
+                .antMatchers("/api/v1/**").hasRole("USER")
 
+                .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/",
                         "/search",
                         "/detail",

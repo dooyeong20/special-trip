@@ -7,6 +7,7 @@ import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -33,6 +35,7 @@ import org.thymeleaf.context.Context;
 
 
 @Service
+@Getter
 @RequiredArgsConstructor
 @Slf4j
 public class UserService implements UserDetailsService {
@@ -48,6 +51,10 @@ public class UserService implements UserDetailsService {
     private final TemplateEngine templateEngine;
 
     private final EmailService emailService;
+
+    private final HttpSession httpSession;
+
+    private User user;
 
     @InitBinder("signupForm")
     public void initBinder(WebDataBinder webDataBinder){ webDataBinder.addValidators(joinFormValidator);}
@@ -67,12 +74,12 @@ public class UserService implements UserDetailsService {
     }
 
     public void login(User user){
-        UserUser userUser = new UserUser(user);
+
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(
-                        userUser,
-                        userUser.getUser().getPassword(),
-                        userUser.getAuthorities()
+                        user,
+                        user.getPassword(),
+                        user.getAuthorities()
                 );
 
         SecurityContext context = SecurityContextHolder.getContext();
@@ -107,16 +114,10 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        user = userRepository.findByEmail(email);
 
-        User user = userRepository.findByEmail(email);
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles(user.getRole().getAuthority())
-                .build();
+        return user;
     }
-
 
     public void sendMailResetPassword(String email) {
         User user = userRepository.findByEmail(email);
