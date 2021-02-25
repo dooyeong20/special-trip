@@ -141,7 +141,12 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(){ return "view/plan"; }
+    public String plan(Model model){
+        List<Place> placeList;
+
+//        model.addAttribute("places", placeList);
+        return "view/plan";
+    }
 
     @GetMapping("/widgets")
     public String w(){

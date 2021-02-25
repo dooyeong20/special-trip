@@ -42,7 +42,7 @@
                                     </button>
                                 </div>
 
-                                <!--                         돌하르방 div-->
+                                <!-- 돌하르방 div-->
                                     <div class="block-21 mb-4 mt-4 d-flex" id="box_1">
                                         <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                         <div class="text">
@@ -92,11 +92,24 @@
                         <h3>인근 명소</h3>
                         <div style="height:500px; overflow-y: scroll;">
 
-                            <div class="first-box col-12 ftco-animate fadeInUp ftco-animated">
+                            <!-- 카드들 담기는 곳-->
+<!--                            <th:block th:each="place : ${placeList}">-->
+                                <div class="first-box col-12 ftco-animate fadeInUp ftco-animated">
+                                    <div class="block-21 mb-4 d-flex">
+                                        <a class="blog-img mr-4" id="img1" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                        <div class="text">
+                                            <h3 class="heading" id="name1">북촌 돌하르방공원</h3>
+                                            <p id="addr1">제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                            </th:block>-->
+
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
                                 <div class="block-21 mb-4 d-flex">
                                     <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
-                                        <h3 class="heading">북촌 돌하르방공원</h3>
+                                        <h3 class="heading" >북촌 돌하르방공원</h3>
                                         <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
                                     </div>
                                 </div>
@@ -155,15 +168,6 @@
                     "                                </button>\n" +
                     "                            </div>\n" +
                     "\n" +
-                    "                            <!-- 돌하르방 -->\n" +
-                    "                            <div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_" + i + "\">\n" +
-                    "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
-                    "                            <div class=\"text\">\n" +
-                    "                              <h3 class=\"heading\"><a href=\"/detail?content_id=128777\">북촌 돌하르방공원</a></h3>\n" +
-                    "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
-                    "                              </div>\n" +
-                    "                               </div>\n" +
-                    "\n" +
                     "                            <div class=\"col text-center\">\n" +
                     "                                <button type=\"button\" id=\"add_btn_" + i + "\" class=\"btn btn-default mb-2 mr-sm-2 add_btn_" + i + "\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
                     "                                    +\n" +
@@ -182,65 +186,53 @@
 
                 $(day_id).after(htmlStr);
 
+                <!-- 추가 박스 -->
                 $(add_btn_id).click(function(){
                 console.log("add_btn_id");
-                $(box_id).after("                            <!-- 돌하르방 -->\n" +
-                    "                            <div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_" + i + "\">\n" +
-                    "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
+                });
+
+                <!-- 추가 박스 data 받아오기 -->
+                $(box_id).after("<div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_" + i + "\">\n" +
+                    "                           <a class=\"blog-img mr-4\" id=\"img_" + i + "\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
                     "                            <div class=\"text\">\n" +
-                    "                              <h3 class=\"heading\"><a href=\"/detail?content_id=128777\">북촌 돌하르방공원</a></h3>\n" +
+                    "                              <h3 class=\"heading\" id\>북촌 돌하르방공원</a></h3>\n" +
                     "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
                     "                              </div>\n" +
                     "                               </div>");
                 });
-            });
 
+
+            <!-- 1번 박스 -->
             $("#add_btn").click(function(){
                 console.log("add_btn");
-                $("#box_1").after("                            <!-- 돌하르방 -->\n" +
-                    "                            <div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_" + i + "\">\n" +
-                    "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
-                    "                            <div class=\"text\">\n" +
-                    "                              <h3 class=\"heading\"><a href=\"/detail?content_id=128777\">북촌 돌하르방공원</a></h3>\n" +
-                    "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
-                    "                              </div>\n" +
-                    "                               </div>");
             });
 
-            <!-- 박스1 data 받아오기 -->
+            <!-- 1번 박스 data 받아오기 -->
                 $(".first-box").click(function(){
-                    var url_img = $(".first-box").find("a").attr(style);
-                    var name = $(".first-box").find("h3");
-                    var addr = $(".first-box").find("p");
+                    var img = $("#img1").css('background');
+                    img = img.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
 
-                    console.log('url_img', url_img);
+                    var name = $("#name1").text();
+                    var addr = $("#addr1").text();
+
+                    console.log('img', img);
                     console.log('name', name);
                     console.log('addr', addr);
 
-<!--                    $(#box_i).settile(title)-->
-<!--                    #(box_i).set(imgea).setsrc()-->
+                    $("#box_1").after(" <div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_" + i + "\">\n" +
+                    "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
+                    "                            <div class=\"text\">\n" +
+                    "                              <h3 class=\"heading\"><a href=\"/detail?content_id=128777\">" + name + "</a></h3>\n" +
+                    "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
+                    "                              </div>\n" +
+                    "                               </div>");
                 });
 
-
-<!--<div class="first-box col-12 ftco-animate fadeInUp ftco-animated">-->
-<!--<div class="block-21 mb-4 d-flex">-->
-<!--<a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>-->
-<!--<div class="text">-->
-<!--<h3 class="heading">북촌 돌하르방공원</h3>-->
-<!--<p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-        <!-- 여기부터 해야 할 것 -->
+        <!-- 아직아직아직아ㅣㅈㄱ -->
             $("#save").click(function(){
                  console.log("save");
                  $("#div1").save();
             });
-
-
-
-
 
             $(".delete_btn").click(function(){
                 console.log("delete_btn");
