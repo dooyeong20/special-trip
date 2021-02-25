@@ -1,27 +1,38 @@
 package com.project.mega.triplus.service;
 
 import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Review;
 import com.project.mega.triplus.repository.PlaceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PlaceService {
 
-    @Autowired
-    private PlaceRepository placeRepository;
+    private final PlaceRepository placeRepository;
 
-    public List<Place> getPlace() {
+    @PersistenceContext
+    private EntityManager em;
+
+    public List<Place> getPlaceList() {
         // 좋아요(liked) 많은순(내림차순)으로 findAll.
-        List<Place> RecommendPlace = placeRepository.findFirst6ByOrderByLikedDesc();
-
-        return RecommendPlace;
+        return placeRepository.findFirst6ByOrderByLikedDesc();
     }
 
+    public Place getPlaceByContentId(String contentId) {
+        return placeRepository.findByContentId(contentId);
+    }
+
+    public void saveReview(Place place){
+        em.persist(place);
+//        placeRepository.save(place);      // 이거 안됨
+    }
 }

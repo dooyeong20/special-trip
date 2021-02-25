@@ -97,6 +97,7 @@ public class ApiService {
                     place.setContentType(contentType);
                     place.setName(item.getPlaceName());
                     place.setContentId(item.getContentId());
+                    place.setAddr(item.getAddr1());
                     place.setMapX(item.getMapX());
                     place.setMapY(item.getMapY());
                     place.setCat1(item.getCat1());

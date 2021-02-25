@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -18,9 +19,11 @@ public class Review {
 
     private int star;
 
-    private String name;
+    private String title;
 
     private String content;
+
+    private String regdate;
 
     @ManyToOne
     @JoinColumn(name = "place_id")

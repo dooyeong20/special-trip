@@ -46,70 +46,63 @@
 						<div class="overview">
 							<div th:remove="tag" th:utext="${item.overview}"></div>
 						</div>
-						<div class="pt-5">
-							<h3 class="mb-5">2 Comments</h3>
-							<ul class="comment-list">
-								<li class="comment">
-									<div class="vcard bio">
-										<img src="images/person_1.jpg" alt="Image placeholder">
-									</div>
-									<div class="comment-body">
-										<h3>John Doe</h3>
-										<div class="meta">June 27, 2018 at 2:21pm</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-										<p><a href="#" class="reply">Reply</a></p>
-									</div>
-								</li>
 
-								<li class="comment">
-									<div class="vcard bio">
-										<img src="images/person_1.jpg" alt="Image placeholder">
-									</div>
-									<div class="comment-body">
-										<h3>John Doe</h3>
-										<div class="meta">June 27, 2018 at 2:21pm</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-										<p><a href="#" class="reply">Reply</a></p>
-									</div>
-								</li>
+						<!-- Comments	-->
+
+						<div class="pt-5">
+							<!-- comment 개수-->
+							<h3 class="mb-5">
+								<span th:if="${#lists.isEmpty(reviews)}" th:text="0"></span>
+								<th:block th:unless="${#lists.isEmpty(reviews)}">
+									<span th:text="${#lists.size(reviews)}"></span>
+								</th:block>
+								Comments
+							</h3>
+
+							<ul class="comment-list">
+
+<!--								<li class="comment">-->
+<!--									<div class="vcard bio">-->
+<!--										<img src="images/person_1.jpg" alt="Image placeholder">-->
+<!--									</div>-->
+<!--									<div class="comment-body">-->
+<!--										<h3>SAMPLE DEFAULT REVIEW</h3>-->
+<!--										<div class="meta">Jan 1, 2021 at 1:11pm</div>-->
+<!--										<p>샘플 리뷰 : 너무 좋아요~</p>-->
+<!--										<p><a href="#" class="reply">Reply</a></p>-->
+<!--									</div>-->
+<!--								</li>-->
+
+								<th:block th:each="review : ${reviews}">
+									<li class="comment">
+										<div class="vcard bio">
+											<img src="images/person_1.jpg" alt="Image placeholder">
+										</div>
+										<div class="comment-body">
+											<h3 th:text="${review.title}"></h3>
+											<div class="meta" th:text="${review.regdate}">June 27, 2018 at 2:21pm</div>
+											<p th:text="${review.content}">review</p>
+										</div>
+									</li>
+								</th:block>
+
 							</ul>
 							<!-- END comment-list -->
 
-							<li class="comment">
-								<div class="vcard bio">
-									<img src="images/person_1.jpg" alt="Image placeholder">
-								</div>
-								<div class="comment-body">
-									<h3>John Doe</h3>
-									<div class="meta">June 27, 2018 at 2:21pm</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-									<p><a href="#" class="reply">Reply</a></p>
-								</div>
-							</li>
-						</ul>
-						<!-- END comment-list -->
-
 						<div class="comment-form-wrap pt-5">
 							<h3 class="mb-5">리뷰 작성하기</h3>
-							<form action="#" class="p-5 bg-light">
-
+							<form th:action="@{/register_review}" class="p-5 bg-light" method="post">
 								<div class="form-group">
 									<label for="message">Message</label>
-									<textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+									<textarea name="content" id="message" cols="30" rows="10" class="form-control"></textarea>
 								</div>
 								<div class="form-group text-right">
 									<input type="submit" value="등록" class="btn btn-primary">
 								</div>
-
-									<div class="form-group">
-										<label for="message">Message</label>
-										<textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
-									</div>
-									<div class="form-group text-right">
-										<input type="submit" value="등록" class="btn btn-primary">
-									</div>
+								<input type="hidden" name="content_id" th:value="${content_id}">
 							</form>
 						</div>
+
 					</div>
 
 				</div>
