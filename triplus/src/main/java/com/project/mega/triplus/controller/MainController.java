@@ -4,6 +4,7 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
@@ -44,6 +45,8 @@ public class MainController {
     private final ApiService apiService;
 
     private final UserService userService;
+
+    private final UserRepository userRepository;
 
 
     @Transactional
@@ -199,6 +202,7 @@ public class MainController {
 
     @GetMapping("/mypage")
     public String mypage(){
+
         return "view/mypage";
     }
 
@@ -239,8 +243,23 @@ public class MainController {
     }
 
     @GetMapping("/access_denied")
-    public String accessDenied(){
+    public String accessDenied()
+    {
         return "view/access_denied";
+    }
+
+
+    @PostMapping("/mypage/delete")
+    public String userDelete(@CurrentUser User user,
+                             @RequestParam(value = "item_id", required = false)String[] itemIds,
+                             Model model){
+
+        if(itemIds != null && itemIds.length != 0){
+            List<Long> idList = List.of(Arrays.stream(itemIds).map(Long::parseLong).toArray(Long[]::new));
+            userService.deleteUser(user, idList);
+        }
+
+        return "index";
     }
 
 }

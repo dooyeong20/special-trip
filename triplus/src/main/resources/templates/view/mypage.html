@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="layout/common_layout">
 
 <meta charset="utf-8">
@@ -16,7 +16,7 @@
 
                 <ul class="nav nav-tabs flex-column col-3" role="tablist">
                     <a class="active text-center" th:href="@{/mypage}"><i class="fas fa-user-circle fa-10x mb-2 mr-sm-2"></i></a>
-                    <p class="text-center">OOO님</p>
+                    <p class="text-center" th:text="${nickName} + '님 환영합니다'"></p>
 
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#myPlan" style="font-weight: bold; font-size: 18px"><i class="far fa-calendar-alt fa-lg mb-2 mr-sm-2"></i>내 일정 보기</a>
@@ -35,6 +35,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content col-9">
 
+                    <!-- myPlan -->
                     <div id="myPlan" class="container tab-pane active"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -42,6 +43,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- myReview -->
                     <div id="myReview" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -75,6 +78,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- myLike -->
                     <div id="myLike" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -279,6 +284,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- myInfo -->
                     <div id="myInfo" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -287,34 +294,31 @@
 
                             <table width="500" height="600" border="2" align="center" rules="none">
                                 <tr align="center">
-                                    <td width="20%" style="font-weight: bold">ID</td>
-                                    <td width="80%"><input type="text"></td>
+                                    <td width="20%" style="font-weight: bold">Nickname</td>
+                                    <td width="80%"><input type="text" th:placeholder="${nickname}"></td>
                                 </tr>
 
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Email</td>
-                                    <td width="80%"><input type="text"></td>
+                                    <td width="80%"><input type="text" th:placeholder="${email}" readonly></td>
                                 </tr>
 
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Password</td>
-                                    <td width="80%"><input type="password"></td>
+                                    <td width="80%"><input type="password" th:placeholder="${password}"></td>
                                 </tr>
 
                                 <tr align="center">
-                                    <td width="20%" style="font-weight: bold">Phone</td>
-                                    <td width="80%"><input type="text"></td>
-                                </tr>
-
-                                <tr align="center">
-                                    <td colspan="2"><button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                    <td colspan="2">
+                                        <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
                                         수정
-                                    </button></td>
+                                    </button>
+                                        <button type="button" th:action="@{/mypage/delete}" th:method="post"
+                                                id="delete" class="btn btn-primary mb-2 mr-sm-2">
+                                            탈퇴
+                                        </button></td>
                                 </tr>
 
-                                <tr align="right">
-                                    <td colspan="2"><a href="#" style="font-weight: bold">탈퇴하기</a></td>
-                                </tr>
                             </table>
                         </div>
                     </div>
@@ -326,5 +330,7 @@
     </section>
 
     </body>
+
+
 </div>
 </html>

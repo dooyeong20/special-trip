@@ -100,4 +100,20 @@ public class UserController {
         return "index";
     }
 
+//    @Transactional
+//    @PostMapping("/modify")
+//    public String modify(Model model, String nickname, String email, String password){
+//
+//        JoinForm joinForm = new JoinForm();
+//
+//        joinForm.setNickname(nickname);
+//        joinForm.setEmail(email);
+//        joinForm.setPassword(password);
+//
+//        User newUser = userService.processNewUser(joinForm);
+//        userService.login(newUser);
+//
+//        return "redirect:/";
+//    }
+
 }

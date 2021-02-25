@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import com.project.mega.triplus.util.EmailMessage;
 import com.project.mega.triplus.util.EmailService;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,12 +25,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.util.List;
 
 
 @Service
@@ -124,5 +125,10 @@ public class UserService implements UserDetailsService {
         if(user == null) {
             return;
         }
+    }
+
+    public void deleteUser(@CurrentUser User user, List<Long> idList) {
+        List<User> userList = userRepository.findAllById(idList);
+        userRepository.deleteAll(userList);
     }
 }
