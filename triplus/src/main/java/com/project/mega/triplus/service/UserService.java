@@ -1,6 +1,7 @@
 package com.project.mega.triplus.service;
 
 import com.project.mega.triplus.config.AppProperties;
+import com.project.mega.triplus.entity.Place;
 import com.project.mega.triplus.entity.Role;
 import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.form.JoinForm;
@@ -130,5 +131,9 @@ public class UserService implements UserDetailsService {
     public void deleteUser(@CurrentUser User user, List<Long> idList) {
         List<User> userList = userRepository.findAllById(idList);
         userRepository.deleteAll(userList);
+    }
+
+    public List<Place> getLikeList(User user) {
+        return userRepository.findByEmail(user.getEmail()).getPlaceLikes();
     }
 }

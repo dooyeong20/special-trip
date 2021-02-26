@@ -19,18 +19,18 @@ spring:
     restart:
       enabled: false
   profiles:
-      active: dev
+    active: dev
   mail:
-      host: smtp.gmail.com
-      port: 587
-      username: jiae.my.book.store@gmail.com  # 내 이메일
-      password: slizncpgbjjajlie    # 내 App 패스워드
-      properties:
-        mail:
-          smtp:
-            auth: true
-            timeout: 5000
-            starttls.enable: true
+    host: smtp.gmail.com
+    port: 465
+    username: jiae.my.book.store@gmail.com  # 내 이메일
+    password: slizncpgbjjajlie    # 내 App 패스워드
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls.enable: true
 
   security:
     oauth2:

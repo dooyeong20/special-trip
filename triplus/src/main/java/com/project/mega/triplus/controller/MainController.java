@@ -1,5 +1,6 @@
 package com.project.mega.triplus.controller;
 
+import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
@@ -11,13 +12,12 @@ import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final PlaceRepository placeRepository;
 
@@ -128,6 +129,7 @@ public class MainController {
         int rand, cnt = 4;
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
+
         List<XMLResponseItem> attractionList = new ArrayList<>();
         List<XMLResponseItem> foodList = new ArrayList<>();
         List<XMLResponseItem> shopList = new ArrayList<>();
@@ -200,8 +202,37 @@ public class MainController {
         return "view/admin/admin";
     }
 
+
+
+    @GetMapping("/mypage/like")
+    @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
+    public String addLike(@CurrentUser User user, Long id){
+
+        JsonObject object = new JsonObject();
+
+        // id : 찜 당할 상품의 id
+        // user : 현재 로그인한 유저
+
+        // Item : liked 1 증가
+        // User : likes 리스트에 해당 item 을 추가
+        try {
+            placeService.addLikes(user, id);
+            object.addProperty("result", true);
+            object.addProperty("message", "찜 목록에 등록되었습니다.");
+        } catch (IllegalStateException e){
+            object.addProperty("result", false);
+            object.addProperty("message", e.getMessage());
+        }
+        logger.info("찜 결과 : " + object.toString());
+        return object.toString();
+    }
+
     @GetMapping("/mypage")
-    public String mypage(){
+        public String likeList(@CurrentUser User user, Model model){
+        List<Place> likeList = userService.getLikeList(user);
+
+        model.addAttribute("likeList", likeList);
+
 
         return "view/mypage";
     }

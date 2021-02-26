@@ -39,8 +39,8 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private List<Place> placeLikes;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Place> placeLikes = new ArrayList<>();
 
     @OneToMany
     private List<Plan> planLikes;

@@ -29,6 +29,8 @@ public class Place {
 
     private String thumbnailUrl;
 
+    private String addr1;
+
     @ElementCollection
     private List<String> imageUrls;
 
