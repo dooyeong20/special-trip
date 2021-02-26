@@ -189,6 +189,7 @@ public class MainController {
     }
 
 
+
     @GetMapping("/plan")
     public String plan(){ return "view/plan"; }
 
@@ -199,24 +200,25 @@ public class MainController {
 
     @GetMapping("/admin")
     public String admin(){
+
         return "view/admin/admin";
     }
 
 
 
-    @GetMapping("/mypage/like")
+    @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
-    public String addLike(@CurrentUser User user, Long id){
+    public String addLike(@CurrentUser User user, String contentId, Model model){
 
         JsonObject object = new JsonObject();
 
-        // id : 찜 당할 상품의 id
+        // contentId : 찜 당할 장소의 content_id
         // user : 현재 로그인한 유저
 
-        // Item : liked 1 증가
-        // User : likes 리스트에 해당 item 을 추가
+        // Place : liked 1 증가
+        // User : likes 리스트에 해당 place 를 추가
         try {
-            placeService.addLikes(user, id);
+            placeService.addLikes(user, contentId);
             object.addProperty("result", true);
             object.addProperty("message", "찜 목록에 등록되었습니다.");
         } catch (IllegalStateException e){
@@ -228,11 +230,16 @@ public class MainController {
     }
 
     @GetMapping("/mypage")
+    public String mypage(){
+
+        return "view/mypage";
+    }
+
+    @PostMapping("/mypage/like")
         public String likeList(@CurrentUser User user, Model model){
         List<Place> likeList = userService.getLikeList(user);
 
         model.addAttribute("likeList", likeList);
-
 
         return "view/mypage";
     }

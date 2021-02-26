@@ -18,10 +18,12 @@
 					<p><span>Phone:</span> <a href="#" th:text="${item.tel}"></a></p>
 				</div>
 				<div class="col-md-3">
-					<p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+					<p><span>Website</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
 				</div>
 				<div class="col-md-3">
-					<p><span>Website</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
+					<button type="button" id="like" class="btn btn-primary mb-2 mr-sm-2">
+						찜하기
+					</button>
 				</div>
 			</div>
 
@@ -170,5 +172,43 @@
 
 		</div>
 	</section>
+
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+		 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Triplus</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		$(document).ready(function (){
+			$("#like").click(function () {
+				$.ajax({
+					type: 'GET',       // get 방식으로 전송
+					url: '/detail/like', // 요청보낼 주소
+					data:'id=[[${place.contentId}]]', // 요청으로 보낼 파라미터
+					dataType: 'json',    // 응답의 content-type (json 타입으로 받겠다!)
+					success: function (result){ // 요청을 성공적으로 했다면
+						//alert(result.message);
+						$('.modal-body').html(result.message);
+						$('#exampleModalCenter').modal('show');
+					}
+				});
+			});
+		});
+	</script>
 </div>
 </html>

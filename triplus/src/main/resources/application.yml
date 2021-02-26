@@ -22,7 +22,7 @@ spring:
     active: dev
   mail:
     host: smtp.gmail.com
-    port: 465
+    port: 587
     username: jiae.my.book.store@gmail.com  # 내 이메일
     password: slizncpgbjjajlie    # 내 App 패스워드
     properties:

@@ -30,14 +30,14 @@ public class PlaceService {
         return RecommendPlace;
     }
 
-    public void addLikes(User user, Long id) {
+    public void addLikes(User user, String contentId) {
         if(user == null){
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
         }
 
         user = userRepository.findByEmail(user.getEmail());
 
-        Optional<Place> placeOptional = placeRepository.findById(id);
+        Optional<Place> placeOptional = placeRepository.findByContentId(contentId);
 
         if(placeOptional.isEmpty()){
             throw new IllegalStateException("등록되지 않은 여행지입니다.");
