@@ -11,12 +11,9 @@ import java.util.UUID;
 @Getter
 public class UserUser extends org.springframework.security.core.userdetails.User {
     private final User user;
-
     public UserUser(User user){
         super(user.getEmail(), user.getPassword() == null || user.getPassword().isEmpty() ? UUID.randomUUID().toString() : user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
         this.user = user;
     }
-
-
 
 }
