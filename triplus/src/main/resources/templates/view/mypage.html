@@ -114,9 +114,8 @@
                                                     <span class="tag">Tips, Travel</span>
                                                     <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
                                                     <div class="meta mb-3">
-                                                        <div><a th:href="@{/tour}">August 12, 2018</a></div>
-                                                        <div><a th:href="@{/tour}">Admin</a></div>
-                                                        <div><a th:href="@{/tour}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                                                        <div><a th:text="${place.addr1}"></a></div>
+                                                        <div><a class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                                                     </div>
                                                 </div>
                                             </div>
