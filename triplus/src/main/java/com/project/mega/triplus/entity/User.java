@@ -1,19 +1,21 @@
 package com.project.mega.triplus.entity;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "nickname"})})
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class User{
+public class User implements UserDetails {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +25,6 @@ public class User{
 
     @NotNull
     private String email;
-
 
     private String password;
 
@@ -46,8 +47,10 @@ public class User{
     private List<Plan> planLikes;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @Builder.Default
     private List<Plan> myPlans = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
 
@@ -64,13 +67,6 @@ public class User{
         setJoinedAt(LocalDateTime.now());
     }
 
-    @Builder
-    public User(String nickName, String email, Role role){
-        this.nickName=nickName;
-        this.email=email;
-        this.role=role;
-    }
-
     public User update(String nickName, String email){
         this.nickName=nickName;
         this.email=email;
@@ -78,8 +74,33 @@ public class User{
         return this;
     }
 
-    public String getRoleKey(){
-        return this.role.getKey();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

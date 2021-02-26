@@ -45,13 +45,13 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
-                        "/",
-                        "/search",
-                        "/detail",
-                        "/total_plan",
-                        "/total_place",
+//                        "/",
+//                        "/search",
+//                        "/detail",
+//                        "/total_plan",
+//                        "/total_place",
                         "/oauth2/**",
-                        "/login",
+//                        "/login",
                         "/css/**",
                         "/images/**",
                         "/js/**",
@@ -62,8 +62,17 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/plan"     // 테스트용
                 ).permitAll()
 
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/mypage/**", "/api/v1/**").hasRole("USER")
+                .antMatchers("/api/v1/**").hasRole("USER")
+
+                .mvcMatchers("/admin/**").hasRole("ADMIN")
+                .mvcMatchers("/",
+                        "/search",
+                        "/detail",
+                        "/total_plan",
+                        "/total_place",
+                        "/login",
+                        "/join/**",
+                        "/check-email-token/**").permitAll()
 
                 .anyRequest().authenticated()
                 .accessDecisionManager(getMyAccessDecisionManager())
@@ -82,11 +91,13 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
 
-                .formLogin().successForwardUrl("/")
+                .formLogin().loginPage("/login").successForwardUrl("/").permitAll()
 
                 .and()
+
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
                 .and()
+
                 .csrf().disable();
     }
 

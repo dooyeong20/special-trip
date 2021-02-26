@@ -23,6 +23,8 @@ public class Place {
 
     private String addr;
 
+    private String areaCode;
+
     private String tel;
 
     private String content;
