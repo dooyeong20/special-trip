@@ -57,40 +57,6 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
-
-        // 추천일정 top3 더미데이터 생성하기
-        Plan plan1=new Plan();
-        Day plan1_day1=new Day();
-        Day plan1_day2=new Day();
-
-        // Place 테이블에서 실제 장소 데이터 빼오기.
-        Optional<Place> place1=placeRepository.findById(250L);
-        Optional<Place> place2=placeRepository.findById(350L);
-        Optional<Place> place3=placeRepository.findById(450L);
-        Optional<Place> place4=placeRepository.findById(550L);
-
-        if(place1.isPresent() && place2.isPresent() && place3.isPresent() && place4.isPresent()){
-
-            // day1에 장소들 임의로 추가.
-            plan1_day1.addPlace(place1.get());
-            plan1_day1.addPlace(place2.get());
-            plan1_day2.addPlace(place3.get());
-            plan1_day2.addPlace(place4.get());
-
-            // plan1_day1, plan1_day2 은 plan1 소속이다.
-            plan1_day1.setPlan(plan1);
-            plan1_day2.setPlan(plan1);
-
-            plan1_day1.setName("FirstDay");
-            plan1_day2.setName("SecondDay");
-        }
-
-        plan1.setName("나의 첫번째 여행");
-        plan1.setStatus(PlanStatus.COMPLETE);
-        plan1.setLiked(10);
-        plan1.setUpdate(LocalDateTime.now());
-        plan1.setDays(List.of(plan1_day1,plan1_day2));
-        planRepository.save(plan1);
     }
 
     @RequestMapping("/")
@@ -198,14 +164,11 @@ public class MainController {
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
-        String nickName = user.getNickName();
 
-
-        model.addAttribute("nickName", nickName);
+        model.addAttribute("user", user);
 
         return "view/mypage";
     }
-
 
     @GetMapping("/total_plan")
     public String totalPlan(){
