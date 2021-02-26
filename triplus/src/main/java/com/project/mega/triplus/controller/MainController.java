@@ -22,8 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,7 +51,7 @@ public class MainController {
 
 
     @Transactional
-    //@PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -94,7 +101,6 @@ public class MainController {
 //        System.out.println(imageUrlsList);
     }
 
-
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
@@ -119,15 +125,48 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(value = "area") String area, Model model){
+    public String search(@RequestParam(value = "keyword") String keyword, Model model){
         int rand, cnt = 4;
 
-        List<XMLResponseItem> itemList = apiService.getKeywordResultList(area);
+        List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
+        List<XMLResponseItem> attractionList = new ArrayList<>();
+        List<XMLResponseItem> foodList = new ArrayList<>();
+        List<XMLResponseItem> shopList = new ArrayList<>();
+        List<XMLResponseItem> festivalList = new ArrayList<>();
 
-        rand = (int)(Math.random() * (itemList.size() - cnt));
+        for(XMLResponseItem item : itemList){
+            switch (item.getContentTypeId()){
+                case "12":
+                    attractionList.add(item);
+                    break;
+                case "39":
+                    foodList.add(item);
+                    break;
+                case "38":
+                    shopList.add(item);
+                    break;
+                case "15":
+                    festivalList.add(item);
+                default:
+                    break;
+            }
+        }
 
-        model.addAttribute("area", area);
-        model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+        model.addAttribute("keyword", keyword);
+        // null check
+        // model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+        rand = Math.max((int)(Math.random() * (attractionList.size() - cnt)), 0);
+        model.addAttribute("attractionList", attractionList.subList(rand, Math.min(rand + cnt, attractionList.size())));
+
+
+        rand = Math.max((int)(Math.random() * (foodList.size() - cnt)), 0);
+        model.addAttribute("foodList", foodList.subList(rand, Math.min(rand + cnt, foodList.size())));
+
+        rand = Math.max((int)(Math.random() * (shopList.size() - cnt)), 0);
+        model.addAttribute("shopList", shopList.subList(rand, Math.min(rand + cnt, shopList.size())));
+
+        rand = Math.max((int)(Math.random() * (festivalList.size() - cnt)), 0);
+        model.addAttribute("festivalList", festivalList.subList(rand, Math.min(rand + cnt, festivalList.size())));
 
 
         return "view/search";
@@ -138,13 +177,12 @@ public class MainController {
         String radius = "50000";
         int rand, cnt = 10;
 
-
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
-        rand = (int)(Math.random() * (recommendPlaces.size() - cnt));
+        rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + cnt));
+        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
 
         return "view/detail";
     }
@@ -182,7 +220,33 @@ public class MainController {
     }
 
     @GetMapping("/total_place")
-    public String totalPlace(){
+    public String totalPlace(Model model){
+        /*
+        < areaCode >
+
+        1 서울
+        2 인천
+        3 대전
+        4 대구
+        5 광주
+        6 부산
+        7 울산
+        8 세종특별자치시
+        31 경기도
+        32 강원도
+        33 충청북도
+        34 충청남도
+        35 경상북도
+        36 경상남도
+        37 전라북도
+        38 전라남도
+        39 제주도
+         */
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+
+        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
+                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
+
         return "view/total_place";
     }
 
