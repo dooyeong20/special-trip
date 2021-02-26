@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.thymeleaf.TemplateEngine;
@@ -74,12 +75,12 @@ public class UserService implements UserDetailsService {
     }
 
     public void login(User user){
-
+        UserUser userUser = new UserUser(user);
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(
-                        user,
-                        user.getPassword(),
-                        user.getAuthorities()
+                        userUser, // user,
+                        userUser.getPassword(), //user.getPassword(),
+                        userUser.getAuthorities() //user.getAuthorities()
                 );
 
         SecurityContext context = SecurityContextHolder.getContext();
@@ -114,9 +115,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(email);
+        }
 
-        return user;
+        return new UserUser(user);
     }
 
     public void sendMailResetPassword(String email) {
