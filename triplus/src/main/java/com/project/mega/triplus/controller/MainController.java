@@ -80,14 +80,6 @@ public class MainController {
         plan1.setUpdate(LocalDateTime.now());
         plan1.setDays(List.of(plan1_day1,plan1_day2));
         planRepository.save(plan1);
-
-//        List<List<String>> imageUrlsList = new ArrayList<>();
-//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
-//
-//        System.out.println(imageUrlsList);
     }
 
 
