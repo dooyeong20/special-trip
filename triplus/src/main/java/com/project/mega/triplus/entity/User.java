@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private List<Plan> myPlans = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(fetch=FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Review> reviews = new ArrayList<>();
 
 

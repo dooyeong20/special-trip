@@ -50,7 +50,7 @@ public class MainController {
 
 
     @Transactional
-    //@PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -205,21 +205,13 @@ public class MainController {
     }
 
     @PostMapping("/register_review")
-    @Transactional
     public String review(
             @CurrentUser User user, Model model,
             @RequestParam(value = "content") String content,
             @RequestParam(value = "content_id") String contentId){
 
         Place place = placeService.getPlaceByContentId(contentId);
-        Review review = new Review();
-        review.setUser(user);
-        review.setTitle(user.getNickName());
-        review.setPlace(place);
-        review.setContent(content);
-        review.setRegdate(LocalDateTime.now().toString().substring(0, 10));
-
-        placeService.saveReview(place);
+        placeService.saveReview(user, place, content);
 
         return detail(user,contentId,model);
     }
