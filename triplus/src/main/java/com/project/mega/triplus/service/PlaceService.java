@@ -33,6 +33,6 @@ public class PlaceService {
 
     public void saveReview(Place place){
         em.persist(place);
-//        placeRepository.save(place);      // 이거 안됨
+//        placeRepository.save(place);      // 이거 안되고 em.persist 만 됨
     }
 }

@@ -220,7 +220,7 @@ public class MainController {
 
         placeService.saveReview(place);
 
-        return "index";
+        return detail(user,contentId,model);
     }
 
     @GetMapping("/plan")
