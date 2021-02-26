@@ -2,6 +2,7 @@ package com.project.mega.triplus.controller;
 
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
@@ -51,7 +52,7 @@ public class MainController {
 
 
     @Transactional
-    @PostConstruct
+//    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -299,5 +300,19 @@ public class MainController {
 
         return "index";
     }
+
+    // 하림님 회원가입 문제 !!  ////////////////////////////////////
+    @GetMapping("/harim")
+    public String harim(){
+        JoinForm joinForm = new JoinForm();
+        joinForm.setEmail("harim@email.com");
+        joinForm.setPassword("harim");
+        joinForm.setNickname("harim");
+        joinForm.setAgreeTermsOfService("true");
+        userService.login(userService.processNewUser(joinForm));
+
+        return "index";
+    }
+    ///////////////////////////////////////////////////////////
 
 }
