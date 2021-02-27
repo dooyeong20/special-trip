@@ -27,23 +27,22 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-4" id="day_1">
+                    <div class="col-4 day">
                         <h2 class="text-center">Day</h2>
-                        <div>
-                    <div class="card" id="card_1" style="height: 500px">
-                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
-                            <div class="card-body">
-                                <div class="row">
-                                    <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                        delete
-                                    </button>
-                                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
-                                        SAVE
-                                    </button>
-                                </div>
+                        <div class="card" style="height: 500px">
+                            <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                            delete
+                                        </button>
+                                        <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                            SAVE
+                                        </button>
+                                    </div>
 
-                                <!-- 돌하르방 div-->
-                                    <div class="block-21 mb-4 mt-4 d-flex" id="box_1_1">
+                                    <!-- 돌하르방 div-->
+                                    <div class="block-21 mb-4 mt-4 d-flex place">
                                         <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                         <div class="text">
                                             <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
@@ -51,13 +50,12 @@
                                         </div>
                                     </div>
 
-                                <div class="col text-center">
-                                    <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                        +
-                                    </button>
+                                    <div class="col text-center">
+                                        <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
                             </div>
                         </div>
                     </div>
@@ -94,46 +92,36 @@
 
                             <!-- 카드들 담기는 곳-->
 <!--                            <th:block th:each="place : ${placeList}">-->
-                                <div class="first-box col-12 ftco-animate fadeInUp ftco-animated">
-                                    <div class="block-21 mb-4 d-flex">
-                                        <a class="blog-img mr-4" id="img1" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                        <div class="text">
-                                            <h3 class="heading" id="name1">북촌 돌하르방공원</h3>
-                                            <p id="addr1">제주특별자치도 제주시 조천읍 북촌서1길 70</p>
-                                        </div>
+                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                <div class="block-21 mb-4 d-flex place-box">
+                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading place-title">북촌 돌하르방공원 1</h3>
+                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 1</p>
                                     </div>
                                 </div>
+                            </div>
 <!--                            </th:block>-->
-
                             <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex">
-                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                <div class="block-21 mb-4 d-flex place-box">
+                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
-                                        <h3 class="heading" >북촌 돌하르방공원</h3>
-                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        <h3 class="heading place-title">북촌 돌하르방공원 2</h3>
+                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 2</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex">
-                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/20/2661520_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                <div class="block-21 mb-4 d-flex place-box">
+                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
-                                        <h3 class="heading"><a href="/detail?content_id=2661523">북촌리 4.3길</a></h3>
-                                        <p>제주특별자치도 제주시 조천읍 북촌3길 3</p>
+                                        <h3 class="heading place-title">북촌 돌하르방공원 3</h3>
+                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 3</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex">
-                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/01/2676401_image2_1.JPG); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading"><a href="/detail?content_id=1906195">선흘 동백동산</a></h3>
-                                        <p>제주특별자치도 제주시 조천읍 동백로 77</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,89 +137,72 @@
 
 
     <script type="text/javascript">
-                $(document).ready(function(){
+        $(document).ready(function(){
+            $(".add_btn").click(function(){
+                console.log('add!!!!');
+            });
+
+            $(".place-box").click(function(){
+                var imgUrl = $(this).find("a").css('background');
+                imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+                var title = $(this).find(".text").find("h3").text();
+                var addr = $(this).find(".text").find("p").text();
+
+                console.log(imgUrl);
+                console.log(title);
+                console.log(addr);
+            });
+
             var i = 1;
 
-                <!-- 새 카드 추가 -->
-                $(".card_add").click(function(){
-                        console.log("card_add");
-                        var day_id = "#day_" + i;
+            $(".card_add").click(function(){
+                console.log("card_add");
+                var day_id = "#day_" + i;
 
-                        var card = "<div class=\"col-4\" id=\"day_" + ++i + "\">\n" +
-                            "<h2 class=\"text-center\">Day</h2>\n" +
-                            "<div>\n" +
-                            "<div class=\"card\" style=\"height: 500px\" id=\"card_" + i + "\">\n" +
-                            "<div style=\"height:450px; overflow-y: scroll;\" class=\"mt-4\">\n" +
-                            "                        <div class=\"card-body\">\n" +
-                            "                            <div class=\"row\">\n" +
-                            "                                <button type=\"button\" onclick=\"myFunction()\" class=\"btn btn-default mb-2 mr-sm-2 delete_btn\">\n" +
-                            "                                    delete\n" +
-                            "                                </button>\n" +
-                            "                            </div>\n" +
-                            "\n" +
-                            "<div class=\"second-box col-12 ftco-animate fadeInUp ftco-animated\">\n" +
-                            "        <div class=\"block-21 mb-4 d-flex\" id=\"box_2_1\">\n" +
-                            "            <a class=\"blog-img mr-4\" id=\"img2\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\"></a>\n" +
-                            "            <div class=\"text\">\n" +
-                            "                <h3 class=\"heading\" id=\"name2\">북촌 돌하르방공원</h3>\n" +
-                            "                <p id=\"addr2\">제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
-                            "            </div>\n" +
-                            "        </div>\n" +
-                            "    </div>\n" +
-                            "                            <div class=\"col text-center\">\n" +
-                            "                                <button type=\"button\" id=\"add_btn_" + i + "\" class=\"btn btn-default mb-2 mr-sm-2 add_btn_" + i + "\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
-                            "                                    +\n" +
-                            "                                </button>\n" +
-                            "                            </div>\n" +
-                            "                           </div>\n" +
-                            "                          </div>\n" +
-                            "                         </div>\n" +
-                            "                        </div>\n" +
-                            "                       </div>\n"
+                var card = `<div class="col-4 day">
+                    <h2 class="text-center">Day</h2>
+                    <div class="card" style="height: 500px">
+                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                        delete
+                                    </button>
+                                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                        SAVE
+                                    </button>
+                                </div>
 
-                        var card_id = "#card_" + i;
-                        var box_id = "#box_" + i;
-                        var add_btn_id = "#add_btn_" + i;
+                                <!-- 돌하르방 div-->
+                                <div class="block-21 mb-4 mt-4 d-flex place">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
 
-                        $(day_id).after(card);
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
 
-                         <!-- 추가 카드 -->
-                        $(add_btn_id).click(function(){
-                            console.log("add_btn_id");
+                // var day = $(".day");
+                // console.log(day[day.length-1]);
 
-                        });
+                $(".day:last").after(card);
 
-                        <!-- 2번 박스 data 받아오기 -->
-                        $(".second-box").click(function(){
-                                var img2 = $("#img2").css('background');
-                                img2 = img2.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-
-                                var name2 = $("#name2").text();
-                                var addr2 = $("#addr2").text();
-
-                                console.log('img2', img2);
-                                console.log('name2', name2);
-                                console.log('addr2', addr2);
-
-                                <!-- data 받은 걸로 새 상자 생성 -->
-                                var second = "<div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_2_2\">\n" +
-                                "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\">\n" +
-                                "                           </a>\n" +
-                                "                            <div class=\"text\">\n" +
-                                "                              <h3 class=\"heading\">북촌 돌하르방공원</h3>\n" +
-                                "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
-                                "                              </div>\n" +
-                                "                               </div>"
-
-                                $("#box_2_1").after(second);
-                            });
-
-                    });
-
-
+                $(".add_btn").click(function(){
+                    console.log('add!!!!');
                 });
-
-
+            });
+        });
 
 
             <!-- 1번 박스 -->
@@ -264,23 +235,6 @@
                     $("#box_").after(first);
                 });
 
-        <!-- 아직아직아직아ㅣㅈㄱ -->
-            $("#save").click(function(){
-                 console.log("save");
-                 $("#div1").save();
-            });
-
-            $(".delete_btn").click(function(){
-                console.log("delete_btn");
-                $("#card").remove();
-            });
-
-            // $(".delete").click(deleteDiv(this));
-
-
-        // function deleteDiv(id){
-        //
-        // }
     </script>
 
 </div>
