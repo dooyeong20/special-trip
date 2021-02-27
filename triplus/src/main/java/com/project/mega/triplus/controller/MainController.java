@@ -15,12 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -48,11 +50,11 @@ public class MainController {
 
     private final UserService userService;
 
-    private final UserRepository userRepository;
+    private final HttpSession  httpSession;
 
 
     @Transactional
-//    @PostConstruct
+    //@PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -231,7 +233,13 @@ public class MainController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(){
+    public String mypage(@CurrentUser User user, Model model){
+        if(user == null ){
+            user = (User)httpSession.getAttribute("user");
+        }
+        String nickName = user.getNickName();
+
+        model.addAttribute("nickName", nickName);
 
         return "view/mypage";
     }
@@ -244,6 +252,7 @@ public class MainController {
 
         return "view/mypage";
     }
+
 
     @GetMapping("/total_plan")
     public String totalPlan(){

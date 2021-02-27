@@ -20,4 +20,5 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findAllByContentType(String type);
 
     Optional<Place> findByContentId(String contentId);
+
 }
