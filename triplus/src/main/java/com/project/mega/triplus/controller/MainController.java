@@ -54,7 +54,7 @@ public class MainController {
 
 
     @Transactional
-    //@PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -106,7 +106,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String index(Model model){
-        List<Place> placeList = placeService.getPlace();
+        List<Place> placeList = placeService.getPlaceList();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
@@ -177,20 +177,49 @@ public class MainController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam(value = "content_id") String contentId, Model model){
+    public String detail(
+            @CurrentUser User user,
+            @RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
+        Place place;
+
         int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        place = placeService.getPlaceByContentId(contentId);
+
+        // ===============================
+//        Review sampleReview = new Review();
+//        sampleReview.setTitle("샘플 리뷰 제목 1");
+//        sampleReview.setContent("샘플 컨텐츠 1");
+//        place.getReviews().add(sampleReview);
+//        sampleReview.setTitle("샘플 리뷰 제목 2");
+//        sampleReview.setContent("샘플 컨텐츠 2");
+//        place.getReviews().add(sampleReview);
+        // ===============================
+
         rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
+        model.addAttribute("reviews", place.getReviews());
+        model.addAttribute("content_id", contentId);
         model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
 
         return "view/detail";
     }
 
+    @PostMapping("/register_review")
+    public String review(
+            @CurrentUser User user, Model model,
+            @RequestParam(value = "content") String content,
+            @RequestParam(value = "content_id") String contentId){
+
+        Place place = placeService.getPlaceByContentId(contentId);
+        placeService.saveReview(user, place, content);
+
+        return detail(user,contentId,model);
+    }
 
 
     @GetMapping("/plan")
@@ -211,7 +240,8 @@ public class MainController {
 
     @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
-    public String addLike(@CurrentUser User user, String contentId, Model model){
+    public String addLike(@CurrentUser User user,
+                @RequestParam(value = "content_id") String contentId){
 
         JsonObject object = new JsonObject();
 
@@ -229,6 +259,7 @@ public class MainController {
             object.addProperty("message", e.getMessage());
         }
         logger.info("찜 결과 : " + object.toString());
+
         return object.toString();
     }
 
