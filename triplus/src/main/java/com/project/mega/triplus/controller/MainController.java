@@ -54,7 +54,7 @@ public class MainController {
 
 
     @Transactional
-//    @PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -224,9 +224,14 @@ public class MainController {
 
     @GetMapping("/plan")
     public String plan(Model model){
-        List<Place> placeList;
+        int rand, cnt = 10;
 
-//        model.addAttribute("places", placeList);
+        List<Place> placeList = placeRepository.findAllByContentType("12");
+
+        rand = Math.max((int) (Math.random() * (placeList.size() - cnt)), 0);
+
+        model.addAttribute("placeList", placeList.subList(rand, rand + Math.min(placeList.size(), cnt)));
+
         return "view/plan";
     }
 
@@ -291,7 +296,8 @@ public class MainController {
 
 
     @GetMapping("/total_plan")
-    public String totalPlan(){
+    public String totalPlan(Model model){
+
         return "view/total_plan";
     }
 
