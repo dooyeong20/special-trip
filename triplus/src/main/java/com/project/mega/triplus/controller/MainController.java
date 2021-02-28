@@ -1,23 +1,25 @@
 package com.project.mega.triplus.controller;
 
+import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.ApiService;
 import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.PlaceService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final PlaceRepository placeRepository;
 
@@ -51,7 +54,7 @@ public class MainController {
 
 
     @Transactional
-    //@PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -61,7 +64,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String index(Model model){
-        List<Place> placeList = placeService.getPlace();
+        List<Place> placeList = placeService.getPlaceList();
         List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
@@ -87,6 +90,7 @@ public class MainController {
         int rand, cnt = 4;
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
+
         List<XMLResponseItem> attractionList = new ArrayList<>();
         List<XMLResponseItem> foodList = new ArrayList<>();
         List<XMLResponseItem> shopList = new ArrayList<>();
@@ -131,18 +135,48 @@ public class MainController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam(value = "content_id") String contentId, Model model){
+    public String detail(
+            @CurrentUser User user,
+            @RequestParam(value = "content_id") String contentId, Model model){
         String radius = "50000";
+        Place place;
+
         int rand, cnt = 10;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        place = placeService.getPlaceByContentId(contentId);
+
+        // ===============================
+//        Review sampleReview = new Review();
+//        sampleReview.setTitle("샘플 리뷰 제목 1");
+//        sampleReview.setContent("샘플 컨텐츠 1");
+//        place.getReviews().add(sampleReview);
+//        sampleReview.setTitle("샘플 리뷰 제목 2");
+//        sampleReview.setContent("샘플 컨텐츠 2");
+//        place.getReviews().add(sampleReview);
+        // ===============================
+
         rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
+        model.addAttribute("reviews", place.getReviews());
+        model.addAttribute("content_id", contentId);
         model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
 
         return "view/detail";
+    }
+
+    @PostMapping("/register_review")
+    public String review(
+            @CurrentUser User user, Model model,
+            @RequestParam(value = "content") String content,
+            @RequestParam(value = "content_id") String contentId){
+
+        Place place = placeService.getPlaceByContentId(contentId);
+        placeService.saveReview(user, place, content);
+
+        return detail(user,contentId,model);
     }
 
 
@@ -156,7 +190,35 @@ public class MainController {
 
     @GetMapping("/admin")
     public String admin(){
+
         return "view/admin/admin";
+    }
+
+
+
+    @GetMapping("/detail/like")
+    @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
+    public String addLike(@CurrentUser User user,
+                @RequestParam(value = "content_id") String contentId){
+
+        JsonObject object = new JsonObject();
+
+        // contentId : 찜 당할 장소의 content_id
+        // user : 현재 로그인한 유저
+
+        // Place : liked 1 증가
+        // User : likes 리스트에 해당 place 를 추가
+        try {
+            placeService.addLikes(user, contentId);
+            object.addProperty("result", true);
+            object.addProperty("message", "찜 목록에 등록되었습니다.");
+        } catch (IllegalStateException e){
+            object.addProperty("result", false);
+            object.addProperty("message", e.getMessage());
+        }
+        logger.info("찜 결과 : " + object.toString());
+
+        return object.toString();
     }
 
     @GetMapping("/mypage")
@@ -164,11 +226,21 @@ public class MainController {
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
-
         model.addAttribute("user", user);
 
         return "view/mypage";
     }
+
+
+    @PostMapping("/mypage/like")
+        public String likeList(@CurrentUser User user, Model model){
+        List<Place> likeList = userService.getLikeList(user);
+
+        model.addAttribute("likeList", likeList);
+
+        return "view/mypage";
+    }
+
 
     @GetMapping("/total_plan")
     public String totalPlan(){
@@ -207,8 +279,37 @@ public class MainController {
     }
 
     @GetMapping("/access_denied")
-    public String accessDenied(){
+    public String accessDenied()
+    {
         return "view/access_denied";
     }
+
+
+    @PostMapping("/mypage/delete")
+    public String userDelete(@CurrentUser User user,
+                             @RequestParam(value = "item_id", required = false)String[] itemIds,
+                             Model model){
+
+        if(itemIds != null && itemIds.length != 0){
+            List<Long> idList = List.of(Arrays.stream(itemIds).map(Long::parseLong).toArray(Long[]::new));
+            userService.deleteUser(user, idList);
+        }
+
+        return "index";
+    }
+
+    // 하림님 회원가입 문제 !!  ////////////////////////////////////
+    @GetMapping("/harim")
+    public String harim(){
+        JoinForm joinForm = new JoinForm();
+        joinForm.setEmail("harim@email.com");
+        joinForm.setPassword("harim");
+        joinForm.setNickname("harim");
+        joinForm.setAgreeTermsOfService("true");
+        userService.login(userService.processNewUser(joinForm));
+
+        return "index";
+    }
+    ///////////////////////////////////////////////////////////
 
 }
