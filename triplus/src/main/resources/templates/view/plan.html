@@ -13,13 +13,7 @@
             <div class="form-group">
                 <div class="row">
                     <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
-                    <button type="button" id="before" class="btn btn-primary mb-2 mr-sm-2">
-                        before
-                    </button>
-                    <button type="button" id="after" class="btn btn-primary mb-2 mr-sm-2">
-                        after
-                    </button>
-                    <button type="button" id="all_save" class="btn btn-primary mb-2 mr-sm-2">
+                    <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
                         SAVE
                     </button>
                 </div>
@@ -137,32 +131,18 @@
 
 
     <script type="text/javascript">
-        // ready 시작
-        $(document).ready(function(){
-            add_btn_click = function(){
-                console.log('add !');
+        $(document).ready(function(){   // ready 시작
+            make_place = function(url, title, addr, content_id){
+                return '<div class="block-21 mb-4 mt-4 d-flex place">' +
+                '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
+                '    <div class="text">' +
+                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a></h3>' +
+                '        <p>' + addr + '</p>' +
+                '    </div>' +
+                '</div>';
             }
 
-            $(".add_btn").unbind().click(add_btn_click);
-
-            $(".place-box").click(function(){
-                var imgUrl = $(this).find("a").css('background');
-                imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-                var title = $(this).find(".text").find("h3").text();
-                var addr = $(this).find(".text").find("p").text();
-
-                console.log(imgUrl);
-                console.log(title);
-                console.log(addr);
-            });
-
-            var i = 1;
-
-            $(".card_add").click(function(){
-                console.log("card_add");
-                var day_id = "#day_" + i;
-
-                var card = `<div class="col-4 day">
+            var card = `<div class="col-4 day">
                     <h2 class="text-center">Day</h2>
                     <div class="card" style="height: 500px">
                         <div style="height:450px; overflow-y: scroll;" class="mt-4">
@@ -176,7 +156,6 @@
                                     </button>
                                 </div>
 
-                                <!-- 돌하르방 div-->
                                 <div class="block-21 mb-4 mt-4 d-flex place">
                                     <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
@@ -196,13 +175,75 @@
                 </div>
                 `
 
-                // var day = $(".day");
-                // console.log(day[day.length-1]);
+            add_btn_click = function(){
+                var add_place_btn = $(this);
+                var last_place = add_place_btn.parent().parent().find(".place:last");
+
+                last_place.addClass('last-place');
+            }
+
+
+            $(".add_btn").unbind().click(add_btn_click);
+
+
+            // 검색해서 클릭했을 때
+            $(".place-box").click(function(){
+                var imgUrl = $(this).find("a").css('background');
+                var title = $(this).find(".text").find("h3").text();
+                var addr = $(this).find(".text").find("p").text();
+                var content_id = $(this).find('#content_id').text();
+                var last_place = $(".last-place");
+                imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+
+                // console.log(imgUrl);
+                // console.log(title);
+                // console.log(addr);
+
+                $('#myModal').modal('hide');
+
+                // TODO content_id 작업 해줘야함
+                last_place.after(make_place(imgUrl, title, addr, content_id));
+                last_place.removeClass('last-place');
+            });
+
+            // 새로울 Day를 만들 때
+            $(".card_add").click(function(){
+                $(".last-place").removeClass('last-place');
 
                 $(".day:last").after(card);
 
                 $(".add_btn").unbind().click(add_btn_click);
+
+            }); // card_add btn click 끝
+
+
+            // 저장할 때
+            $('#save-all-btn').click(function(){
+                day = [];
+
+                place = {
+                    'title': '1',
+                    'imgUrl': '2',
+                    'addr': '3',
+                    'contentId': '4'
+                };
+
+                dayList = $('.day').toArray();
+                dayList = dayList.map(function(day){
+                    var title = $(day).find('.place').find('.text').find('.heading').text();
+                    var addr = $(day).find('.place').find('.text').find('p').text();
+                    var imgUrl = $(day).find('.place').find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+                    var contentId = 3223;
+
+                    console.log(title);
+                    var jsonStr = '{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":"' + addr + '", "conent_id":"' + contentId + '"}';
+                    console.log(jsonStr);
+                    return (JSON.parse(jsonStr));
+                });
+
+                console.log(dayList);
             });
+
         }); // ready 끝
 
     </script>

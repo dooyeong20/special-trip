@@ -355,7 +355,7 @@ public class MainController {
         joinForm.setNickname("harim");
         joinForm.setAgreeTermsOfService("true");
         userService.login(userService.processNewUser(joinForm));
-g
+
         return "index";
     }
     ///////////////////////////////////////////////////////////
