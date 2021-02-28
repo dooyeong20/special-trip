@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,8 @@ public class Place {
 
     private String homepage;
 
+    private String addr;
+
     private String areaCode;
 
     private String tel;
@@ -32,12 +35,12 @@ public class Place {
     private String addr1;
 
     @ElementCollection
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
 
     private int liked;
 
     @OneToMany(mappedBy = "place", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     private String contentId;
 
