@@ -87,41 +87,23 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
-                        <h3>인근 명소</h3>
+                        <input class="typeahead" type="text" id="search" onkeyup="filter()" placeholder="명소를 검색하세요."/>
                         <div style="height:500px; overflow-y: scroll;">
 
                             <!-- 카드들 담기는 곳-->
-<!--                            <th:block th:each="place : ${placeList}">-->
-                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex place-box">
-                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading place-title">북촌 돌하르방공원 1</h3>
-                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 1</p>
+                            <div class="placeList">
+                                <th:block th:each="place : ${placeList}">
+                                <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                    <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
+                                        <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl}"></a>
+                                        <div class="text">
+                                            <h3 class="heading placeTitle" th:text="${place.name}"></h3>
+                                            <p class="placeAddr" th:text="${place.addr1}"></p>
+                                        </div>
                                     </div>
                                 </div>
+                                </th:block>
                             </div>
-<!--                            </th:block>-->
-                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex place-box">
-                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading place-title">북촌 돌하르방공원 2</h3>
-                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 2</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                <div class="block-21 mb-4 d-flex place-box">
-                                    <a class="blog-img mr-4 place-image" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading place-title">북촌 돌하르방공원 3</h3>
-                                        <p class="place-addr">제주특별자치도 제주시 조천읍 북촌서1길 70 3</p>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -205,6 +187,23 @@
             });
         }); // ready 끝
 
+    </script>
+    <script>
+        function filter() {
+            let search = document.getElementById("search").value.toLowerCase();
+            let placeList = document.getElementsByClassName("placeList")[0];
+            console.log(placeList.children);
+
+            let placeTitle = placeList.getElementsByClassName("placeTitle");
+
+            for (let i = 0; i < placeList.children.length; i++) {
+                if (placeTitle[i].innerHTML.toLowerCase().indexOf(search) != -1) {
+                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "flex" // placeBox
+                } else {
+                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "none"
+                }
+            }
+        }
     </script>
 
 </div>
