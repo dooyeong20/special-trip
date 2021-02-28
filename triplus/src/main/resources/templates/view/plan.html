@@ -137,10 +137,13 @@
 
 
     <script type="text/javascript">
+        // ready 시작
         $(document).ready(function(){
-            $(".add_btn").click(function(){
-                console.log('add!!!!');
-            });
+            add_btn_click = function(){
+                console.log('add !');
+            }
+
+            $(".add_btn").unbind().click(add_btn_click);
 
             $(".place-box").click(function(){
                 var imgUrl = $(this).find("a").css('background');
@@ -198,42 +201,9 @@
 
                 $(".day:last").after(card);
 
-                $(".add_btn").click(function(){
-                    console.log('add!!!!');
-                });
+                $(".add_btn").unbind().click(add_btn_click);
             });
-        });
-
-
-            <!-- 1번 박스 -->
-            $("#add_btn").click(function(){
-                console.log("add_btn");
-            });
-
-            <!-- 1번 박스 data 받아오기 -->
-            $(".first-box").click(function(){
-                    var img = $("#img1").css('background');
-                    img = img.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-
-                    var name = $("#name1").text();
-                    var addr = $("#addr1").text();
-
-                    console.log('img', img);
-                    console.log('name', name);
-                    console.log('addr', addr);
-
-                    <!-- data 받은 걸로 새 상자 생성 -->
-                    var first = "<div class=\"block-21 mb-4 mt-4 d-flex\" id=\"box_1_2\">\n" +
-                    "                           <a class=\"blog-img mr-4\" style=\"background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;\">\n" +
-                    "                           </a>\n" +
-                    "                            <div class=\"text\">\n" +
-                    "                              <h3 class=\"heading\">북촌 돌하르방공원</h3>\n" +
-                    "                              <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>\n" +
-                    "                              </div>\n" +
-                    "                               </div>"
-
-                    $("#box_").after(first);
-                });
+        }); // ready 끝
 
     </script>
 
