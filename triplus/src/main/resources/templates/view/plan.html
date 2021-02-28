@@ -229,19 +229,26 @@
                 };
 
                 dayList = $('.day').toArray();
-                dayList = dayList.map(function(day){
-                    var title = $(day).find('.place').find('.text').find('.heading').text();
-                    var addr = $(day).find('.place').find('.text').find('p').text();
-                    var imgUrl = $(day).find('.place').find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-                    var contentId = 3223;
 
-                    console.log(title);
-                    var jsonStr = '{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":"' + addr + '", "conent_id":"' + contentId + '"}';
-                    console.log(jsonStr);
-                    return (JSON.parse(jsonStr));
+                dayList = dayList.map(function(day){
+                    var tmp = [];
+
+                    console.log($(day).find('.place'));
+
+                    $(day).find('.place').toArray().forEach(d => {
+                        var title = $(d).find('.text').find('.heading').text();
+                        var addr = $(d).find('.text').find('p').text();
+                        var imgUrl = $(d).find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+                        var contentId = 3223;
+                        var jsonObj = JSON.parse('{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":" + ' + addr + '", "conent_id":"' + contentId + '"}');
+
+                        tmp.push(jsonObj);
+                    });
+
+                    return tmp;
                 });
 
-                console.log(dayList);
+                console.log(dayList);   // json object !!
             });
 
         }); // ready 끝
