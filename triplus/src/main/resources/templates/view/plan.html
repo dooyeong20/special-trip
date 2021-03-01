@@ -87,15 +87,15 @@
                             <!-- 카드들 담기는 곳-->
                             <div class="placeList">
                                 <th:block th:each="place : ${placeList}">
-                                <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                    <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
-                                        <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl}"></a>
-                                        <div class="text">
-                                            <h3 class="heading placeTitle" th:text="${place.name}"></h3>
-                                            <p class="placeAddr" th:text="${place.addr1}"></p>
+                                    <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
+                                            <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ')'"></a>
+                                            <div class="text">
+                                                <h3 class="heading placeTitle" th:text="${place.name}"></h3>
+                                                <p class="placeAddr" th:text="${place.addr1}"></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </th:block>
                             </div>
                         </div>
@@ -203,26 +203,15 @@
             $('#save-all-btn').click(function(){
                 day = [];
 
-                place = {
-                    'title': '1',
-                    'imgUrl': '2',
-                    'addr': '3',
-                    'contentId': '4'
-                };
-
-                dayList = $('.day').toArray();
-
-                dayList = dayList.map(function(day){
+                dayList = $('.day').toArray().map(function(day){
                     var tmp = [];
-
-                    console.log($(day).find('.place'));
 
                     $(day).find('.place').toArray().forEach(d => {
                         var title = $(d).find('.text').find('.heading').text();
                         var addr = $(d).find('.text').find('p').text();
                         var imgUrl = $(d).find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
                         var contentId = 3223;
-                        var jsonObj = JSON.parse('{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":" + ' + addr + '", "conent_id":"' + contentId + '"}');
+                        var jsonObj = JSON.parse('{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":"' + addr + '", "content_id":"' + contentId + '"}');
 
                         tmp.push(jsonObj);
                     });
@@ -230,7 +219,21 @@
                     return tmp;
                 });
 
-                console.log(dayList);   // json object !!
+                console.log(JSON.stringify(dayList));
+
+                $.ajax({
+                    url: '/plan/save',
+                    type: 'post',
+                    dataType: 'json',
+                    data: JSON.stringify(dayList),
+                    contentType: 'application/json; charset=UTF-8',
+                    success: function(response) {
+                        console.log('ajax 성공 !!!!');
+                    }
+                }).done(function(){
+                    console.log('끗!');
+                });
+
             });
 
         }); // ready 끝

@@ -3,19 +3,13 @@ package com.project.mega.triplus.controller;
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
-import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
-import com.project.mega.triplus.repository.UserRepository;
-import com.project.mega.triplus.service.ApiService;
-import com.project.mega.triplus.service.CurrentUser;
-import com.project.mega.triplus.service.PlaceService;
-import com.project.mega.triplus.service.UserService;
+import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,14 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -51,6 +38,8 @@ public class MainController {
     private final UserService userService;
 
     private final HttpSession  httpSession;
+
+    private final PlanService planService;
 
 
     @Transactional
@@ -88,12 +77,12 @@ public class MainController {
             plan1_day2.setName("SecondDay");
         }
 
-        plan1.setName("나의 첫번째 여행");
-        plan1.setStatus(PlanStatus.COMPLETE);
-        plan1.setLiked(10);
-        plan1.setUpdate(LocalDateTime.now());
-        plan1.setDays(List.of(plan1_day1,plan1_day2));
-        planRepository.save(plan1);
+//        plan1.setName("나의 첫번째 여행");
+//        plan1.setStatus(PlanStatus.COMPLETE);
+//        plan1.setLiked(10);
+//        plan1.setUpdate(LocalDateTime.now());
+//        plan1.setDays(List.of(plan1_day1,plan1_day2));
+//        planRepository.save(plan1);
 
 //        List<List<String>> imageUrlsList = new ArrayList<>();
 //        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
@@ -161,7 +150,6 @@ public class MainController {
         // model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
         rand = Math.max((int)(Math.random() * (attractionList.size() - cnt)), 0);
         model.addAttribute("attractionList", attractionList.subList(rand, Math.min(rand + cnt, attractionList.size())));
-
 
         rand = Math.max((int)(Math.random() * (foodList.size() - cnt)), 0);
         model.addAttribute("foodList", foodList.subList(rand, Math.min(rand + cnt, foodList.size())));
@@ -365,5 +353,35 @@ public class MainController {
         return "index";
     }
     ///////////////////////////////////////////////////////////
+
+    @PostMapping("/plan/save")
+    @ResponseBody
+    public String savePlan(@CurrentUser User user,
+            @RequestBody List<List<Map<String, String>>> planList){
+        Plan plan = new Plan();
+        Day day;
+        Place place;
+
+        plan.setUser(user);
+
+        for(List<Map<String, String>> d : planList){
+            day = new Day();
+
+            for(Map<String, String> p : d){
+                place = new Place();
+                place.setName(p.get("title"));
+                place.setAddr(p.get("addr"));
+                place.setThumbnailUrl(p.get("imgUrl"));
+                place.setContentId(p.get("content_id"));
+                day.addPlace(place);
+            }
+
+            day.setPlan(plan);
+        }
+
+        planService.savePlan(plan);
+
+        return "done";
+    }
 
 }
