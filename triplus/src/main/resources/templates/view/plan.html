@@ -13,13 +13,7 @@
             <div class="form-group">
                 <div class="row">
                     <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
-                    <button type="button" id="before" class="btn btn-primary mb-2 mr-sm-2">
-                        before
-                    </button>
-                    <button type="button" id="after" class="btn btn-primary mb-2 mr-sm-2">
-                        after
-                    </button>
-                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                    <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
                         SAVE
                     </button>
                 </div>
@@ -27,26 +21,36 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="card col-4" id="card_1" style="height: 400px">
-                        <div class="card-body">
-                            <div class="row">
-                                <h3 class="card-title mb-2 mr-sm-2">Day 1</h3>
-                                <input type="text" class="form-control col-6 mb-2 mr-sm-2" placeholder="부제">
+                    <div class="col-4 day">
+                        <h2 class="text-center">Day</h2>
+                        <div class="card" style="height: 500px">
+                            <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                            delete
+                                        </button>
+                                        <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                            SAVE
+                                        </button>
+                                    </div>
 
-                                <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                    delete
-                                </button>
+                                    <!-- 돌하르방 div-->
+                                    <div class="block-21 mb-4 mt-4 d-flex place">
+                                        <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                        <div class="text">
+                                            <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                            <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col text-center">
+                                        <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-
-                            <!-- box -->
-                            <input type="text" id="box" class="form-control mb-2 mr-sm-2 box">
-
-                            <div class="col text-center">
-                                <button type="button" id="add_btn" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                    +
-                                </button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -76,7 +80,26 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    Modal body..
+                    <div class="ftco-animate fadeInUp ftco-animated">
+                        <input class="typeahead" type="text" id="search" onkeyup="filter()" placeholder="명소를 검색하세요."/>
+                        <div style="height:500px; overflow-y: scroll;">
+
+                            <!-- 카드들 담기는 곳-->
+                            <div class="placeList">
+                                <th:block th:each="place : ${placeList}">
+                                    <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
+                                            <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ')'"></a>
+                                            <div class="text">
+                                                <h3 class="heading placeTitle" th:text="${place.name}"></h3>
+                                                <p class="placeAddr" th:text="${place.addr1}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
@@ -90,57 +113,148 @@
 
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            var i = 1;
+        $(document).ready(function(){   // ready 시작
+            make_place = function(url, title, addr, content_id){
+                return '<div class="block-21 mb-4 mt-4 d-flex place">' +
+                '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
+                '    <div class="text">' +
+                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a></h3>' +
+                '        <p>' + addr + '</p>' +
+                '    </div>' +
+                '</div>';
+            }
 
+            var card = `<div class="col-4 day">
+                    <h2 class="text-center">Day</h2>
+                    <div class="card" style="height: 500px">
+                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                        delete
+                                    </button>
+                                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                        SAVE
+                                    </button>
+                                </div>
+
+                                <div class="block-21 mb-4 mt-4 d-flex place">
+                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
+                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                    </div>
+                                </div>
+
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+
+            add_btn_click = function(){
+                var add_place_btn = $(this);
+                var last_place = add_place_btn.parent().parent().find(".place:last");
+
+                last_place.addClass('last-place');
+            }
+
+
+            $(".add_btn").unbind().click(add_btn_click);
+
+
+            // 검색해서 클릭했을 때
+            $(".placeBox").click(function(){
+                var imgUrl = $(this).find("a").css('background');
+                var title = $(this).find(".text").find("h3").text();
+                var addr = $(this).find(".text").find("p").text();
+                var content_id = $(this).find('#content_id').text();
+                var last_place = $(".last-place");
+                imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+
+                // console.log(imgUrl);
+                // console.log(title);
+                // console.log(addr);
+
+                $('#myModal').modal('hide');
+
+                // TODO content_id 작업 해줘야함
+                last_place.after(make_place(imgUrl, title, addr, content_id));
+                last_place.removeClass('last-place');
+            });
+
+            // 새로울 Day를 만들 때
             $(".card_add").click(function(){
-                console.log("ok");
-                var card_id = "#card_" + i;
+                $(".last-place").removeClass('last-place');
 
-                var htmlStr = "<div class=\"card col-4\" id=\"card_" + ++i +"\" style=\"height: 400px\">\n" +
-                    "                        <div class=\"card-body\">\n" +
-                    "                            <div class=\"row\">\n" +
-                    "                                <h3 class=\"card-title mb-2 mr-sm-2\">Day " + i + "</h3>\n" +
-                    "                                <input type=\"text\" class=\"form-control col-6 mb-2 mr-sm-2\" placeholder=\"부제\">\n" +
-                    "                                <button type=\"button\" onclick=\"myFunction()\" class=\"btn btn-default mb-2 mr-sm-2 delete_btn\">\n" +
-                    "                                    delete\n" +
-                    "                                </button>\n" +
-                    "                            </div>\n" +
-                    "\n" +
-                    "                            <!-- box -->\n" +
-                    "                            <input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">\n" +
-                    "\n" +
-                    "                            <div class=\"col text-center\">\n" +
-                    "                                <button type=\"button\" class=\"btn btn-default mb-2 mr-sm-2 add_btn\" data-toggle=\"modal\" data-target=\"#myModal\">\n" +
-                    "                                    +\n" +
-                    "                                </button>\n" +
-                    "                            </div>\n" +
-                    "\n" +
-                    "                        </div>"
+                $(".day:last").after(card);
 
-                $(card_id).after(htmlStr);
+                $(".add_btn").unbind().click(add_btn_click);
+
+            }); // card_add btn click 끝
+
+
+            // 저장할 때
+            $('#save-all-btn').click(function(){
+                day = [];
+
+                dayList = $('.day').toArray().map(function(day){
+                    var tmp = [];
+
+                    $(day).find('.place').toArray().forEach(d => {
+                        var title = $(d).find('.text').find('.heading').text();
+                        var addr = $(d).find('.text').find('p').text();
+                        var imgUrl = $(d).find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+                        var contentId = 3223;
+                        var jsonObj = JSON.parse('{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":"' + addr + '", "content_id":"' + contentId + '"}');
+
+                        tmp.push(jsonObj);
+                    });
+
+                    return tmp;
+                });
+
+                console.log(JSON.stringify(dayList));
+
+                $.ajax({
+                    url: '/plan/save',
+                    type: 'post',
+                    dataType: 'json',
+                    data: JSON.stringify(dayList),
+                    contentType: 'application/json; charset=UTF-8',
+                    success: function(response) {
+                        console.log('ajax 성공 !!!!');
+                    }
+                }).done(function(){
+                    console.log('끗!');
+                });
+
             });
 
-            $("#add_btn").click(function(){
-                console.log("ok");
-                $("#box").after("<input type=\"text\" class=\"form-control mb-2 mr-sm-2 box\">");
-            });
+        }); // ready 끝
 
-            $(".delete_btn").click(function(){
-                console.log("ok");
-                $("#card").remove();
-            });
+    </script>
+    <script>
+        function filter() {
+            let search = document.getElementById("search").value.toLowerCase();
+            let placeList = document.getElementsByClassName("placeList")[0];
+            console.log(placeList.children);
 
-            // $("button").click(function(){
-            //     $("#div1").remove();
-            // });
+            let placeTitle = placeList.getElementsByClassName("placeTitle");
 
-            // $(".delete").click(deleteDiv(this));
-
-        });
-        // function deleteDiv(id){
-        //
-        // }
+            for (let i = 0; i < placeList.children.length; i++) {
+                if (placeTitle[i].innerHTML.toLowerCase().indexOf(search) != -1) {
+                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "flex" // placeBox
+                } else {
+                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "none"
+                }
+            }
+        }
     </script>
 
 </div>

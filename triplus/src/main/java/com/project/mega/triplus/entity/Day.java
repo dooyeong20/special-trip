@@ -16,7 +16,7 @@ public class Day {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Place> places = new ArrayList<>();
 
     @ManyToOne
@@ -26,6 +26,7 @@ public class Day {
     public void setPlan(Plan plan) {
         this.plan = plan;
         plan.getDays().add(this);
+        plan.setDayCounts(plan.getDayCounts()+1);
     }
 
     public void addPlace(Place place){

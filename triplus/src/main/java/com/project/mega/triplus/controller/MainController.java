@@ -3,17 +3,13 @@ package com.project.mega.triplus.controller;
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
-import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
-import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,14 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -58,7 +47,50 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
+
        planService.createDummyData();
+
+        // 추천일정 top3 더미데이터 생성하기
+        Plan plan1=new Plan();
+        Day plan1_day1=new Day();
+        Day plan1_day2=new Day();
+
+        // Place 테이블에서 실제 장소 데이터 빼오기.
+        Optional<Place> place1=placeRepository.findById(250L);
+        Optional<Place> place2=placeRepository.findById(350L);
+        Optional<Place> place3=placeRepository.findById(450L);
+        Optional<Place> place4=placeRepository.findById(550L);
+
+        if(place1.isPresent() && place2.isPresent() && place3.isPresent() && place4.isPresent()){
+
+            // day1에 장소들 임의로 추가.
+            plan1_day1.addPlace(place1.get());
+            plan1_day1.addPlace(place2.get());
+            plan1_day2.addPlace(place3.get());
+            plan1_day2.addPlace(place4.get());
+
+            // plan1_day1, plan1_day2 은 plan1 소속이다.
+            plan1_day1.setPlan(plan1);
+            plan1_day2.setPlan(plan1);
+
+            plan1_day1.setName("FirstDay");
+            plan1_day2.setName("SecondDay");
+        }
+
+//        plan1.setName("나의 첫번째 여행");
+//        plan1.setStatus(PlanStatus.COMPLETE);
+//        plan1.setLiked(10);
+//        plan1.setUpdate(LocalDateTime.now());
+//        plan1.setDays(List.of(plan1_day1,plan1_day2));
+//        planRepository.save(plan1);
+
+//        List<List<String>> imageUrlsList = new ArrayList<>();
+//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
+//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
+//
+//        System.out.println(imageUrlsList);
     }
 
     @RequestMapping("/")
@@ -118,7 +150,6 @@ public class MainController {
         // model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
         rand = Math.max((int)(Math.random() * (attractionList.size() - cnt)), 0);
         model.addAttribute("attractionList", attractionList.subList(rand, Math.min(rand + cnt, attractionList.size())));
-
 
         rand = Math.max((int)(Math.random() * (foodList.size() - cnt)), 0);
         model.addAttribute("foodList", foodList.subList(rand, Math.min(rand + cnt, foodList.size())));
@@ -180,7 +211,17 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(){ return "view/plan"; }
+    public String plan(Model model){
+        int rand, cnt = 10;
+
+        List<Place> placeList = placeRepository.findAllByContentType("12");
+
+        rand = Math.max((int) (Math.random() * (placeList.size() - cnt)), 0);
+
+        model.addAttribute("placeList", placeList.subList(rand, rand + Math.min(placeList.size(), cnt)));
+
+        return "view/plan";
+    }
 
     @GetMapping("/widgets")
     public String w(){
@@ -244,10 +285,8 @@ public class MainController {
     @GetMapping("/total_plan")
     public String totalPlan(Model model){
         List<Plan> allPlans = planService.getAllPlans();
-        int countDays = planService.countDays();
 
         model.addAttribute("planList", allPlans);
-        model.addAttribute("count", countDays);
 
         return "view/total_plan";
     }
@@ -316,5 +355,35 @@ public class MainController {
         return "index";
     }
     ///////////////////////////////////////////////////////////
+
+    @PostMapping("/plan/save")
+    @ResponseBody
+    public String savePlan(@CurrentUser User user,
+            @RequestBody List<List<Map<String, String>>> planList){
+        Plan plan = new Plan();
+        Day day;
+        Place place;
+
+        plan.setUser(user);
+
+        for(List<Map<String, String>> d : planList){
+            day = new Day();
+
+            for(Map<String, String> p : d){
+                place = new Place();
+                place.setName(p.get("title"));
+                place.setAddr(p.get("addr"));
+                place.setThumbnailUrl(p.get("imgUrl"));
+                place.setContentId(p.get("content_id"));
+                day.addPlace(place);
+            }
+
+            day.setPlan(plan);
+        }
+
+        planService.savePlan(plan);
+
+        return "done";
+    }
 
 }

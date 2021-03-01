@@ -57,9 +57,10 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/scss/**",
                         "/font/**",
-                        "/harim/**" // 하림님 회원가입용 !!
-//                        "/join/**",
-//                        "/check-email-token/**"
+                        "/harim/**", // 하림님 회원가입용 !!
+                        "/join/**",
+                        "/check-email-token/**",
+                        "/plan"     // 테스트용
                 ).permitAll()
 
                 .antMatchers("/api/v1/**").hasRole("USER")
@@ -96,7 +97,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-
                 .and()
 
                 .csrf().disable();
