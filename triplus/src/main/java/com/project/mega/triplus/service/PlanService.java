@@ -51,6 +51,8 @@ public class PlanService {
         plan.setName("First plan");
         plan.setLiked(10);
         plan.setUser(user);
+        plan.addDay(plan1_day1);
+        plan.addDay(plan1_day2);
         plan1_day1.setPlan(plan);
         plan1_day2.setPlan(plan);
         plan.setStatus(PlanStatus.COMPLETE);
@@ -60,6 +62,7 @@ public class PlanService {
         plan2.setName("Second plan");
         plan2.setLiked(8);
         plan2.setUser(user);
+        plan2.addDay(plan2_day1);
         plan2_day1.setPlan(plan2);
         plan2.setStatus(PlanStatus.COMPLETE);
         planRepository.save(plan2);

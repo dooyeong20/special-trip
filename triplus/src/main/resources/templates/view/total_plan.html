@@ -67,7 +67,7 @@
                         <th:block th:each="plan : ${planList}">
                                 <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" style="background-image: url(images/destination-1.jpg);"></a>
+                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.image} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                         <div class="text p-4 d-block">
                                             <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
                                             <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>

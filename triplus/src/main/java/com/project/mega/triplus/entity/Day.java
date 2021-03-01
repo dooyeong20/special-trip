@@ -19,6 +19,8 @@ public class Day {
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Place> places = new ArrayList<>();
 
+    private String placeImg;
+
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
@@ -31,5 +33,6 @@ public class Day {
 
     public void addPlace(Place place){
         places.add(place);
+        placeImg = place.getThumbnailUrl();
     }
 }
