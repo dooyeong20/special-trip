@@ -141,7 +141,7 @@
         <div id="attraction" class="container tab-pane active"><br>
           <div class="row d-flex">
 
-            <th:block th:each="place : ${attractionList}" >
+            <th:block th:each="place : ${attractionList}">
             <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
               <div class="blog-entry align-self-stretch" style="width:245px">
                 <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.imageUrl}">

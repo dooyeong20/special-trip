@@ -57,9 +57,11 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/scss/**",
                         "/font/**",
+<<<<<<< HEAD
                         "/join/**",
                         "/check-email-token/**",
                         "/plan"     // 테스트용
+
                 ).permitAll()
 
                 .antMatchers("/api/v1/**").hasRole("USER")

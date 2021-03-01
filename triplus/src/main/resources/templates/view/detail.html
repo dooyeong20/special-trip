@@ -9,8 +9,9 @@
 			<div class="row d-flex contact-info">
 				<div class="col-md-12">
 					<h2 th:text="${item.placeName}"></h2>
+					<input type="hidden" id="content_id" name="content_id" th:value="${content_id}">
 				</div>
-
+s
 				<div class="col-md-3">
 					<p><span>Address:</span> <span th:text="${item.addr1}"></span></p>
 				</div>
@@ -18,10 +19,13 @@
 					<p><span>Phone:</span> <a href="#" th:text="${item.tel}"></a></p>
 				</div>
 				<div class="col-md-3">
-					<p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+					<p><span>Website</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
+					<p><span>Email:</span> <div th:remove="tag" th:utext="${item.homepage}"></div></p>
 				</div>
 				<div class="col-md-3">
-					<p><span>Website</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
+					<button type="button" id="like" class="btn btn-primary mb-2 mr-sm-2">
+						찜하기
+					</button>
 				</div>
 			</div>
 
@@ -46,70 +50,63 @@
 						<div class="overview">
 							<div th:remove="tag" th:utext="${item.overview}"></div>
 						</div>
-						<div class="pt-5">
-							<h3 class="mb-5">2 Comments</h3>
-							<ul class="comment-list">
-								<li class="comment">
-									<div class="vcard bio">
-										<img src="images/person_1.jpg" alt="Image placeholder">
-									</div>
-									<div class="comment-body">
-										<h3>John Doe</h3>
-										<div class="meta">June 27, 2018 at 2:21pm</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-										<p><a href="#" class="reply">Reply</a></p>
-									</div>
-								</li>
 
-								<li class="comment">
-									<div class="vcard bio">
-										<img src="images/person_1.jpg" alt="Image placeholder">
-									</div>
-									<div class="comment-body">
-										<h3>John Doe</h3>
-										<div class="meta">June 27, 2018 at 2:21pm</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-										<p><a href="#" class="reply">Reply</a></p>
-									</div>
-								</li>
+						<!-- Comments	-->
+
+						<div class="pt-5">
+							<!-- comment 개수-->
+							<h3 class="mb-5">
+								<span th:if="${#lists.isEmpty(reviews)}" th:text="0"></span>
+								<th:block th:unless="${#lists.isEmpty(reviews)}">
+									<span th:text="${#lists.size(reviews)}"></span>
+								</th:block>
+								Comments
+							</h3>
+
+							<ul class="comment-list">
+
+<!--								<li class="comment">-->
+<!--									<div class="vcard bio">-->
+<!--										<img src="images/person_1.jpg" alt="Image placeholder">-->
+<!--									</div>-->
+<!--									<div class="comment-body">-->
+<!--										<h3>SAMPLE DEFAULT REVIEW</h3>-->
+<!--										<div class="meta">Jan 1, 2021 at 1:11pm</div>-->
+<!--										<p>샘플 리뷰 : 너무 좋아요~</p>-->
+<!--										<p><a href="#" class="reply">Reply</a></p>-->
+<!--									</div>-->
+<!--								</li>-->
+
+								<th:block th:each="review : ${reviews}">
+									<li class="comment">
+										<div class="vcard bio">
+											<img src="images/person_1.jpg" alt="Image placeholder">
+										</div>
+										<div class="comment-body">
+											<h3 th:text="${review.title}"></h3>
+											<div class="meta" th:text="${review.regdate}">June 27, 2018 at 2:21pm</div>
+											<p th:text="${review.content}">review</p>
+										</div>
+									</li>
+								</th:block>
+
 							</ul>
 							<!-- END comment-list -->
 
-							<li class="comment">
-								<div class="vcard bio">
-									<img src="images/person_1.jpg" alt="Image placeholder">
-								</div>
-								<div class="comment-body">
-									<h3>John Doe</h3>
-									<div class="meta">June 27, 2018 at 2:21pm</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-									<p><a href="#" class="reply">Reply</a></p>
-								</div>
-							</li>
-						</ul>
-						<!-- END comment-list -->
-
 						<div class="comment-form-wrap pt-5">
 							<h3 class="mb-5">리뷰 작성하기</h3>
-							<form action="#" class="p-5 bg-light">
-
+							<form th:action="@{/register_review}" class="p-5 bg-light" method="post">
 								<div class="form-group">
 									<label for="message">Message</label>
-									<textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+									<textarea name="content" id="message" cols="30" rows="10" class="form-control"></textarea>
 								</div>
 								<div class="form-group text-right">
 									<input type="submit" value="등록" class="btn btn-primary">
 								</div>
-
-									<div class="form-group">
-										<label for="message">Message</label>
-										<textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
-									</div>
-									<div class="form-group text-right">
-										<input type="submit" value="등록" class="btn btn-primary">
-									</div>
+								<input type="hidden" name="content_id" th:value="${content_id}">
 							</form>
 						</div>
+
 					</div>
 
 				</div>
@@ -170,5 +167,64 @@
 
 		</div>
 	</section>
+
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+		 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Triplus</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+
+		$(document).ready(function(){
+		  var contentId = $("#content_id").attr("value");
+
+		  var messageDTO={
+				content_id: contentId
+		  };
+
+		  $("#like").click(function(){
+		  	  console.log(contentId);
+		  	  console.log(messageDTO);
+
+		  	  $.ajax({
+				url: "/detail/like",
+				data: messageDTO,
+				type:"get",
+				dataType:"json",
+				success: function(response){
+					console.log(response['message']);
+					if(response['result']){
+						$("#like").text	('찜했음!');
+					}
+					else{
+						$("#like").text('이미 찜했음!');
+					}
+				},
+				error: function (response) {
+        			console.log(response['message']);
+        			$("#like").tetx('찜오류!');
+    			}
+			  }).done(function(){
+			  	console.log('끗!');
+			  });
+
+		  });
+		});
+	</script>
 </div>
 </html>

@@ -12,10 +12,10 @@ import java.util.*;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "nickname"})})
+
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class User implements UserDetails {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,18 +40,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private List<Place> placeLikes;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Place> placeLikes = new ArrayList<>();
 
     @OneToMany
     private List<Plan> planLikes;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     private List<Plan> myPlans = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(fetch=FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private List<Review> reviews = new ArrayList<>();
 
 

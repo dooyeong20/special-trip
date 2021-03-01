@@ -27,8 +27,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	// 레이아웃
 	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect'
-    implementation 'org.jetbrains:annotations:20.1.0'
-    compileOnly 'org.projectlombok:lombok'
+	implementation 'org.jetbrains:annotations:20.1.0'
+	compileOnly 'org.projectlombok:lombok'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
