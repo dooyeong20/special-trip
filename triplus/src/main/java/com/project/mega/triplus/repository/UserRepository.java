@@ -1,6 +1,7 @@
 package com.project.mega.triplus.repository;
 
 import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Review;
 import com.project.mega.triplus.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     List<User> findAllByPlaceLikes(String liked);
+
 }

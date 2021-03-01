@@ -22,6 +22,4 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Place findByContentId(String contentId);
 
-
-   // List<Place> findAllByPlaceLikes(String liked);
 }

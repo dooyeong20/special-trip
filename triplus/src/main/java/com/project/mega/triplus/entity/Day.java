@@ -16,7 +16,7 @@ public class Day {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Place> places = new ArrayList<>();
 
     @ManyToOne

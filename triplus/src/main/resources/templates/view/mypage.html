@@ -43,8 +43,8 @@
                             <div class="col-md-12 text-center">
                                 <h2 class="mb-4"><i class="far fa-calendar-alt"></i> 내 일정 보기</h2>
                             </div>
-                            <th:block th:each="plan : ${planList}">
                             <div class="row">
+                                <th:block th:each="plan : ${planList}">
                                 <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
                                     <div class="destination">
                                         <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
@@ -70,8 +70,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </th:block>
                             </div>
-                            </th:block>
                         </div>
                     </div>
 
@@ -88,6 +88,8 @@
                                     <option value="name">이름순</option>
                                 </select>
                             </div>
+
+                            <form th:action="@{/mypage}" method="post" name="reviewForm">
                             <th:block th:each="review : ${reviewList}">
                             <div class="review_list mb-5">
                                 <div class="row ml-1">
@@ -96,11 +98,12 @@
                                 </div>
                                     <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
                                     <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;">
-                                    <button type="button" class="btn btn-primary mb-2 mr-sm-2">
+                                    <button type="button" onclick="sendParam('delete')" class="btn btn-primary mb-2 mr-sm-2">
                                         삭제
                                     </button>
                                 </div>
                             </th:block>
+                            </form>
                         </div>
                     </div>
 
@@ -276,23 +279,23 @@
                             <table width="500" height="600" border="2" align="center" rules="none">
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Nickname</td>
-                                    <td width="80%"><input type="text" th:placeholder="${nickname}"></td>
+                                    <td width="80%"><input type="text" th:value="${nickName}"></td>
 
                                 </tr>
 
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Email</td>
-                                    <td width="80%"><input type="text" th:placeholder="${email}" readonly></td>
+                                    <td width="80%"><input type="text" th:value="${email}" readonly></td>
                                 </tr>
 
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Password</td>
-                                    <td width="80%"><input type="password" th:placeholder="${password}"></td>
+                                    <td width="80%"><input type="password" th:value="${password}"></td>
                                 </tr>
 
                                 <tr align="center">
                                     <td width="20%" style="font-weight: bold">Confirm Password</td>
-                                    <td width="80%"><input type="text"></td>
+                                    <td width="80%"><input type="text" th:value="${password}"></td>
                                 </tr>
 
                                 <tr align="center">
@@ -316,7 +319,6 @@
     </section>
 
     </body>
-
 
 </div>
 </html>

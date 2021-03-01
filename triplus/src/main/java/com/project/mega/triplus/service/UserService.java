@@ -54,7 +54,6 @@ public class UserService implements UserDetailsService {
 
     private final HttpSession httpSession;
 
-    private User user;
 
     @InitBinder("signupForm")
     public void initBinder(WebDataBinder webDataBinder){ webDataBinder.addValidators(joinFormValidator);}
@@ -147,4 +146,6 @@ public class UserService implements UserDetailsService {
     public List<Plan> getPlanList(User user) {
         return userRepository.findByEmail(user.getEmail()).getMyPlans();
     }
+
+
 }
