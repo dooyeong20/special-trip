@@ -1,6 +1,7 @@
 package com.project.mega.triplus.repository;
 
 import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +21,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findAllByContentType(String type);
 
     Place findByContentId(String contentId);
+
+
+   // List<Place> findAllByPlaceLikes(String liked);
 }

@@ -43,6 +43,35 @@
                             <div class="col-md-12 text-center">
                                 <h2 class="mb-4"><i class="far fa-calendar-alt"></i> 내 일정 보기</h2>
                             </div>
+                            <th:block th:each="plan : ${planList}">
+                            <div class="row">
+                                <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+                                    <div class="destination">
+                                        <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/destination-1.jpg);">
+                                            <div class="icon d-flex justify-content-center align-items-center">
+                                                <span class="icon-search2"></span>
+                                            </div>
+                                        </a>
+                                        <div class="text p-3">
+                                            <div class="d-flex">
+                                                <div class="one">
+                                                    <h3><a th:text="${plan.name}">나의 첫번째 여행</a></h3>
+                                                </div>
+                                                <div class="two">
+                                                    <a th:text="${plan.liked}"></a>
+                                                </div>
+                                            </div>
+                                            <p class="days"><a th:text="${plan.update}"></a></p>
+                                            <hr>
+                                            <p class="bottom-area d-flex">
+                                                <span><i class="icon-map-o"></i> San Franciso, CA</span>
+                                                <span class="ml-auto"><a href="#">Discover</a></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </th:block>
                         </div>
                     </div>
 
@@ -53,31 +82,25 @@
                                 <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
                             </div>
 
-                            <div class="review_sort_box">
+                            <div class="review_sort_box mb-4">
                                 <select id name class="review_sort">
                                     <option value="regdate">등록순</option>
                                     <option value="name">이름순</option>
                                 </select>
                             </div>
-
-                            <div class="review_list">
-                                <p>
-                                    <label class="review_place_name">장소명  </label>
-                                    <img class="review_place_image" th:src="@{/images/destination-5.jpg}" alt="review_place_image" width="80" height="70" style="margin:10px">
-                                    <input class="review_place_content" type="text" value="리뷰내용" style="width:500px; height:70px;">
+                            <th:block th:each="review : ${reviewList}">
+                            <div class="review_list mb-5">
+                                <div class="row ml-1">
+                                    <h6 class="review_place_name mr-2" th:text="${review.place.name}"></h6>
+                                    <p class="review_place_name" th:text="${review.regdate}"></p>
+                                </div>
+                                    <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
+                                    <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;">
                                     <button type="button" class="btn btn-primary mb-2 mr-sm-2">
                                         삭제
                                     </button>
-                                </p>
-                                <p>
-                                    <label class="review_place_name">장소명  </label>
-                                    <img class="review_place_image" th:src="@{/images/destination-5.jpg}" alt="review_place_image" width="80" height="70" style="margin:10px">
-                                    <input class="review_place_content" type="text" value="리뷰내용" style="width:500px; height:70px;">
-                                    <button type="button" class="btn btn-primary mb-2 mr-sm-2">
-                                        삭제
-                                    </button>
-                                </p>
-                            </div>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
 
@@ -113,56 +136,10 @@
                                                 <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
                                                 </a>
                                                 <div class="text p-4 d-block">
-                                                    <span class="tag">Tips, Travel</span>
                                                     <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
                                                     <div class="meta mb-3">
                                                         <div><a th:text="${place.addr1}"></a></div>
-                                                        <div><a class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
-                                            <div class="blog-entry align-self-stretch">
-                                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-                                                </a>
-                                                <div class="text p-4">
-                                                    <span class="tag">Culture</span>
-                                                    <h3 class="heading mt-3"><a th:href="@{/tour}">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                                    <div class="meta mb-3">
-                                                        <div><a th:href="@{/tour}">August 12, 2018</a></div>
-                                                        <div><a th:href="@{/tour}">Admin</a></div>
-                                                        <div><a th:href="@{/tour}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
-                                            <div class="blog-entry align-self-stretch">
-                                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-                                                </a>
-                                                <div class="text p-4">
-                                                    <span class="tag">Tips, Travel</span>
-                                                    <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                                    <div class="meta mb-3">
-                                                        <div><a href="#">August 12, 2018</a></div>
-                                                        <div><a href="#">Admin</a></div>
-                                                        <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
-                                            <div class="blog-entry align-self-stretch">
-                                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_4.jpg');">
-                                                </a>
-                                                <div class="text p-4">
-                                                    <span class="tag">Tips, Travel</span>
-                                                    <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                                    <div class="meta mb-3">
-                                                        <div><a href="#">August 12, 2018</a></div>
-                                                        <div><a href="#">Admin</a></div>
-                                                        <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                                                        <div><span><i class="fas fa-heart"></i> 3</span></div>
                                                     </div>
                                                 </div>
                                             </div>

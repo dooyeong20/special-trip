@@ -52,6 +52,8 @@ public class MainController {
 
     private final HttpSession  httpSession;
 
+    private final UserRepository userRepository;
+
 
     @Transactional
     @PostConstruct
@@ -187,6 +189,7 @@ public class MainController {
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        // <XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
         place = placeService.getPlaceByContentId(contentId);
 
         // ===============================
@@ -275,12 +278,26 @@ public class MainController {
 
     @GetMapping("/mypage")
     public String mypage(@CurrentUser User user, Model model){
+        // 내 닉네임 뜨는 부분
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
         String nickName = user.getNickName();
 
         model.addAttribute("nickName", nickName);
+
+        // 내 일정 보기
+        List<Plan> planList = userService.getPlanList(user);
+        model.addAttribute("planList", planList);
+
+        // 내 리뷰 목록
+        List<Review> reviewList = userService.getReviewList(user);
+        model.addAttribute("reviewList", reviewList);
+
+
+        // 내 찜 목록
+        List<Place> likeList = userService.getLikeList(user);
+        model.addAttribute("likeList", likeList);
 
         return "view/mypage";
     }

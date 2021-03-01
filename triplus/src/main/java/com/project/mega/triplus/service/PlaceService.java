@@ -39,8 +39,10 @@ public class PlaceService {
     }
 
     public Place getPlaceByContentId(String contentId) {
+
         return placeRepository.findByContentId(contentId);
     }
+
 
     public void addLikes(User user, String contentId) {
         if (user == null) {
