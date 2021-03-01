@@ -225,9 +225,14 @@ public class MainController {
 
     @GetMapping("/plan")
     public String plan(Model model){
-        List<Place> placeList;
+        int rand, cnt = 10;
 
-//        model.addAttribute("places", placeList);
+        List<Place> placeList = placeRepository.findAllByContentType("12");
+
+        rand = Math.max((int) (Math.random() * (placeList.size() - cnt)), 0);
+
+        model.addAttribute("placeList", placeList.subList(rand, rand + Math.min(placeList.size(), cnt)));
+
         return "view/plan";
     }
 
@@ -292,7 +297,8 @@ public class MainController {
 
 
     @GetMapping("/total_plan")
-    public String totalPlan(){
+    public String totalPlan(Model model){
+
         return "view/total_plan";
     }
 

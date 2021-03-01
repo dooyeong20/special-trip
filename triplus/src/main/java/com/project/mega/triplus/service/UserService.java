@@ -96,7 +96,7 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        sendJoinConfirmEmail(newUser);
+//        sendJoinConfirmEmail(newUser);
 
         return newUser;
     }
