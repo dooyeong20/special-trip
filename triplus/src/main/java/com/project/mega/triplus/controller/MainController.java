@@ -60,6 +60,8 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
+        // total_plan을 위한 더미 데이터
+        
     }
 
     @RequestMapping("/")
@@ -244,6 +246,8 @@ public class MainController {
 
     @GetMapping("/total_plan")
     public String totalPlan(){
+
+
         return "view/total_plan";
     }
 
