@@ -64,75 +64,25 @@
             <div class="tab-content">
                 <div id="all" class="container tab-pane active"><br>
                     <div class="row d-flex">
-                        <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                            <div class="blog-entry align-self-stretch">
-                                <a th:href="@{/tour}" class="block-20" style="background-image: url('images/image_1.jpg');">
-                                </a>
-                                <div class="text p-4 d-block">
-                                    <span class="tag">Tips, Travel</span>
-                                    <h3 class="heading mt-4"><a th:href="@{/tour}">8 Best homestay in Philippines that you don't miss out</a></h3>
-                                    <div class="meta mb-4">
-                                        <div><a th:href="@{/tour}">August 12, 2018</a></div>
-                                        <div><a th:href="@{/tour}">Admin</a></div>
-                                        <div><a th:href="@{/tour}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                            <div class="blog-entry align-self-stretch">
-                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-                                </a>
-                                <div class="text p-4">
-                                    <span class="tag">Culture</span>
-                                    <h3 class="heading mt-4"><a th:href="@{/tour}">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                    <div class="meta mb-4">
-                                        <div><a th:href="@{/tour}">August 12, 2018</a></div>
-                                        <div><a th:href="@{/tour}">Admin</a></div>
-                                        <div><a th:href="@{/tour}" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                        <div><a th:href="@{/tour}"><i class="fas fa-heart"></i> 560</a></div>
-                                        <div class="row justify-content-center py-5">
-                                            <!--        <i class="fas fa-heart"></i>-->
-                                            <!--        <i class="far fa-heart"></i>-->
+                        <th:block th:each="plan : ${planList}">
+                            <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a th:href="@{/tour}" class="block-20" style="background-image: url('images/image_1.jpg');"></a>
+                                    <div class="text p-4 d-block">
+                                        <span class="tag" th:text="${count}"></span>
+                                        <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
+                                        <div class="meta mb-4">
+                                            <div><a th:href="@{/tour}" th:text="${plan.update}"></a></div><br>
+                                            <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
+                                            <div><a th:href="@{/tour}"><i class="fas fa-heart"><a th:text="${plan.liked}"></a></i></a></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                            <div class="blog-entry align-self-stretch">
-                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-                                </a>
-                                <div class="text p-4">
-                                    <span class="tag">Tips, Travel</span>
-                                    <h3 class="heading mt-4"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                    <div class="meta mb-4">
-                                        <div><a href="#">August 12, 2018</a></div>
-                                        <div><a href="#">Admin</a></div>
-                                        <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                        <div><a th:href="@{/tour}"><i class="fas fa-heart"></i> 560</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                            <div class="blog-entry align-self-stretch">
-                                <a href="blog-single.html" class="block-20" style="background-image: url('images/image_4.jpg');">
-                                </a>
-                                <div class="text p-4">
-                                    <span class="tag">Tips, Travel</span>
-                                    <h3 class="heading mt-4"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                    <div class="meta mb-4">
-                                        <div><a href="#">August 12, 2018</a></div>
-                                        <div><a href="#">Admin</a></div>
-                                        <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                        <div><a th:href="@{/tour}"><i class="fas fa-heart"></i> 560</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </th:block>
                     </div>
                 </div>
+
                 <div id="seoul" class="container tab-pane fade"><br>
                     <div class="row">
                         <div class="col-md-4 ftco-animate fadeInUp ftco-animated">

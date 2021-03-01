@@ -7,15 +7,13 @@ import com.project.mega.triplus.oauth2.LoginUser;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.repository.UserRepository;
-import com.project.mega.triplus.service.ApiService;
-import com.project.mega.triplus.service.CurrentUser;
-import com.project.mega.triplus.service.PlaceService;
-import com.project.mega.triplus.service.UserService;
+import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -42,8 +40,6 @@ public class MainController {
 
     private final PlaceRepository placeRepository;
 
-    private final PlanRepository planRepository;
-
     private final PlaceService placeService;
 
     private final ApiService apiService;
@@ -51,6 +47,8 @@ public class MainController {
     private final UserService userService;
 
     private final HttpSession  httpSession;
+
+    private final PlanService planService;
 
 
     @Transactional
@@ -60,14 +58,13 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
-        // total_plan을 위한 더미 데이터
-        
+       planService.createDummyData();
     }
 
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlaceList();
-        List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
+        List<Plan> planList = planService.getAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
@@ -245,8 +242,12 @@ public class MainController {
 
 
     @GetMapping("/total_plan")
-    public String totalPlan(){
+    public String totalPlan(Model model){
+        List<Plan> allPlans = planService.getAllPlans();
+        int countDays = planService.countDays();
 
+        model.addAttribute("planList", allPlans);
+        model.addAttribute("count", countDays);
 
         return "view/total_plan";
     }
