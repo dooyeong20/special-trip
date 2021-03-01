@@ -54,7 +54,7 @@ public class MainController {
 
 
     @Transactional
-//    @PostConstruct
+    @PostConstruct
 
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
