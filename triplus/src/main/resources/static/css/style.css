@@ -1558,7 +1558,11 @@ pre {
 // origin - plan modal search - width
 .form-control {
   display: block;
+<<<<<<< HEAD
   width: 60%;
+=======
+  width: 70%;
+>>>>>>> b39ebe96037d97167eea9848e9a09cf1c3fff3e6
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -9340,6 +9344,7 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
 
 
 
