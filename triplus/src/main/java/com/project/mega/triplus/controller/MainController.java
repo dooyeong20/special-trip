@@ -179,8 +179,6 @@ public class MainController {
         XMLResponseItem item = apiService.getItemByContentId(contentId);
         List<XMLResponseItem> recommendPlaces_attraction = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
         List<XMLResponseItem> recommendPlaces_food = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
-        //List<XMLResponseItem> recommendPlaces_shop = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "38");
-        //List<XMLResponseItem> recommendPlaces_festival = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "15");
         place = placeService.getPlaceByContentId(contentId);
 
         // ===============================
@@ -199,16 +197,11 @@ public class MainController {
         model.addAttribute("content_id", contentId);
 
         rand = Math.max((int) (Math.random() * (recommendPlaces_attraction.size() - cnt)), 0);
-        model.addAttribute("recommendPlaces_attraciton", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));
+        model.addAttribute("recommendPlaces_attraction", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));
 
         rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
         model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
 
-//        rand = Math.max((int) (Math.random() * (recommendPlaces_shop.size() - cnt)), 0);
-//        model.addAttribute("recommendPlaces_shop", recommendPlaces_shop.subList(rand, rand + Math.min(recommendPlaces_shop.size(), cnt)));
-//
-//        rand = Math.max((int) (Math.random() * (recommendPlaces_festival.size() - cnt)), 0);
-//        model.addAttribute("recommendPlaces_festival", recommendPlaces_festival.subList(rand, rand + Math.min(recommendPlaces_festival.size(), cnt)));
         return "view/detail";
     }
 
@@ -321,7 +314,7 @@ public class MainController {
 
         //model.addAttribute("likeList", likeList);
 
-        model.addAttribute("attractionList ", attractionList);
+        model.addAttribute("attractionList", attractionList);
         model.addAttribute("foodList", foodList);
         model.addAttribute("shopList", shopList);
         model.addAttribute("festivalList", festivalList);
