@@ -3,6 +3,7 @@ package com.project.mega.triplus.controller;
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
+import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.repository.UserRepository;
@@ -404,14 +405,16 @@ public class MainController {
     @PostMapping("/plan/save")
     @ResponseBody
     public String savePlan(@CurrentUser User user,
-            @RequestBody List<List<Map<String, String>>> planList){
+            @RequestBody PlanForm planForm){
         Plan plan = new Plan();
         Day day;
         Place place;
 
         plan.setUser(user);
+        plan.setName(planForm.getPlan());
+        plan.setUpdate(LocalDateTime.now());
 
-        for(List<Map<String, String>> d : planList){
+        for(List<Map<String, String>> d : planForm.getDayList()){
             day = new Day();
 
             for(Map<String, String> p : d){
