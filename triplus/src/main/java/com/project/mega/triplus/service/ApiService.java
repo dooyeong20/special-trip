@@ -1,10 +1,6 @@
 package com.project.mega.triplus.service;
 
-import com.project.mega.triplus.entity.Accomm;
-import com.project.mega.triplus.entity.Activity;
-import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.XMLResponse;
-import com.project.mega.triplus.entity.XMLResponseItem;
+import com.project.mega.triplus.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,11 +28,11 @@ import java.util.Set;
 @Slf4j
 @Transactional
 public class ApiService {
-    private final String PLACE = "12";
+    private final String ATTRACTION = "12";
     private final String ACTIVITY = "15";
     private final String HOTEL = "32";
-//    private final String SHOP = "38";
-//    private final String FOOD = "39";
+    private final String SHOP = "38";
+    private final String FOOD = "39";
     private final String KEY;
     private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
@@ -54,11 +50,11 @@ public class ApiService {
 
     public boolean loadPlaces() {
         try {
-            loadPlaceWithContentType(PLACE);
+            loadPlaceWithContentType(ATTRACTION);
             loadPlaceWithContentType(ACTIVITY);
             loadPlaceWithContentType(HOTEL);
-//            loadPlaceWithContentType(SHOP);
-//            loadPlaceWithContentType(FOOD);
+            loadPlaceWithContentType(SHOP);
+            loadPlaceWithContentType(FOOD);
         } catch (IOException | JAXBException e) {
             log.error(e.getMessage());
             return false;
@@ -85,11 +81,17 @@ public class ApiService {
                     case ACTIVITY:
                         place = new Activity();
                         break;
-                    case PLACE:
-                        place = new Place();
+                    case ATTRACTION:
+                        place = new Attraction();
                         break;
                     case HOTEL:
                         place = new Accomm();
+                        break;
+                    case FOOD:
+                        place = new Food();
+                        break;
+                    case SHOP:
+                        place = new Shop();
                         break;
                 }
 

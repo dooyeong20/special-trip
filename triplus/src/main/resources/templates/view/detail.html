@@ -6,27 +6,26 @@
 <div layout:fragment="content">
 	<section class="ftco-section contact-section ftco-degree-bg">
 		<div class="container">
+
 			<div class="row d-flex contact-info">
-				<div class="col-md-12">
+				<div class="row col-md-12 mb-3">
 					<h2 th:text="${item.placeName}"></h2>
 					<input type="hidden" id="content_id" name="content_id" th:value="${content_id}">
-				</div>
-
-				<div class="col-md-3">
-					<p><span>Address:</span> <span th:text="${item.addr1}"></span></p>
-				</div>
-				<div class="col-md-3">
-					<p><span>Phone:</span> <a href="#" th:text="${item.tel}"></a></p>
-				</div>
-				<div class="col-md-3">
-					<p><span>Website</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
-					<p><span>Email:</span> <div th:remove="tag" th:utext="${item.homepage}"></div></p>
-				</div>
-				<div class="col-md-3">
-					<button type="button" id="like" class="btn btn-primary mb-2 mr-sm-2">
+					<button type="button" id="like" class="btn btn-primary ml-3 mb-2">
 						찜하기
 					</button>
 				</div>
+
+				<div class="col-md-4">
+					<p><span>Address :</span> <span th:text="${item.addr1}"></span></p>
+				</div>
+				<div class="col-md-4">
+					<p><span>Phone :</span> <a href="#" th:text="${item.tel}"></a></p>
+				</div>
+				<div class="col-md-4">
+					<p><span>Website :</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
+				</div>
+
 			</div>
 
 			<hr>
@@ -119,7 +118,7 @@
 							<div class="ftco-animate fadeInUp ftco-animated">
 								<h3>인근 명소</h3>
 
-								<th:block th:each="place : ${recommendPlaces}">
+								<th:block th:each="place : ${recommendPlaces_attraciton}">
 									<th:block th:if="${place.imageUrl}">
 										<div class="col-12 ftco-animate fadeInUp ftco-animated">
 											<div class="block-21 mb-4 d-flex">
@@ -137,27 +136,19 @@
 
 							<div class="ftco-animate fadeInUp ftco-animated pt-5">
 								<h3>인근 음식점</h3>
-								<div class="block-21 mb-4 d-flex">
-									<a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-									<div class="text">
-										<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-										<div class="meta">
-
-										<div><a href="#"><span class="icon-chat"></span> 19</a></div>
-									</div>
-								</div>
-							</div>
-							<div class="block-21 mb-4 d-flex">
-								<a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-								<div class="text">
-									<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-									<div class="meta">
-
-
-										<div><a href="#"><span class="icon-chat"></span> 19</a></div>
-									</div>
-								</div>
-							</div>
+								<th:block th:each="place : ${recommendPlaces_food}">
+									<th:block th:if="${place.imageUrl}">
+										<div class="col-12 ftco-animate fadeInUp ftco-animated">
+											<div class="block-21 mb-4 d-flex">
+												<a class="blog-img mr-4" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+												<div class="text">
+													<h3 class="heading"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
+													<p th:text="${place.addr1}"></p>
+												</div>
+											</div>
+										</div>
+									</th:block>
+								</th:block>
 						</div>
 					</div>
 
@@ -168,25 +159,6 @@
 		</div>
 	</section>
 
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-		 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalCenterTitle">Triplus</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					...
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<script th:inline="javascript">
 

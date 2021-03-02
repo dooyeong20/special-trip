@@ -37,4 +37,13 @@ public class Plan {
     @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private List<Day> days = new ArrayList<>();
 
+    private int dayCounts;
+
+    private String image;
+
+    public void addDay(Day day){
+        days.add(day);
+        image = day.getPlaceImg();
+    }
+
 }

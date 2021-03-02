@@ -45,7 +45,6 @@ public class MainController {
     private final PlanService planService;
 
 
-
     @Transactional
     @PostConstruct
     public void init(){
@@ -175,11 +174,13 @@ public class MainController {
         String radius = "50000";
         Place place;
 
-        int rand, cnt = 10;
+        int rand, cnt = 5;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
-        List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
-        // <XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
+        List<XMLResponseItem> recommendPlaces_attraction = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        List<XMLResponseItem> recommendPlaces_food = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
+        //List<XMLResponseItem> recommendPlaces_shop = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "38");
+        //List<XMLResponseItem> recommendPlaces_festival = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "15");
         place = placeService.getPlaceByContentId(contentId);
 
         // ===============================
@@ -192,13 +193,22 @@ public class MainController {
 //        place.getReviews().add(sampleReview);
         // ===============================
 
-        rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
         model.addAttribute("reviews", place.getReviews());
         model.addAttribute("content_id", contentId);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
 
+        rand = Math.max((int) (Math.random() * (recommendPlaces_attraction.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_attraciton", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));
+
+        rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
+
+//        rand = Math.max((int) (Math.random() * (recommendPlaces_shop.size() - cnt)), 0);
+//        model.addAttribute("recommendPlaces_shop", recommendPlaces_shop.subList(rand, rand + Math.min(recommendPlaces_shop.size(), cnt)));
+//
+//        rand = Math.max((int) (Math.random() * (recommendPlaces_festival.size() - cnt)), 0);
+//        model.addAttribute("recommendPlaces_festival", recommendPlaces_festival.subList(rand, rand + Math.min(recommendPlaces_festival.size(), cnt)));
         return "view/detail";
     }
 
@@ -268,7 +278,6 @@ public class MainController {
 
     @GetMapping("/mypage")
     public String mypage(@CurrentUser User user, Model model){
-        // 내 닉네임 뜨는 부분
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
@@ -286,7 +295,37 @@ public class MainController {
 
         // 내 찜
         List<Place> likeList = userService.getLikeList(user);
-        model.addAttribute("likeList", likeList);
+
+        List<Place> attractionList = new ArrayList<>();
+        List<Place> foodList = new ArrayList<>();
+        List<Place> shopList = new ArrayList<>();
+        List<Place> festivalList = new ArrayList<>();
+
+        for(Place like : likeList){
+            switch (like.getContentType()){
+                case "12":
+                    attractionList.add(like);
+                    break;
+                case "39":
+                    foodList.add(like);
+                    break;
+                case "38":
+                    shopList.add(like);
+                    break;
+                case "15":
+                    festivalList.add(like);
+                default:
+                    break;
+            }
+        }
+
+        //model.addAttribute("likeList", likeList);
+
+        model.addAttribute("attractionList ", attractionList);
+        model.addAttribute("foodList", foodList);
+        model.addAttribute("shopList", shopList);
+        model.addAttribute("festivalList", festivalList);
+
 
         // 내 정보 관리
         String email = user.getEmail();
@@ -296,15 +335,6 @@ public class MainController {
         model.addAttribute("password", password);
 
        return "view/mypage";
-    }
-
-    @PostMapping("/mypage/like")
-        public String likeList(@CurrentUser User user, Model model){
-        List<Place> likeList = userService.getLikeList(user);
-
-        model.addAttribute("likeList", likeList);
-
-        return "view/mypage";
     }
 
 
@@ -408,6 +438,6 @@ public class MainController {
 
         return "done";
     }
-    
+
 
 }
