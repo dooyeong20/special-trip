@@ -56,8 +56,8 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/js/**",
                         "/scss/**",
-                        "/font/**",
-                        "/harim/**", // 하림님 회원가입용 !!
+                        "/fonts/**",
+                        //"/harim/**", // 하림님 회원가입용 !!
                         "/join/**",
                         "/check-email-token/**",
                         "/plan"     // 테스트용

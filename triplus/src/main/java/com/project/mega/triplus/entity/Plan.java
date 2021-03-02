@@ -45,13 +45,23 @@ public class Plan {
 
     private String mainImg;
 
+    public void setMainImg(){
+        this.mainImg = getMainImg();
+    }
+
     public String getMainImg(){
         return days.get(0).getPlaces().get(0).getThumbnailUrl();
     }
 
     private String mainAreaCode;
 
+    public void setMainAreaCode(){
+        this.mainAreaCode = getMainAreaCode();
+    }
+
     public String getMainAreaCode(){
         return days.get(0).getPlaces().get(0).getAreaCode();
     }
+
+
 }
