@@ -286,7 +286,11 @@ public class MainController {
     public String totalPlan(Model model){
         List<Plan> allPlans = planService.getAllPlans();
 
-        model.addAttribute("planList", allPlans);
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+
+
+        model.addAttribute("planList", allPlans
+        .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
 
         return "view/total_plan";
     }

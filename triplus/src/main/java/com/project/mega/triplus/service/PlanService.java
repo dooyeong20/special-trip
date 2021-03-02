@@ -33,26 +33,24 @@ public class PlanService {
         // total_plan을 위한 day 더미 데이터
         Day plan1_day1=new Day();
         plan1_day1.setName("First Day");
-        plan1_day1.addPlace(placeRepository.findById(15L).get());
+        plan1_day1.addPlace(placeRepository.findById(75L).get());
         plan1_day1.addPlace(placeRepository.findById(89L).get());
 
         Day plan1_day2=new Day();
         plan1_day2.setName("Second Day");
-        plan1_day2.addPlace(placeRepository.findById(17L).get());
+        plan1_day2.addPlace(placeRepository.findById(15L).get());
         plan1_day2.addPlace(placeRepository.findById(120L).get());
 
         Day plan2_day1=new Day();
         plan2_day1.setName("First Day");
-        plan2_day1.addPlace(placeRepository.findById(22L).get());
+        plan2_day1.addPlace(placeRepository.findById(21L).get());
         plan2_day1.addPlace(placeRepository.findById(70L).get());
 
         // total_plan을 위한 plan 더미 데이터
         Plan plan=new Plan();
         plan.setName("First plan");
-        plan.setLiked(10);
+        plan.setLiked(11);
         plan.setUser(user);
-        plan.addDay(plan1_day1);
-        plan.addDay(plan1_day2);
         plan1_day1.setPlan(plan);
         plan1_day2.setPlan(plan);
         plan.setStatus(PlanStatus.COMPLETE);
@@ -60,9 +58,8 @@ public class PlanService {
 
         Plan plan2=new Plan();
         plan2.setName("Second plan");
-        plan2.setLiked(8);
+        plan2.setLiked(61);
         plan2.setUser(user);
-        plan2.addDay(plan2_day1);
         plan2_day1.setPlan(plan2);
         plan2.setStatus(PlanStatus.COMPLETE);
         planRepository.save(plan2);

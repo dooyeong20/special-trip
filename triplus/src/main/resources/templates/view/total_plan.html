@@ -25,9 +25,6 @@
                     <a class="nav-link" data-toggle="tab" href="#gyeonggi" style="font-size: 18px">경기</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#gangwon" style="font-size: 18px">강원</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#busan" style="font-size: 18px">부산</a>
                 </li>
                 <li class="nav-item">
@@ -43,19 +40,6 @@
                     <a class="nav-link" data-toggle="tab" href="#daejeon" style="font-size: 18px">대전</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#sooncheon" style="font-size: 18px">순천</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#yeosu" style="font-size: 18px">여수</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#jeonju" style="font-size: 18px">전주</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#damyang" style="font-size: 18px">담양</a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#jeju" style="font-size: 18px">제주</a>
                 </li>
             </ul>
@@ -67,7 +51,7 @@
                         <th:block th:each="plan : ${planList}">
                                 <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.image} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                         <div class="text p-4 d-block">
                                             <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
                                             <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>

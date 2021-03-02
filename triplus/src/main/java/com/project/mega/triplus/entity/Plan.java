@@ -39,11 +39,19 @@ public class Plan {
 
     private int dayCounts;
 
-    private String image;
-
-    public void addDay(Day day){
-        days.add(day);
-        image = day.getPlaceImg();
+    public int getDayCounts(){
+        return days.size();
     }
 
+    private String mainImg;
+
+    public String getMainImg(){
+        return days.get(0).getPlaces().get(0).getThumbnailUrl();
+    }
+
+    private String mainAreaCode;
+
+    public String getMainAreaCode(){
+        return days.get(0).getPlaces().get(0).getAreaCode();
+    }
 }
