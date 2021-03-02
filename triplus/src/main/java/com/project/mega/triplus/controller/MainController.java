@@ -30,8 +30,6 @@ public class MainController {
 
     private final PlaceRepository placeRepository;
 
-    private final PlanRepository planRepository;
-
     private final PlaceService placeService;
 
     private final ApiService apiService;
@@ -52,6 +50,8 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
+
+       planService.createDummyData();
 
         // 추천일정 top3 더미데이터 생성하기
         Plan plan1=new Plan();
@@ -99,7 +99,7 @@ public class MainController {
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlaceList();
-        List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
+        List<Plan> planList = planService.getAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
@@ -274,9 +274,8 @@ public class MainController {
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
-        String nickName = user.getNickName();
 
-        model.addAttribute("nickName", nickName);
+        model.addAttribute("user", user);
 
         // 내 일정
         List<Plan> planList = userService.getPlanList(user);
@@ -320,19 +319,19 @@ public class MainController {
         model.addAttribute("festivalList", festivalList);
 
 
-        // 내 정보 관리
-        String email = user.getEmail();
-        String password = user.getPassword();
-
-        model.addAttribute("email", email);
-        model.addAttribute("password", password);
-
        return "view/mypage";
     }
 
 
     @GetMapping("/total_plan")
     public String totalPlan(Model model){
+        List<Plan> allPlans = planService.getAllPlans();
+
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+
+
+        model.addAttribute("planList", allPlans
+        .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
 
         return "view/total_plan";
     }

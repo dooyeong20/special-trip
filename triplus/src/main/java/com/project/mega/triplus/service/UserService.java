@@ -139,6 +139,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(user.getEmail()).getPlaceLikes();
     }
 
+
     public List<Review> getReviewList(User user) {
         return userRepository.findByEmail(user.getEmail()).getReviews();
     }
@@ -147,5 +148,21 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(user.getEmail()).getMyPlans();
     }
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

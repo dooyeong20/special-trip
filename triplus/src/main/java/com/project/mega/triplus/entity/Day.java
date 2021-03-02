@@ -33,6 +33,5 @@ public class Day {
 
     public void addPlace(Place place){
         places.add(place);
-        placeImg = place.getThumbnailUrl();
     }
 }
