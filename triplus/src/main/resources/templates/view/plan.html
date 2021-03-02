@@ -14,29 +14,20 @@
                 <div class="row">
                     <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
                     <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
-                        SAVE
+                        <i class="far fa-save fa-2x"></i>
                     </button>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-4 day">
+                    <div class="col-4 day card-del">
                         <h2 class="text-center">Day</h2>
                         <div class="card" style="height: 500px">
                             <div style="height:450px; overflow-y: scroll;" class="mt-4">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                            delete
-                                        </button>
-                                        <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
-                                            SAVE
-                                        </button>
-                                    </div>
-
                                     <!-- 돌하르방 div-->
-                                    <div class="block-21 mb-4 mt-4 d-flex place">
+                                    <div class="block-21 mb-4 mt-4 d-flex place mini-del" >
                                         <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                         <div class="text">
                                             <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
@@ -46,7 +37,7 @@
 
                                     <div class="col text-center">
                                         <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                            +
+                                            <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -60,7 +51,7 @@
             <div class="col text-center">
 
                 <button type="button" id="card_add" class="btn btn-primary card_add">
-                    ADD
+                    <i class="fas fa-plus"></i>
                 </button>
             </div>
 
@@ -81,7 +72,10 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
-                        <input class="typeahead" type="text" id="search" onkeyup="filter()" placeholder="명소를 검색하세요."/>
+                        <!-- modal search -->
+                        <div style="padding: 0px 0px 20px 0px;" align="center">
+                            <input class="typeahead fas modal-search" type="text" id="search" onkeyup="filter()" placeholder="&#xf002; 명소를 검색하세요."/>
+                        </div>
                         <div style="height:500px; overflow-y: scroll;">
 
                             <!-- 카드들 담기는 곳-->
@@ -111,11 +105,20 @@
         </div>
     </div>
 
+    <!-- 지애 할일~~!!!!!!!!
+    div에 올렸을 때 trashcan icon appear
+    scroll into transparent
+    DAY에 올렸을 때 trashcan icon appear -->
 
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
+
+        $(".modal-search").focus(function(){
+            $(".modal-search").css("border","solid 2px #f85959");
+        });
+
             make_place = function(url, title, addr, content_id){
-                return '<div class="block-21 mb-4 mt-4 d-flex place">' +
+                return '<div class="block-21 mb-4 mt-4 d-flex place mini-del">' +
                 '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
                 '    <div class="text">' +
                 '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a></h3>' +
@@ -129,16 +132,13 @@
                     <div class="card" style="height: 500px">
                         <div style="height:450px; overflow-y: scroll;" class="mt-4">
                             <div class="card-body">
-                                <div class="row">
-                                    <button type="button" id="delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                        delete
-                                    </button>
-                                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
-                                        SAVE
+                                <div align="right">
+                                    <button type="button" id="card_delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
 
-                                <div class="block-21 mb-4 mt-4 d-flex place">
+                                <div class="block-21 mb-4 mt-4 d-flex place mini-del">
                                     <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
                                         <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
@@ -148,7 +148,7 @@
 
                                 <div class="col text-center">
                                     <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                        +
+                                        <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
@@ -235,6 +235,7 @@
                 });
 
             });
+
 
         }); // ready 끝
 

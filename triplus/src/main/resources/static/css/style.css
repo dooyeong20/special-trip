@@ -1555,9 +1555,10 @@ pre {
   .table-responsive > .table-bordered {
     border: 0; }
 
+// origin - plan modal search - width
 .form-control {
   display: block;
-  width: 100%;
+  width: 60%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -9283,13 +9284,13 @@ textarea.form-control {
   -webkit-box-shadow: none;
   box-shadow: none; }
 
+
 #ftco-loader.show {
   -webkit-transition: opacity .4s ease-out, visibility 0s linear 0s;
   -o-transition: opacity .4s ease-out, visibility 0s linear 0s;
   transition: opacity .4s ease-out, visibility 0s linear 0s;
   visibility: visible;
   opacity: 1; }
-
 #ftco-loader .circular {
   -webkit-animation: loader-rotate 2s linear infinite;
   animation: loader-rotate 2s linear infinite;
@@ -9339,3 +9340,32 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+
+
+.mini-del h3:hover::after {
+    content: "\f1f8";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-left: 10px;
+    color: #f85959;
+}
+
+.card-del h2:hover::after {
+              content: "\f1f8";
+              font-family: "Font Awesome 5 Free";
+              font-weight: 900;
+              margin-left: 10px;
+              color: #f85959;
+}
+
+.modal-search {
+    width: 60%;
+    height: 40px !important;
+    background: #fff !important;
+    color: #000000 !important;
+    font-size: 18px;
+    border-radius: 0px;
+    box-shadow: none !important;
+}
+    input[type=text]:focus {border:2px #f85959 solid}
