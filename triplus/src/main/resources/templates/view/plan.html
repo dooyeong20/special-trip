@@ -14,7 +14,6 @@
                 <div class="row">
                     <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
                     <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
-
                         <i class="far fa-save fa-2x"></i>
                     </button>
                 </div>
@@ -48,6 +47,7 @@
                     </div>
                 </div>
             </div>
+
 
 
             <div class="col text-center">
@@ -112,7 +112,7 @@
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
 
-        $("#search").click(function(){
+        $("#search").focus(function(){
             $("#search").css("border","solid 2px #f85959");
         });
 
@@ -127,23 +127,13 @@
                 '</div>';
             }
 
-            var card = `<div class="col-4 day">
+            var card = `<div class="col-4 day card-del">
                     <h2 class="text-center">Day</h2>
                     <div class="card" style="height: 500px">
                         <div style="height:450px; overflow-y: scroll;" class="mt-4">
                             <div class="card-body">
-                                <div align="right">
-                                    <button type="button" id="card_delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                        <i class="fas fa-trash-alt"></i>
-
-                                    </button>
-                                </div>
 
                                 <div class="block-21 mb-4 mt-4 d-flex place mini-del">
-                                </div>
-
-
-
                                     <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
                                     <div class="text">
                                         <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
