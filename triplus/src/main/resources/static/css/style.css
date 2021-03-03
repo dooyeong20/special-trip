@@ -9348,8 +9348,8 @@ textarea.form-control {
 
 
 
-.mini-del h3:hover::after {
-    content: "\f1f8";
+.mini-del div:hover::after {
+    content: "";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-left: 10px;

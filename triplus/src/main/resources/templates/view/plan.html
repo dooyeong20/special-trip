@@ -108,15 +108,13 @@
         </div>
     </div>
 
-    <!-- 지애 할일~~!!!!!!!!
-    div에 올렸을 때 trashcan icon appear
-    scroll into transparent
-    DAY에 올렸을 때 trashcan icon appear -->
 
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
 
-        $("#search").css("border","solid 2px #f85959");
+        $("#search").click(function(){
+            $("#search").css("border","solid 2px #f85959");
+        });
 
             make_place = function(url, title, addr, content_id){
 
