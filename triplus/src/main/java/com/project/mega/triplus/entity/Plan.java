@@ -34,7 +34,7 @@ public class Plan {
         user.getMyPlans().add(this);
     }
 
-    @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Day> days = new ArrayList<>();
 
 }

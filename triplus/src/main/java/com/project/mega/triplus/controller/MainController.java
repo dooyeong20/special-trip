@@ -212,8 +212,18 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(Model model){
+    public String plan(Model model, @RequestParam(value = "plan_id", required = false)String planId){
         int rand, cnt = 10;
+        Plan plan;
+
+        if(planId != null){
+            try{
+                plan = planService.getPlanById(Long.parseLong(planId));
+                model.addAttribute("plan", plan);
+            } catch (Exception e){
+                log.error("no plan");
+            }
+        }
 
         List<Place> placeList = placeRepository.findAllByContentType("12");
 
@@ -359,32 +369,15 @@ public class MainController {
     @ResponseBody
     public String savePlan(@CurrentUser User user,
             @RequestBody PlanForm planForm){
+
         Plan plan = new Plan();
-        Day day;
-        Place place;
+        Long planId = planForm.getPlanId();
 
-        plan.setUser(user);
-        plan.setName(planForm.getPlan());
-        plan.setUpdate(LocalDateTime.now());
-
-        for(List<Map<String, String>> d : planForm.getDayList()){
-            day = new Day();
-
-            for(Map<String, String> p : d){
-                place = new Place();
-                place.setName(p.get("title"));
-                place.setAddr(p.get("addr"));
-                place.setThumbnailUrl(p.get("imgUrl"));
-                place.setContentId(p.get("content_id"));
-                day.addPlace(place);
-            }
-
-            day.setPlan(plan);
+        if(planId > 0){
+            plan = planService.getPlanById(planId);
         }
 
-        planService.savePlan(plan);
-
-        return "done";
+        return Long.toString(planService.savePlan(user, plan, planForm));
     }
 
 }
