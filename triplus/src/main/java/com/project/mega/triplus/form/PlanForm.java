@@ -9,5 +9,6 @@ import java.util.Map;
 @Getter @Setter
 public class PlanForm {
     private String plan;
+    private Long planId;
     private List<List<Map<String, String>>> dayList;
 }
