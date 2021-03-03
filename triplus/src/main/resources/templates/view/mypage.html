@@ -45,7 +45,7 @@
 
                             <div class="row">
                                 <th:block th:each="plan : ${planList}">
-                                    <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated" data-toggle="modal" data-target="#myModal">
+                                    <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
                                         <div class="blog-entry align-self-stretch" style="width:300px">
                                             <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                             <div class="text p-4 d-block">
@@ -258,43 +258,41 @@
     </section>
 
         <!-- main modal -->
-        <th:block th:each="plan : ${planList}">
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title"><a th:text="${plan.name}"></a></h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="ftco-animate fadeInUp ftco-animated">
-                            <div style="height:300px; overflow-y: scroll;">
-
-                                <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">
-                                    <div class="card-body">
-                                        <a><span class="tag" th:text="'Day' + ${plan.dayCounts}" style="font-weight: bold;"></span></a>
-                                    </div>
-                                </div>
-                                <br>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"><a></a></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                 </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="ftco-animate fadeInUp ftco-animated">
+                        <div style="height:300px; overflow-y: scroll;">
+
+                            <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">
+                                <div class="card-body">
+                                    <a><span class="tag" style="font-weight: bold;"></span></a>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
-        </th:block>
+    </div>
+
 
         <!-- sub modal -->
         <div class="modal fade" id="myDay">
@@ -339,8 +337,22 @@
             </div>
         </div>
 
+    <script>
+        $( document ).ready(function() {
+
+            // plan 카드 클릭했을 때
+            $(".planCard").click(function (){
+                var title = $(this).find(".heading").find("a").text();
+                $(".modal-title").find("a").text(title);
+
+
+            });
+
+
+        });
+
+    </script>
+
     </body>
-
-
 </div>
 </html>

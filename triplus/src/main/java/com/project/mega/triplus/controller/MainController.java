@@ -434,5 +434,11 @@ public class MainController {
         return "done";
     }
 
+    @PostMapping("/mypage/myday")
+    public String myDay(@CurrentUser User user){
+
+
+        return "done";
+    }
 
 }
