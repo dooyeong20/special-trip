@@ -78,7 +78,6 @@
                     ADD
                 </button>
             </div>
-
         </div>
     </section>
 
@@ -240,7 +239,6 @@
                     "plan" : $('#plan_title').val(),
                     "dayList": dayList.slice(1)
                 };
-
                 $.ajax({
                     url: '/plan/save',
                     type: 'post',
@@ -266,6 +264,7 @@
         }); // ready 끝
 
     </script>
+
     <script>
         function filter() {
             let search = document.getElementById("search").value.toLowerCase();
