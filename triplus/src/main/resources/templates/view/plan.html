@@ -6,8 +6,8 @@
 <div layout:fragment="content">
     <section class="ftco-section bg-light">
         <div class="container">
-            <div class="col-md-7 heading-section ftco-animate fadeInUp ftco-animated">
-                <h2 class="mb-4"><strong>나의 일정</strong> 만들기 </h2>
+            <div class="col-md-7 ftco-animate fadeInUp ftco-animated">
+                <h2 class="mb-4"><strong>나의 일정 만들기</strong></h2>
             </div>
 
             <div class="form-group">
@@ -24,7 +24,7 @@
                     <div class="col-4 day card-del">
                         <h2 class="text-center">Day</h2>
                         <div class="card" style="height: 500px">
-                            <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                            <div style="height: 450px; overflow-y: scroll;" class="mt-4 card-scroll">
                                 <div class="card-body">
 
                                     <!-- 돌하르방 div-->
@@ -101,7 +101,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -112,8 +112,8 @@
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
 
-        $("#search").focus(function(){
-            $("#search").css("border","solid 2px #f85959");
+        $("#search").mouseover(function() {
+            $(this).css("border","solid 2px #f85959");
         });
 
             make_place = function(url, title, addr, content_id){
