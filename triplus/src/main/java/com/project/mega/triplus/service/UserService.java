@@ -96,7 +96,7 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        sendJoinConfirmEmail(newUser);
+//        sendJoinConfirmEmail(newUser);
 
         return newUser;
     }
@@ -145,4 +145,22 @@ public class UserService implements UserDetailsService {
     public List<Place> getLikeList(User user) {
         return userRepository.findByEmail(user.getEmail()).getPlaceLikes();
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

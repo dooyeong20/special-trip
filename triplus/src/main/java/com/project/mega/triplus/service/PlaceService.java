@@ -6,6 +6,10 @@ import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,11 +37,6 @@ public class PlaceService {
         return placeRepository.findFirst6ByOrderByLikedDesc();
     }
 
-
-    public List<Place> getPlaceList() {
-        // 좋아요(liked) 많은순(내림차순)으로 findAll.
-        return placeRepository.findFirst6ByOrderByLikedDesc();
-    }
 
     public Place getPlaceByContentId(String contentId) {
         return placeRepository.findByContentId(contentId);

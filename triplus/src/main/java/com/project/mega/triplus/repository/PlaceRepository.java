@@ -1,6 +1,8 @@
 package com.project.mega.triplus.repository;
 
 import com.project.mega.triplus.entity.Place;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

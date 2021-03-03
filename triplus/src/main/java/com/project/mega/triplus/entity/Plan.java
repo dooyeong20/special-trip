@@ -34,7 +34,34 @@ public class Plan {
         user.getMyPlans().add(this);
     }
 
-    @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private List<Day> days = new ArrayList<>();
+
+    private int dayCounts;
+
+    public int getDayCounts(){
+        return days.size();
+    }
+
+    private String mainImg;
+
+    public void setMainImg(){
+        this.mainImg = getMainImg();
+    }
+
+    public String getMainImg(){
+        return days.get(0).getPlaces().get(0).getThumbnailUrl();
+    }
+
+    private String mainAreaCode;
+
+    public void setMainAreaCode(){
+        this.mainAreaCode = getMainAreaCode();
+    }
+
+    public String getMainAreaCode(){
+        return days.get(0).getPlaces().get(0).getAreaCode();
+    }
+
 
 }
