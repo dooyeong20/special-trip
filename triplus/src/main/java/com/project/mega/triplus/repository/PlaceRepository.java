@@ -22,6 +22,4 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findAllByContentType(String type);
 
     Place findByContentId(String contentId);
-
-    Page<Place> findAllByContentType(Pageable pageable, String contentType);
 }

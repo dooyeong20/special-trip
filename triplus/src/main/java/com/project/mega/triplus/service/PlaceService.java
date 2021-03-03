@@ -37,16 +37,6 @@ public class PlaceService {
         return placeRepository.findFirst6ByOrderByLikedDesc();
     }
 
-    public List<Place> getPlaceList(Pageable pageable, String contentType){
-        // TODO
-        if(contentType == null){
-            contentType = "12";
-        }
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-        pageable = PageRequest.of(page, 10);
-
-        return placeRepository.findAllByContentType(pageable, contentType).stream().collect(Collectors.toList());
-    }
 
     public Place getPlaceByContentId(String contentId) {
         return placeRepository.findByContentId(contentId);

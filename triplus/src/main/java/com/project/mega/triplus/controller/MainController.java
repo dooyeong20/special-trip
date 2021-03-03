@@ -275,7 +275,10 @@ public class MainController {
          */
         //Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-        model.addAttribute("placeList", placeService.getPlaceList(pageable,requestCode));
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+
+        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
+                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
 
         return "view/total_place";
     }
