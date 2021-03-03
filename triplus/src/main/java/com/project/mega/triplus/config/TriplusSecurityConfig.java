@@ -45,13 +45,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
-//                        "/",
-//                        "/search",
-//                        "/detail",
-//                        "/total_plan",
-//                        "/total_place",
                         "/oauth2/**",
-//                        "/login",
                         "/css/**",
                         "/images/**",
                         "/js/**",
@@ -62,8 +56,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/check-email-token/**",
                         "/plan"     // 테스트용
                 ).permitAll()
-
-                .antMatchers("/api/v1/**").hasRole("USER")
 
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/",
@@ -80,7 +72,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
 
-                .oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
+                .oauth2Login().defaultSuccessUrl("/",true).failureUrl("/")
                 .userInfoEndpoint().userService(customOAuth2UserService)
                 .and()
 
