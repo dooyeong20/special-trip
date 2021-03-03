@@ -153,7 +153,8 @@
                             <div class="placeList">
                                 <th:block th:each="place : ${placeList}">
                                     <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
+                                        <div class="block-21 mb-4 d-flex placeBox">
+                                            <input type="hidden" id="contentId" th:value="${place.contentId}">
                                             <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ')'"></a>
                                             <div class="text">
                                                 <h3 class="heading placeTitle" th:text="${place.name}"></h3>
@@ -230,7 +231,11 @@
                 var imgUrl = $(this).find("a").css('background');
                 var title = $(this).find(".text").find("h3").text();
                 var addr = $(this).find(".text").find("p").text();
-                var content_id = $(this).find('#content_id').text();
+                var content_id = $(this).find("#contentId").val();
+                // -------------------------------
+                console.log(content_id);
+                // -------------------------------
+
                 var last_place = $(".last-place");
                 imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
 
