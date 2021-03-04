@@ -265,21 +265,19 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title"><a></a></h4>
+                    <h4 class="plan-title"><a></a></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
-                        <div style="height:300px; overflow-y: scroll;">
-                            <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">
+                        <div id="modalScroll" style="height:300px; overflow-y: scroll;">
+                            <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">
                                 <div class="card-body">
-                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day1</span></a>
+                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>
                                 </div>
                             </div>
-                            <br>
                         </div>
                     </div>
                 </div>
@@ -301,7 +299,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                    <h4 class="day-title"><a></a></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -324,6 +322,7 @@
                                     </div>
                                 </th:block>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -339,18 +338,39 @@
 
     <script>
         $( document ).ready(function() {
+            let planObj;
 
-            // plan 카드 클릭했을 때
+            const getDay = function (idx) {
+                return '<div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">\n' +
+                    '                                <div class="card-body">\n' +
+                    '                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day ' + idx + '</span></a>\n' +
+                    '                                </div>\n' +
+                    '                            </div>';
+            };
+
+            // 각 day 클릭했을 때
+            $(".card").click(function (){
+                let title = $(this).find(".tag").text();
+                $(".day-title").find("a").text(title);
+
+            });
+
+
+
+            // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
+
+                $("#modalScroll").find(".card").remove();
+                $("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
+                    '                                <div class="card-body">\n' +
+                    '                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>\n' +
+                    '                                </div>\n' +
+                    '                            </div>\n');
 
                 let title = $(this).find(".heading").find("a").text();
                 let id = $(this).find(".plan_id").val();
 
-                let days = [];
-                let planObj;
-
-
-                $(".modal-title").find("a").text(title);
+                $(".plan-title").find("a").text(title);
 
 
                 $.ajax({
@@ -362,28 +382,22 @@
                     contentType: 'application/json; charset=UTF-8',
                     success: function(res) {
                         console.log(res);
+                        planObj = res;
 
                         let dayCnt = res['dayCounts'];
                         let dayList = res['days'];
 
                         // day들 각각 작성
-                        let dayCard = '<div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">\n' +
-                            '                                <div class="card-body">\n' +
-                            '                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day1</span></a>\n' +
-                            '                                </div>\n' +
-                            '                            </div>'
+                        for(let d=0; d<dayCnt; ++d){
+                           $(".card:last").after(getDay(d+1));
+                        }
 
 
-                        $(".card").after(dayCard);
-
-
+                        // console 확인
                         for(let i=0 ; i<dayCnt; ++i){
                             console.log('day' + (i+1) + '의 장소들');
+
                             let placeList = dayList[i]['places'];
-
-
-
-
 
                             for(let j =0; j<placeList.length; ++j){
                                 // day i 번째의  j번째 place 각각 작업
@@ -399,19 +413,7 @@
                 });
 
 
-
-
-            }); // click 했을 때 끝
-
-
-
-            // day 하나씩 클릭했을 때
-            $(".dayModal").click(function () {
-                let title = $(this).find(".heading").find("h3").text();
-
-                $(".") // places
-
-            });
+            }); // planCard click 했을 때 끝
 
 
         });
