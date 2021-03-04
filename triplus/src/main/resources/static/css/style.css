@@ -9352,6 +9352,7 @@ textarea.form-control {
     color: #f85959;
 }
 
+/* mini-del
 .mini-del a:hover h3::after {
     content: "\f1f8";
     font-family: "Font Awesome 5 Free";
@@ -9359,7 +9360,13 @@ textarea.form-control {
     margin-left: 10px;
     color: #f85959;
 }
+*/
 
+.fa-trash {
+    color: #f85959;
+}
+
+/* card-del
 .card-del h2:hover::after {
       content: "\f1f8";
       font-family: "Font Awesome 5 Free";
@@ -9367,12 +9374,13 @@ textarea.form-control {
       margin-left: 10px;
       color: #f85959;
 }
+*/
 
 .modal-search {
     width: 60%;
     height: 40px !important;
     background: #fff !important;
-    color: #f85959 !important;
+    color: #000000 !important;
     font-size: 18px;
     border-radius: 0px;
     box-shadow: none !important;

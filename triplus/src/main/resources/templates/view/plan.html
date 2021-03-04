@@ -32,15 +32,26 @@
                             </div>
                         </div>
 
-                        <div class="col-4 day card-del">
-                            <h2 class="text-center">Day</h2>
+                        <div class="col-4 day">
+                            <h2 class="text-center big-div">DAY<i class="fas fa-trash big-del"></i></h2>
                             <div class="card" style="height: 500px">
                                 <div style="height:450px; overflow-y: scroll;" class="mt-4 card-scroll">
                                     <div class="card-body">
 
-                                        <!-- 돌하르방 div-->
-                                        <div class="block-21 mb-4 mt-4 d-flex place mini-del" style="display: none !important">
+                                        <!-- 원래 div -->
+                                        <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
                                         </div>
+
+                                        <!-- 테스트용 div
+                                        <div class="block-21 mb-4 mt-4 d-flex place small-div" >
+                                            <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
+                                            <div class="text">
+                                                <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a>
+                                                    <i class="fas fa-trash small-del"></i></h3>
+                                                <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                            </div>
+                                        </div>
+                                        -->
 
                                         <div class="col text-center">
                                             <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
@@ -89,7 +100,7 @@
 
                                             <div class="col text-center">
                                                 <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                                    +
+                                                    <i class="fas fa-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -167,45 +178,58 @@
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
 
-        $("#search").mouseover(function() {
-            $(this).css("border","solid 2px #f85959");
-        });
+            $("#search").mouseover(function() {
+                $(this).css("border","solid 2px #f85959");
+            });
+
+            $(".small-del").hide();
+            $(".small-div").mouseenter(function(){
+                $(this).find(".small-del").show();
+            });
+            $(".small-div").mouseleave(function(){
+                $(this).find(".small-del").hide();
+            });
+
+            $(".big-del").hide();
+            $(".big-div").mouseenter(function(){
+                $(this).find(".big-del").show();
+            });
+            $(".big-div").mouseleave(function(){
+                $(this).find(".big-del").hide();
+            });
+
+
 
             make_place = function(url, title, addr, content_id){
 
-                return '<div class="block-21 mb-4 mt-4 d-flex place mini-del">' +
+                return '<div class="block-21 mb-4 mt-4 d-flex place small-div">' +
                 '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
                 '    <div class="text">' +
-                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a></h3>' +
+                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a><i class="fas fa-trash small-del"></i></h3>' +
                 '        <p>' + addr + '</p>' +
                 '    </div>' +
                 '</div>';
             }
 
-            var card = `<div class="col-4 day card-del">
-                    <h2 class="text-center">Day</h2>
-                    <div class="card" style="height: 500px">
-                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
-                            <div class="card-body">
+            var card = `<div class="col-4 day">
+                            <h2 class="text-center big-div">DAY<i class="fas fa-trash big-del"></i></h2>
+                            <div class="card" style="height: 500px">
+                                <div style="height:450px; overflow-y: scroll;" class="mt-4 card-scroll">
+                                    <div class="card-body">
 
-                                <div class="block-21 mb-4 mt-4 d-flex place mini-del">
-                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
-                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
+                                        </div>
+
+                                        <div class="col text-center">
+                                            <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col text-center">
-                                    <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                `
+                        `
 
             add_btn_click = function(){
                 var add_place_btn = $(this);
@@ -240,15 +264,51 @@
                 // TODO content_id 작업 해줘야함
                 last_place.after(make_place(imgUrl, title, addr, content_id));
                 last_place.removeClass('last-place');
-            });
+
+                $(".small-del").hide();
+
+                $(".small-div").mouseenter(function(){
+                    $(this).find(".small-del").show();
+                });
+                $(".small-div").mouseleave(function(){
+                    $(this).find(".small-del").hide();
+                });
+
+                $(".big-del").hide();
+
+                $(".big-div").mouseenter(function(){
+                    $(this).find(".big-del").show();
+                });
+                $(".big-div").mouseleave(function(){
+                    $(this).find(".big-del").hide();
+                });
+                });
 
             // 새로울 Day를 만들 때
             $(".card_add").click(function(){
-                $(".last-place").removeClass('last-place');
+
 
                 $(".day:last").after(card);
-
+                //$(".last-place").removeClass('last-place');
                 $(".add_btn").unbind().click(add_btn_click);
+
+                $(".small-del").hide();
+                $(".big-del").hide();
+
+                $(".small-div").mouseenter(function(){
+                    $(this).find(".small-del").show();
+                });
+                $(".small-div").mouseleave(function(){
+                    $(this).find(".small-del").hide();
+                });
+
+                 $(".big-div").mouseenter(function(){
+                    $(this).find(".big-del").show();
+                });
+                $(".big-div").mouseleave(function(){
+                    $(this).find(".big-del").hide();
+                });
+
 
             }); // card_add btn click 끝
 
