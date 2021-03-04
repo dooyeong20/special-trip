@@ -427,12 +427,6 @@ public class MainController {
         return Long.toString(planService.savePlan(user, plan, planForm));
     }
 
-    @PostMapping("/mypage/myday")
-    public String myDay(@CurrentUser User user){
-
-
-        return "done";
-    }
 
     @GetMapping("/mypage/myplan")
     @ResponseBody

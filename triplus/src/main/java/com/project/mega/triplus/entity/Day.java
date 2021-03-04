@@ -1,5 +1,6 @@
 package com.project.mega.triplus.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class Day {
 
     @ManyToOne
     @JoinColumn(name = "plan_id")
+    @JsonBackReference
     private Plan plan;
 
     public void setPlan(Plan plan) {

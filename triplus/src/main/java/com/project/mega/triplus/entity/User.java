@@ -1,5 +1,6 @@
 package com.project.mega.triplus.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,6 +49,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
+    @JsonManagedReference
     private List<Plan> myPlans = new ArrayList<>();
 
     @Builder.Default

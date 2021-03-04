@@ -342,7 +342,6 @@
 
             // plan 카드 클릭했을 때
             $(".planCard").click(function (){
-
                 let title = $(this).find(".heading").find("a").text();
                 let id = $(this).find(".plan_id").val();
 
@@ -351,7 +350,6 @@
 
 
                 $(".modal-title").find("a").text(title);
-
 
                 $.ajax({
                     // url 만들면 무조건 security 해야됨
@@ -374,13 +372,12 @@
                             '                            </div>'
 
 
-                        $(".card").after(dayCard);
+                            $(".card").after(dayCard);
 
 
                         for(let i=0 ; i<dayCnt; ++i){
                             console.log('day' + (i+1) + '의 장소들');
                             let placeList = dayList[i]['places'];
-
 
 
 
