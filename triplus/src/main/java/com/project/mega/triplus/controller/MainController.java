@@ -3,6 +3,7 @@ package com.project.mega.triplus.controller;
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
+import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
 import com.project.mega.triplus.service.*;
@@ -166,8 +167,18 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(Model model){
+    public String plan(Model model, @RequestParam(value = "plan_id", required = false)String planId){
         int rand, cnt = 10;
+        Plan plan;
+
+        if(planId != null){
+            try{
+                plan = planService.getPlanById(Long.parseLong(planId));
+                model.addAttribute("plan", plan);
+            } catch (Exception e){
+                log.error("no plan");
+            }
+        }
 
         List<Place> placeList = placeRepository.findAllByContentType("12");
 
@@ -320,31 +331,16 @@ public class MainController {
     @PostMapping("/plan/save")
     @ResponseBody
     public String savePlan(@CurrentUser User user,
-            @RequestBody List<List<Map<String, String>>> planList){
+            @RequestBody PlanForm planForm){
+
         Plan plan = new Plan();
-        Day day;
-        Place place;
+        Long planId = planForm.getPlanId();
 
-        plan.setUser(user);
-
-        for(List<Map<String, String>> d : planList){
-            day = new Day();
-
-            for(Map<String, String> p : d){
-                place = new Place();
-                place.setName(p.get("title"));
-                place.setAddr(p.get("addr"));
-                place.setThumbnailUrl(p.get("imgUrl"));
-                place.setContentId(p.get("content_id"));
-                day.addPlace(place);
-            }
-
-            day.setPlan(plan);
+        if(planId > 0){
+            plan = planService.getPlanById(planId);
         }
 
-        planService.savePlan(plan);
-
-        return "done";
+        return Long.toString(planService.savePlan(user, plan, planForm));
     }
 
 }
