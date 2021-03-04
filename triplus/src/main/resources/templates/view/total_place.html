@@ -269,29 +269,29 @@
                     last=(${start + 9 < allPlaceList.totalPages ? start + 9 : allPlaceList.totalPages})">
 
                             <li>
-                                <a th:href="@{/total_place(page=1)}" aria-label="First">
+                                <a th:href="@{/total_place(page=1, cat=${cat})}" aria-label="First">
                                     <span aria-hidden="true"><<</span>
                                 </a>
                             </li>
 
                             <li th:class="${allPlaceList.first} ? 'disabled'">
-                                <a th:href="${allPlaceList.first} ? '#' :@{/total_place(page=${allPlaceList.number})}" aria-label="Previous">
+                                <a th:href="${allPlaceList.first} ? '#' :@{/total_place(page=${allPlaceList.number}, cat=${cat})}" aria-label="Previous">
                                     <span aria-hidden="true">&lt;</span>
                                 </a>
                             </li>
 
                             <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == allPlaceList.number + 1} ? 'active'">
-                                <a th:text="${page}" th:href="@{/total_place(page=${page})}"></a>
+                                <a th:text="${page}" th:href="@{/total_place(page=${page}, cat=${cat})}"></a>
                             </li>
 
                             <li th:class="${allPlaceList.last} ? 'disabled'">
-                                <a th:href="${allPlaceList.last} ? '#' : @{/total_place(page=${allPlaceList.number + 2})}" aria-label="Next">
+                                <a th:href="${allPlaceList.last} ? '#' : @{/total_place(page=${allPlaceList.number + 2}, cat=${cat})}" aria-label="Next">
                                     <span aria-hidden="true">&gt;</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a th:href="@{/total_place(page=${allPlaceList.totalPages})}" aria-label="Last">
+                                <a th:href="@{/total_place(page=${allPlaceList.totalPages}, cat=${cat})}" aria-label="Last">
                                     <span aria-hidden="true">>></span>
                                 </a>
                             </li>
