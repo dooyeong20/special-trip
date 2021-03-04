@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -251,7 +252,7 @@ public class MainController {
     }
 
     @GetMapping("/total_place")
-    public String totalPlace(Model model, final Pageable pageable, String requestCode){
+    public String totalPlace(Model model, @PageableDefault Pageable pageable){
         /*
         < areaCode >
 
@@ -273,12 +274,14 @@ public class MainController {
         38 전라남도
         39 제주도
          */
-        //Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+        Page<Place> placeList = placeService.getPlaceList(pageable, "12");
 
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
         model.addAttribute("placeList", placeRepository.findAllByContentType("12")
                 .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
+
+        model.addAttribute("pagingPlaceList", placeList);
 
         return "view/total_place";
     }
