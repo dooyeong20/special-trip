@@ -1,22 +1,29 @@
 package com.project.mega.triplus.service;
 
 import com.project.mega.triplus.entity.Review;
+import com.project.mega.triplus.repository.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PreRemove;
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ReviewService {
+    private final ReviewRepository reviewRepository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public Review getReviewById(Long id){
-        return em.find(Review.class, id);
+    public void getReviewById(Long id){
     }
-    public void deleteReviewById(long id) {
-        em.remove(getReviewById(id));
+
+    @PreRemove
+    public void deleteReviewById(Long id) {
+        reviewRepository.deleteById(id);
     }
 }

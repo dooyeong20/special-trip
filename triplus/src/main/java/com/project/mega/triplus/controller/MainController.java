@@ -199,6 +199,10 @@ public class MainController {
 
         reviewService.deleteReviewById((Long.parseLong(reviewId)));
 
+//        Review reviewById = reviewService.getReviewById(Long.parseLong(reviewId));
+//        System.out.println(reviewById);
+
+
         return "done";
     }
 

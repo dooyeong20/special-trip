@@ -56,10 +56,7 @@ s
 						<div class="pt-5">
 							<!-- comment 개수-->
 							<h3 class="mb-5">
-								<span th:if="${#lists.isEmpty(reviews)}" th:text="0"></span>
-								<th:block th:unless="${#lists.isEmpty(reviews)}">
-									<span th:text="${#lists.size(reviews)}"></span>
-								</th:block>
+								<span id="comment_cnt"  th:text="${#lists.isEmpty(reviews)} ? 0 : ${#lists.size(reviews)}"></span>
 								Comments
 							</h3>
 
@@ -199,24 +196,30 @@ s
 
 			// 삭제하기 눌렀을 때
 			$(".review_del").click(function(){
+
 				console.log('리뷰 삭제 !!');
+				var commentCnt = $("#comment_cnt").text();
 				var id = $(this).parent().find('#review_id').val();
 				console.log(id);
 
 				$.ajax({
 				url: "/detail/remove",
-				data: {"id":id},
+				data: {id:id},
 				type:"get",
 				dataType:"json",
+				contentType: 'application/text; charset=UTF-8',
 				success: function(response){
+					console.log('성공');
 					console.log(response);
 				},
 				error: function (response) {
+					console.log('에러');
 					console.log(response);
 				}
-				}).done(function(){
-				console.log('끗!');
 				});
+
+				$(this).parent().parent().remove();
+				$("#comment_cnt").text(--commentCnt);
 
 			});
 
