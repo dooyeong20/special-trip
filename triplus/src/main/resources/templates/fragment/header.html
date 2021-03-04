@@ -118,34 +118,28 @@
                         <form class="needs-validation" th:action="@{/join}" method="post" id="joinForm" name="joinForm" novalidate>
 
                             <!-- 닉네임 -->
-                            <div class="form-group" style="float: left; width: 75%">
-                                <input type="text" autocomplete="nickname" class="form-control" id="nickname" name="nickname" placeholder="닉네임" required>
-                                <!--                                <div class="check_font" id="nickname_check">닉네임을 입력해주세요.</div>-->
-                            </div>
-
-                            <!-- 중복확인 버튼 -->
-                            <div class="form-group"	style="float: right; margin-top: 25px" id="divNameCheck">
-                                <button type="button" class="btn btn-primary btn-block" name="emailCheck" id="NameCheck">
-                                    <span class="glyphicon glyphicon-off"></span> 중복확인
-                                </button>
-                            </div>
-
-                            <!-- 이메일 -->
                             <div class="form-group">
+                                <input type="text" autocomplete="nickname" class="form-control" id="nickname" name="nickname" placeholder="닉네임" required="">
+                                <div class="invalid-feedback">
+                                    닉네임을 입력해주세요.
+                                </div>
+                                <!-- 중복확인 버튼 -->
+                                <div class="form-group"	style="float: right; margin-top: 25px" id="divNameCheck">
+                                    <button type="button" class="btn btn-primary btn-block" name="emailCheck" id="NameCheck">
+                                        <span class="glyphicon glyphicon-off"></span> 중복확인
+                                    </button>
+                                </div>
 
-                                <input type="email" autocomplete="email" class="form-control" id="email" name="email" placeholder="이메일" required>
+                                <input type="email" autocomplete="email" class="form-control" id="email" name="email" placeholder="이메일" required="">
                                 <div class="invalid-feedback">
                                     이메일을 입력해주세요.
                                 </div>
 
-
-                                <!-- 비밀번호 -->
-                                <div class="form-group">
-                                    <input type="password" autocomplete="password" class="form-control" id="password" name="password" placeholder="비밀번호" required>
-                                    <div class="invalid-feedback">
-                                        비밀번호를 입력해주세요.
-                                    </div>
+                                <input type="password" autocomplete="password" class="form-control" id="password" name="password" placeholder="비밀번호" required="">
+                                <div class="invalid-feedback">
+                                    비밀번호를 입력해주세요.
                                 </div>
+
 
 
                                 <hr class="col-12 my-4">
@@ -158,8 +152,9 @@
                                 </div>
 
                                 <hr class="col-12 my-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">회원가입</button>
-                           </div>
+                                <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">회원가입</button>
+                            </div>
+
                         </form>
 
                         <!-- join modal 끝 !-->
