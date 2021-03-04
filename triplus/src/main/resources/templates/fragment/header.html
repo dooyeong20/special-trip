@@ -52,8 +52,7 @@
     </nav>
 
 
-    <div class="modal fade" th:action="@{/}" method="post" name="loginForm" novalidate
-         id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -91,8 +90,8 @@
                         </form>
 
                         <div class="d-flex flex-column text-center">
-                            <a href="/oauth2/authorization/google" class="btn_social" ><img src="/images/google.png" style="width: 200px; height: 50px"></a>
-                            <a href="/oauth2/authorization/facebook" class="btn_social" ><img src="/images/facebook.png" style="width: 200px; height: 50px"></a>
+                            <a href="/oauth2/authorization/google"><img src="/images/btn_google_signin_light_normal_web.png" style="width: 205px; height: 50px"></a>
+                            <a href="/oauth2/authorization/facebook"><img src="/images/facebook.png" style="width: 200px; height: 50px"></a>
                         </div>
                     </div>
                 </div>
@@ -164,7 +163,9 @@
             </div>
         </div>
 
+
     </div>
+
 
 </div>
 

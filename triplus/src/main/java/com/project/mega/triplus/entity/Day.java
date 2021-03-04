@@ -16,7 +16,7 @@ public class Day {
 
     private String name;
 
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Place> places = new ArrayList<>();
 
     @ManyToOne
@@ -30,5 +30,6 @@ public class Day {
 
     public void addPlace(Place place){
         places.add(place);
+
     }
 }

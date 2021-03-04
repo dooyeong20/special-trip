@@ -145,4 +145,22 @@ public class UserService implements UserDetailsService {
     public List<Place> getLikeList(User user) {
         return userRepository.findByEmail(user.getEmail()).getPlaceLikes();
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
