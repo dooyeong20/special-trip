@@ -64,25 +64,19 @@ s
 							</h3>
 
 							<ul class="comment-list">
-
-<!--								<li class="comment">-->
-<!--									<div class="vcard bio">-->
-<!--										<img src="images/person_1.jpg" alt="Image placeholder">-->
-<!--									</div>-->
-<!--									<div class="comment-body">-->
-<!--										<h3>SAMPLE DEFAULT REVIEW</h3>-->
-<!--										<div class="meta">Jan 1, 2021 at 1:11pm</div>-->
-<!--										<p>샘플 리뷰 : 너무 좋아요~</p>-->
-<!--										<p><a href="#" class="reply">Reply</a></p>-->
-<!--									</div>-->
-<!--								</li>-->
-
 								<th:block th:each="review : ${reviews}">
 									<li class="comment">
 										<div class="vcard bio">
 											<img src="images/person_1.jpg" alt="Image placeholder">
 										</div>
 										<div class="comment-body">
+											<input type="hidden" id="review_id" th:value="${review.id}">
+											<button type="button" class="btn btn-primary mb-2 mr-sm-2 review_edit">
+												수정
+											</button>
+											<button type="button" class="btn btn-primary mb-2 mr-sm-2 review_del">
+												삭제
+											</button>
 											<h3 th:text="${review.title}"></h3>
 											<div class="meta" th:text="${review.regdate}">June 27, 2018 at 2:21pm</div>
 											<p th:text="${review.content}">review</p>
@@ -191,17 +185,47 @@ s
 	<script th:inline="javascript">
 
 		$(document).ready(function(){
-		  var contentId = $("#content_id").attr("value");
+			var contentId = $("#content_id").attr("value");
 
-		  var messageDTO={
+			var messageDTO={
 				content_id: contentId
-		  };
+			};
 
-		  $("#like").click(function(){
-		  	  console.log(contentId);
-		  	  console.log(messageDTO);
+			// 수정하기 눌렀을 때
+			$(".review_edit").click(function(){
+				console.log('리뷰 수정 !!');
+				console.log($(this).parent().find('p'));
+			});
 
-		  	  $.ajax({
+			// 삭제하기 눌렀을 때
+			$(".review_del").click(function(){
+				console.log('리뷰 삭제 !!');
+				var id = $(this).parent().find('#review_id').val();
+				console.log(id);
+
+				$.ajax({
+				url: "/detail/remove",
+				data: {"id":id},
+				type:"get",
+				dataType:"json",
+				success: function(response){
+					console.log(response);
+				},
+				error: function (response) {
+					console.log(response);
+				}
+				}).done(function(){
+				console.log('끗!');
+				});
+
+			});
+
+		 	// 찜하기 눌렀을 때
+			$("#like").click(function(){
+				console.log(contentId);
+				console.log(messageDTO);
+
+				$.ajax({
 				url: "/detail/like",
 				data: messageDTO,
 				type:"get",
@@ -216,14 +240,16 @@ s
 					}
 				},
 				error: function (response) {
-        			console.log(response['message']);
-        			$("#like").text('찜오류!');
-    			}
-			  }).done(function(){
-			  	console.log('끗!');
-			  });
+					console.log(response['message']);
+					$("#like").text('찜오류!');
+				}
+				}).done(function(){
+				console.log('끗!');
+				});
 
-		  });
+		});
+
+
 		});
 	</script>
 </div>

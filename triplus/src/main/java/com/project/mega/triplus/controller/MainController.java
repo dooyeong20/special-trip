@@ -42,6 +42,8 @@ public class MainController {
 
     private final PlanService planService;
 
+    private final ReviewService reviewService;
+
 
     @Transactional
     @PostConstruct
@@ -133,16 +135,6 @@ public class MainController {
         List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
         place = placeService.getPlaceByContentId(contentId);
 
-        // ===============================
-//        Review sampleReview = new Review();
-//        sampleReview.setTitle("샘플 리뷰 제목 1");
-//        sampleReview.setContent("샘플 컨텐츠 1");
-//        place.getReviews().add(sampleReview);
-//        sampleReview.setTitle("샘플 리뷰 제목 2");
-//        sampleReview.setContent("샘플 컨텐츠 2");
-//        place.getReviews().add(sampleReview);
-        // ===============================
-
         rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
@@ -200,7 +192,15 @@ public class MainController {
         return "view/admin/admin";
     }
 
+    @GetMapping("/detail/remove")
+    @ResponseBody
+    public String removeReview(@CurrentUser User user,
+                               @RequestParam(value = "id") String reviewId){
 
+        reviewService.deleteReviewById((Long.parseLong(reviewId)));
+
+        return "done";
+    }
 
     @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
@@ -253,7 +253,6 @@ public class MainController {
         List<Plan> allPlans = planService.getAllPlans();
 
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
-
 
         model.addAttribute("planList", allPlans
         .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
