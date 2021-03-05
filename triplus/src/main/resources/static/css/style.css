@@ -9366,6 +9366,7 @@ textarea.form-control {
     color: #f85959;
 }
 
+
 /* card-del
 .card-del h2:hover::after {
       content: "\f1f8";
@@ -9377,8 +9378,8 @@ textarea.form-control {
 */
 
 .modal-search {
-    width: 60%;
-    height: 40px !important;
+    width: 130%;
+    height: 48px !important;
     background: #fff !important;
     color: #000000 !important;
     font-size: 18px;
