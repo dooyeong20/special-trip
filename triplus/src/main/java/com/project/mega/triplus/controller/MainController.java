@@ -143,6 +143,7 @@ public class MainController {
         model.addAttribute("item", item);
         model.addAttribute("reviews", place.getReviews());
         model.addAttribute("content_id", contentId);
+        model.addAttribute("user", user);
 
         rand = Math.max((int) (Math.random() * (recommendPlaces_attraction.size() - cnt)), 0);
         model.addAttribute("recommendPlaces_attraction", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));

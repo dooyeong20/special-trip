@@ -68,15 +68,12 @@
 										</div>
 										<div class="comment-body">
 											<input type="hidden" id="review_id" th:value="${review.id}">
-											<button type="button" class="btn btn-primary mb-2 mr-sm-2 review_edit">
-												수정
-											</button>
-											<button type="button" class="btn btn-primary mb-2 mr-sm-2 review_del">
+											<button th:if="${user.id} == ${review.user.id}" type="button" class="btn btn-primary mb-2 mr-sm-2 review_del">
 												삭제
 											</button>
 											<h3 th:text="${review.title}"></h3>
-											<div class="meta" th:text="${review.regdate}">June 27, 2018 at 2:21pm</div>
-											<p th:text="${review.content}">review</p>
+											<div class="meta" th:text="${review.regdate}"></div>
+											<p th:text="${review.content}"></p>
 										</div>
 									</li>
 								</th:block>
@@ -89,7 +86,7 @@
 							<form th:action="@{/register_review}" class="p-5 bg-light" method="post">
 								<div class="form-group">
 									<label for="message">Message</label>
-									<textarea name="content" id="message" cols="30" rows="10" class="form-control"></textarea>
+									<textarea name="content" id="message" cols="30" rows="5" style="width:100%" class="form-control"></textarea>
 								</div>
 								<div class="form-group text-right">
 									<input type="submit" value="등록" class="btn btn-primary">
@@ -104,11 +101,11 @@
 
 
 					<div class="col-md-4">
-						<div id="map" style="width:500px;height:400px;"></div>
+						<div id="map" style="width:400px;height:400px;" class="m-3"></div>
 
 						<div class="sidebar ftco-animate fadeInUp ftco-animated pt-5">
 							<div class="ftco-animate fadeInUp ftco-animated">
-								<h3>인근 명소</h3>
+								<h3 class="p-2">인근 명소</h3>
 
 								<th:block th:each="place : ${recommendPlaces_attraction}">
 									<th:block th:if="${place.imageUrl}">
@@ -127,11 +124,11 @@
 							</div>
 
 							<div class="ftco-animate fadeInUp ftco-animated pt-5">
-								<h3>인근 음식점</h3>
+								<h3 class="p-2">인근 음식점</h3>
 								<th:block th:each="place : ${recommendPlaces_food}">
 									<th:block th:if="${place.imageUrl}">
 										<div class="col-12 ftco-animate fadeInUp ftco-animated">
-											<div class="block-21 mb-4 d-flex">
+											<div class="block-21 mb-4 d-flex ">
 												<a class="blog-img mr-4" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'"></a>
 												<div class="text">
 													<h3 class="heading"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
@@ -156,58 +153,46 @@
 	<script th:inline="javascript">
 
 		$(document).ready(function(){
+			var mapX = $("#mapX").val();
+			var mapY = $("#mapY").val();
+
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 			mapOption = {
-				center: new kakao.maps.LatLng($("#mapY").val(), $("#mapX").val()), // 지도의 중심좌표
-				level: 6 // 지도의 확대 레벨
+				center: new kakao.maps.LatLng(mapY, mapX), // 지도의 중심좌표
+				level: 3 // 지도의 확대 레벨
 			};
 
 			var map = new kakao.maps.Map(mapContainer, mapOption);
 
-			var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
-				imageSize = new kakao.maps.Size(32, 34), // 마커이미지의 크기입니다
-				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-				markerPosition = new kakao.maps.LatLng($("#mapY").val(), $("#mapX").val()); // 마커가 표시될 위치입니다
+			// 마커가 표시될 위치입니다
+			var markerPosition  = new kakao.maps.LatLng(mapY, mapX);
 
 			// 마커를 생성합니다
 			var marker = new kakao.maps.Marker({
-			  position: markerPosition,
-			  image: markerImage // 마커이미지 설정
+				position: markerPosition
 			});
 
 			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
 
-			// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-			var content = '<div class="customoverlay">' +
-				'  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-				'    <span class="title">'+ $(".contact-info").find("h2").text() +'</span>' +
-				'  </a>' +
-				'</div>';
+			var iwContent = '<div style="padding:5px;">'+ $(".contact-info").find("h2").text() +' <br><a href="https://map.kakao.com/link/map/'+ $(".contact-info").find("h2").text() + ',' + mapY + ',' + mapX + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+ $(".contact-info").find("h2").text() +',' + mapY + ',' + mapX + '" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+				iwPosition = new kakao.maps.LatLng(mapY, mapX); //인포윈도우 표시 위치입니다
 
-			// 커스텀 오버레이가 표시될 위치입니다
-			var position = new kakao.maps.LatLng($("#mapY").val(), $("#mapX").val());
-
-			// 커스텀 오버레이를 생성합니다
-			var customOverlay = new kakao.maps.CustomOverlay({
-				map: map,
-				position: position,
-				content: content,
-				yAnchor: 1
+			// 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				position : iwPosition,
+				content : iwContent
 			});
 
+			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+			infowindow.open(map, marker);
+
+
+
+			var contentId = $("#content_id").val();
 			var messageDTO={
 				content_id: contentId
 			};
-
-			// 수정하기 눌렀을 때
-			$(".review_edit").click(function(){
-				console.log('리뷰 수정 !!');
-				console.log($(this).parent().find('p'));
-			});
 
 			// 삭제하기 눌렀을 때
 			$(".review_del").click(function(){
@@ -249,7 +234,7 @@
 				type:"get",
 				dataType:"json",
 				success: function(response){
-					console.log(response['message']);
+					console.log(response);
 					if(response['result']){
 						$("#like").text	('찜했음!');
 					}
@@ -258,11 +243,9 @@
 					}
 				},
 				error: function (response) {
-					console.log(response['message']);
+					console.log(response);
 					$("#like").text('찜오류!');
 				}
-				}).done(function(){
-				console.log('끗!');
 				});
 
 		});
