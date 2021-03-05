@@ -292,6 +292,12 @@ public class MainController {
        return "view/mypage";
     }
 
+    // TODO 비밀번호 변경
+    @PostMapping("/change-password")
+    public String changePassword(){
+        return "view/mypage";
+    }
+
 
     @GetMapping("/total_plan")
     public String totalPlan(Model model){
@@ -362,19 +368,6 @@ public class MainController {
         return "view/access_denied";
     }
 
-
-    @PostMapping("/mypage/delete")
-    public String userDelete(@CurrentUser User user,
-                             @RequestParam(value = "item_id", required = false)String[] itemIds,
-                             Model model){
-
-        if(itemIds != null && itemIds.length != 0){
-            List<Long> idList = List.of(Arrays.stream(itemIds).map(Long::parseLong).toArray(Long[]::new));
-            userService.deleteUser(user, idList);
-        }
-
-        return "index";
-    }
 
     // 하림님 회원가입 문제 !!  ////////////////////////////////////
     @GetMapping("/harim")
