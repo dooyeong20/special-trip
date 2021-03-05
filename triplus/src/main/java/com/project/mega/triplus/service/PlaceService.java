@@ -77,4 +77,33 @@ public class PlaceService {
         em.persist(place);
 //        placeRepository.save(place);      // 이거 안되고 em.persist 만 됨
     }
+
+    public Page<Place> getPlaceList(Pageable pageable, String type){
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        pageable = PageRequest.of(page, 24);
+
+        return placeRepository.findAllByContentType(pageable, type);
+    }
+
+    public Page<Place> getPlaceListEachAreaCode(Pageable pageable, String type, String code){
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        pageable = PageRequest.of(page, 24);
+
+        return placeRepository.findAllByContentTypeAndAreaCode(pageable, type, code);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
