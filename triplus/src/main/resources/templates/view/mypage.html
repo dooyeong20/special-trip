@@ -85,11 +85,13 @@
                                             <h6 class="review_place_name mr-2" th:text="${review.place.name}"></h6>
                                             <p class="review_place_name" th:text="${review.regdate}"></p>
                                         </div>
+                                        <div class="del">
                                         <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
-                                        <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;">
-                                        <!--								<div class="form-group">-->
-                                        <!--									<input type="submit" value="삭제" class="btn btn-primary">-->
-                                        <!--								</div>-->
+                                        <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;" readonly="readonly">
+                                        <span class="form-group">
+                                            <input type="submit" class="btn btn-primary fas" value="수정/삭제">
+                                        </span>
+                                        </div>
                                     </div>
                                 </th:block>
                             </form>
@@ -351,6 +353,14 @@
                     '                            </div>';
             };
 
+
+            $(".del").hide();
+            $(".del-rev").mouseenter(function(){
+                $(this).find(".del").show();
+            });
+            $(".del-rev").mouseleave(function(){
+                $(this).find(".del").hide();
+            });
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
