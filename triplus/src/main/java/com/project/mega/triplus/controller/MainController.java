@@ -6,6 +6,7 @@ import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,8 @@ public class MainController {
     private final UserService userService;
 
     private final HttpSession  httpSession;
+
+    private final UserRepository userRepository;
 
     private final PlanService planService;
 
@@ -130,18 +133,22 @@ public class MainController {
         String radius = "50000";
         Place place;
 
-        int rand, cnt = 10;
+        int rand, cnt = 5;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
-        List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        List<XMLResponseItem> recommendPlaces_attraction = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        List<XMLResponseItem> recommendPlaces_food = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
         place = placeService.getPlaceByContentId(contentId);
-
-        rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
         model.addAttribute("reviews", place.getReviews());
         model.addAttribute("content_id", contentId);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
+
+        rand = Math.max((int) (Math.random() * (recommendPlaces_attraction.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_attraction", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));
+
+        rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
 
         return "view/detail";
     }
@@ -237,19 +244,52 @@ public class MainController {
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
+
         model.addAttribute("user", user);
 
-        return "view/mypage";
-    }
+        // 내 일정
+        List<Plan> planList = userService.getPlanList(user);
+        model.addAttribute("planList", planList);
 
+        // 내 리뷰
+        List<Review> reviewList = userService.getReviewList(user);
+        model.addAttribute("reviewList", reviewList);
 
-    @PostMapping("/mypage/like")
-        public String likeList(@CurrentUser User user, Model model){
+        // 내 찜
         List<Place> likeList = userService.getLikeList(user);
 
-        model.addAttribute("likeList", likeList);
+        List<Place> attractionList = new ArrayList<>();
+        List<Place> foodList = new ArrayList<>();
+        List<Place> shopList = new ArrayList<>();
+        List<Place> festivalList = new ArrayList<>();
 
-        return "view/mypage";
+        for(Place like : likeList){
+            switch (like.getContentType()){
+                case "12":
+                    attractionList.add(like);
+                    break;
+                case "39":
+                    foodList.add(like);
+                    break;
+                case "38":
+                    shopList.add(like);
+                    break;
+                case "15":
+                    festivalList.add(like);
+                default:
+                    break;
+            }
+        }
+
+        //model.addAttribute("likeList", likeList);
+
+        model.addAttribute("attractionList", attractionList);
+        model.addAttribute("foodList", foodList);
+        model.addAttribute("shopList", shopList);
+        model.addAttribute("festivalList", festivalList);
+
+
+       return "view/mypage";
     }
 
 
@@ -313,12 +353,6 @@ public class MainController {
         model.addAttribute("jejuPlaceList",jejuPlaceList);
         model.addAttribute("cat", cat);
 
-
-
-//        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));  // 32,38
-//        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
-//                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
-
         return "view/total_place";
     }
 
@@ -369,6 +403,14 @@ public class MainController {
         }
 
         return Long.toString(planService.savePlan(user, plan, planForm));
+    }
+
+
+    @GetMapping("/mypage/myplan")
+    @ResponseBody
+    public Plan myPlan(@CurrentUser User user,
+                         @RequestParam(value = "id") Long id ){
+        return planService.getPlanById(id);
     }
 
 }

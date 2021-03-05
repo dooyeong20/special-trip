@@ -1,5 +1,7 @@
 package com.project.mega.triplus.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,15 +29,18 @@ public class Plan {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
+
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Day> days = new ArrayList<>();
 
     public void setUser(User user) {
         this.user = user;
         user.getMyPlans().add(this);
     }
-
-    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Day> days = new ArrayList<>();
 
     private int dayCounts;
 
