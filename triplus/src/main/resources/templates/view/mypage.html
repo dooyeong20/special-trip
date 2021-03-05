@@ -404,59 +404,68 @@
 
                 }).done(function(response) {
                     console.log('done!');
+                });
+
+
+                // 각 day 클릭했을 때
+                $(".card").unbind().click(function (){
+                    console.log('day 클릭');
+                    console.log(planObj);
+
+                    $("#placeScroll").find(".placeBox").remove();
+                    $("#placeScroll").append('                  <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" style="display: none !important;">\n' +
+                        '                                            <a class="blog-img mr-4"><img class="placeImage"/></a>\n' +
+                        '                                            <div class="text">\n' +
+                        '                                                <h3 class="heading placeTitle"></h3>\n' +
+                        '                                                <p class="placeAddr" ></p>\n' +
+                        '                                            </div>\n' +
+                        '                                        </div>');
+
+
+                    let dayCnt = planObj['dayCounts'];
+                    let dayList = planObj['days'];
+
+                    console.log('dayList : ' + dayList);
+
+                    for(let i=0 ; i< dayCnt; ++i){
+
+                        console.log('day' + (i+1) + '의 장소들');
+
+                        let placeList = dayList[i]['places'];
+
+                        for(let j =0; j< placeList.length; ++j){
+
+
+                            let img = placeList[j]['thumbnailUrl'];
+                            let name = placeList[j]['name'];
+                            let addr = placeList[j]['addr'];
+
+                            // day i 번째의  j번째 place 각각 작업
+                            $("#content_id:last").after('            <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id">\n' +
+                                '                                        <a class="blog-img mr-4 placeImage"><img/></a>\n' +
+                                '                                        <div class="text">\n' +
+                                '                                            <h3 class="heading placeTitle">' + name + '</h3>\n' +
+                                '                                            <p class="placeAddr">' + addr + '</p>\n' +
+                                '                                        </div>\n' +
+                                '                                    </div>');
+
+
+
+
+                            $("a.placeImage > img").attr("src", img);
+                            $(".placeTitle").text(name);
+                            $(".placeAddr").text(addr);
+
+                            console.log((j+1)+ '번째 장소');
+                            console.log(placeList[j]);
+                        }
+
+                    }
 
                 });
 
             }); // planCard 클릭 했을 때 끝
 
-
-            // 각 day 클릭했을 때
-            $(".card").click(function (){
-                $("#placeScroll").find(".placeBox").remove();
-                $("#placeScroll").append('                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" style="display: none !important;">\n' +
-                    '                                            <a class="blog-img mr-4 placeImage"></a>\n' +
-                    '                                            <div class="text">\n' +
-                    '                                                <h3 class="heading placeTitle"></h3>\n' +
-                    '                                                <p class="placeAddr" ></p>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>');
-
-
-                let dayCnt = planObj['dayCounts'];
-                let dayList = planObj['days'];
-
-                for(let d=0 ; d<dayCnt; ++d){
-
-                    console.log('day' + (d+1) + '의 장소들');
-
-                    let placeList = dayList[d]['places'];
-
-                    for(let p =0; p<placeList.length; ++p){
-                        // day d+1 번째의  p+1번째 place 각각 작업
-                        $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id">\n' +
-                            '                                        <a class="blog-img mr-4 placeImage"></a>\n' +
-                            '                                        <div class="text">\n' +
-                            '                                            <h3 class="heading placeTitle"></h3>\n' +
-                            '                                            <p class="placeAddr"></p>\n' +
-                            '                                        </div>\n' +
-                            '                                    </div>');
-
-                        let img = placeList[p]['thumbnailUrl'];
-                        let name = placeList[p]['name'];
-                        let addr = placeList[p]['addr'];
-
-
-                        $(".placeImage").add(img);
-                        $(".placeTitle").add(name);
-                        $(".placeAddr").add(addr);
-
-                        console.log((p+1)+ '번째 장소');
-                        console.log(placeList[p]);
-                    }
-
-                }
-
-            });
 
         });
 
