@@ -205,7 +205,7 @@
                         </div>
                     </div>
 
-                    <!-- myInfo -->
+                    <!-- TODO myInfo 내정보관리 -->
                     <div id="myInfo" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -213,7 +213,7 @@
                             </div>
                             <form th:action="@{/mypage}" method="post" name="updateForm">
 
-                                <table width="500" height="600" border="2" align="center" rules="none">
+                                <table width="500" height="600" align="center" rules="none">
                                     <tr align="center">
                                         <td width="20%" style="font-weight: bold">Nickname</td>
                                         <td width="80%"><input type="text" th:value="${user.nickName}"></td>
@@ -226,13 +226,11 @@
                                     </tr>
 
                                     <tr align="center">
-                                        <td width="20%" style="font-weight: bold">Password</td>
-                                        <td width="80%"><input type="password" th:value="${user.password}"></td>
-                                    </tr>
-
-                                    <tr align="center">
-                                        <td width="20%" style="font-weight: bold">Confirm Password</td>
-                                        <td width="80%"><input type="text" th:value="${user.password}"></td>
+                                        <td colspan="2">
+                                            <button class="btn btn-primary mb-2 mr-sm-2" type="button" data-toggle="modal" data-target="#changePasswordModal">
+                                                비밀번호 변경
+                                            </button>
+                                        </td>
                                     </tr>
 
                                 </table>
@@ -258,6 +256,42 @@
 
     </section>
 
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-title text-center">
+                        <h4>비밀번호 변경</h4>
+                    </div>
+
+                    <div class="d-flex flex-column text-center">
+                        <form th:action="@{/change-password}" method="post" name="changePasswordForm" novalidate>
+                            <div class="form-group">
+                                <input type="password" placeholder="현재 비밀번호" name="now_pw" id="now_pw">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="새 비밀번호" name="new_pw" id="new_pw">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="새 비밀번호 확인" name="conf_pw" id="conf_pw">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary mb-2 mr-sm-2">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- main modal -->
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -281,6 +315,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
