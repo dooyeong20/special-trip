@@ -1,7 +1,8 @@
 package com.project.mega.triplus.repository;
 
 import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Place findByContentId(String contentId);
 
+    Page<Place> findAllByContentType(Pageable pageable, String type);
+
+    Page<Place> findAllByContentTypeAndAreaCode(Pageable pageable, String type, String areaCode);
 }

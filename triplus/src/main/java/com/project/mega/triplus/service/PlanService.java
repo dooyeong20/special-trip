@@ -67,6 +67,9 @@ public class PlanService {
         plan1_day1.setPlan(plan);
         plan1_day2.setPlan(plan);
         plan.setStatus(PlanStatus.COMPLETE);
+        plan.setDayCounts(plan.getDayCounts());
+        plan.setMainAreaCode(plan.getMainAreaCode());
+        plan.setMainImg(plan.getMainImg());
         planRepository.save(plan);
 
         Plan plan2=new Plan();
@@ -75,6 +78,9 @@ public class PlanService {
         plan2.setUser(user);
         plan2_day1.setPlan(plan2);
         plan2.setStatus(PlanStatus.COMPLETE);
+        plan2.setDayCounts(plan2.getDayCounts());
+        plan2.setMainAreaCode(plan2.getMainAreaCode());
+        plan2.setMainImg(plan2.getMainImg());
         planRepository.save(plan2);
     }
 

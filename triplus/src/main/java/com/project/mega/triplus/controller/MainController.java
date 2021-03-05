@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -43,6 +46,8 @@ public class MainController {
 
     private final PlanService planService;
 
+    private final ReviewService reviewService;
+
 
     @Transactional
     @PostConstruct
@@ -53,63 +58,16 @@ public class MainController {
         }
 
        planService.createDummyData();
-
-        // 추천일정 top3 더미데이터 생성하기
-        Plan plan1=new Plan();
-        Day plan1_day1=new Day();
-        Day plan1_day2=new Day();
-
-        // Place 테이블에서 실제 장소 데이터 빼오기.
-        Optional<Place> place1=placeRepository.findById(250L);
-        Optional<Place> place2=placeRepository.findById(350L);
-        Optional<Place> place3=placeRepository.findById(450L);
-        Optional<Place> place4=placeRepository.findById(550L);
-
-        if(place1.isPresent() && place2.isPresent() && place3.isPresent() && place4.isPresent()){
-
-            // day1에 장소들 임의로 추가.
-            plan1_day1.addPlace(place1.get());
-            plan1_day1.addPlace(place2.get());
-            plan1_day2.addPlace(place3.get());
-            plan1_day2.addPlace(place4.get());
-
-            // plan1_day1, plan1_day2 은 plan1 소속이다.
-            plan1_day1.setPlan(plan1);
-            plan1_day2.setPlan(plan1);
-
-            plan1_day1.setName("FirstDay");
-            plan1_day2.setName("SecondDay");
-        }
-
-//        plan1.setName("나의 첫번째 여행");
-//        plan1.setStatus(PlanStatus.COMPLETE);
-//        plan1.setLiked(10);
-//        plan1.setUpdate(LocalDateTime.now());
-//        plan1.setDays(List.of(plan1_day1,plan1_day2));
-//        planRepository.save(plan1);
-
-//        List<List<String>> imageUrlsList = new ArrayList<>();
-//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
-//
-//        System.out.println(imageUrlsList);
     }
 
     @RequestMapping("/")
     public String index(Model model){
-        List<Place> placeList = placeService.getPlaceList();
+        List<Place> placeList = placeService.getPlace();
         List<Plan> planList = planService.getAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
-        return "index";
-    }
-
-    @GetMapping("/loginSuccess")
-    public String loginComplete(){
         return "index";
     }
 
@@ -182,17 +140,6 @@ public class MainController {
         List<XMLResponseItem> recommendPlaces_food = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
         place = placeService.getPlaceByContentId(contentId);
 
-        // ===============================
-//        Review sampleReview = new Review();
-//        sampleReview.setTitle("샘플 리뷰 제목 1");
-//        sampleReview.setContent("샘플 컨텐츠 1");
-//        place.getReviews().add(sampleReview);
-//        sampleReview.setTitle("샘플 리뷰 제목 2");
-//        sampleReview.setContent("샘플 컨텐츠 2");
-//        place.getReviews().add(sampleReview);
-        // ===============================
-
-
         model.addAttribute("item", item);
         model.addAttribute("reviews", place.getReviews());
         model.addAttribute("content_id", contentId);
@@ -253,7 +200,19 @@ public class MainController {
         return "view/admin/admin";
     }
 
+    @GetMapping("/detail/remove")
+    @ResponseBody
+    public String removeReview(@CurrentUser User user,
+                               @RequestParam(value = "id") String reviewId){
 
+        reviewService.deleteReviewById((Long.parseLong(reviewId)));
+
+//        Review reviewById = reviewService.getReviewById(Long.parseLong(reviewId));
+//        System.out.println(reviewById);
+
+
+        return "done";
+    }
 
     @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
@@ -340,7 +299,6 @@ public class MainController {
 
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-
         model.addAttribute("planList", allPlans
         .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
 
@@ -348,7 +306,8 @@ public class MainController {
     }
 
     @GetMapping("/total_place")
-    public String totalPlace(Model model){
+    public String totalPlace(Model model, @PageableDefault Pageable pageable,
+                             @RequestParam(value = "cat", required = false) String cat){
         /*
         < areaCode >
 
@@ -370,10 +329,29 @@ public class MainController {
         38 전라남도
         39 제주도
          */
-        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
-                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
+        Page<Place> allPlaceList = placeService.getPlaceList(pageable, "12");
+        Page<Place> seoulPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "1");
+        Page<Place> incheonPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "2");
+        Page<Place> ulsanPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "7");
+        Page<Place> gyeonggiPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "31");
+        Page<Place> busanPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "6");
+        Page<Place> daeguPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "4");
+        Page<Place> gwangjuPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "5");
+        Page<Place> daejeonPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "3");
+        Page<Place> jejuPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "39");
+
+        model.addAttribute("allPlaceList", allPlaceList);
+        model.addAttribute("seoulPlaceList",seoulPlaceList);
+        model.addAttribute("incheonPlaceList",incheonPlaceList);
+        model.addAttribute("ulsanPlaceList",ulsanPlaceList);
+        model.addAttribute("gyeonggiPlaceList",gyeonggiPlaceList);
+        model.addAttribute("busanPlaceList",busanPlaceList);
+        model.addAttribute("daeguPlaceList",daeguPlaceList);
+        model.addAttribute("gwangjuPlaceList",gwangjuPlaceList);
+        model.addAttribute("daejeonPlaceList",daejeonPlaceList);
+        model.addAttribute("jejuPlaceList",jejuPlaceList);
+        model.addAttribute("cat", cat);
 
         return "view/total_place";
     }
