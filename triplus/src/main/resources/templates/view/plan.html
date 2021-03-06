@@ -6,57 +6,108 @@
 <div layout:fragment="content">
     <section class="ftco-section bg-light">
         <div class="container">
-            <div class="col-md-7 heading-section ftco-animate fadeInUp ftco-animated">
-                <h2 class="mb-4"><strong>나의 일정</strong> 만들기 </h2>
+            <div class="col-md-7 ftco-animate fadeInUp ftco-animated">
+                <h2 class="mb-4"><strong>나의 일정 만들기</strong></h2>
             </div>
 
             <div class="form-group">
                 <div class="row">
-                    <input type="text" class="form-control col-4 mb-2 mr-sm-2" placeholder="일정 이름">
-                    <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
 
+                    <input th:value="${plan} ? ${plan.name} : ''" type="text" class="form-control fas col-4 mb-2 mr-sm-2 " id="plan_title" placeholder="&#xf304;">
+                    <input th:value="${plan} ? ${plan.id} : 0" id="plan_id" type="hidden">
+
+                    <button type="button" id="save-all-btn" class="btn btn-primary mb-2 mr-sm-2">
                         <i class="far fa-save fa-2x"></i>
                     </button>
                 </div>
             </div>
+            <th:block th:unless="${plan}">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-4 day" style="display: none !important">
+                            <h2 class="text-center">Day</h2>
+                            <div class="card" style="height: 500px">
+                                <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-4 day card-del">
-                        <h2 class="text-center">Day</h2>
-                        <div class="card" style="height: 500px">
-                            <div style="height:450px; overflow-y: scroll;" class="mt-4">
-                                <div class="card-body">
+                        <div class="col-4 day">
+                            <h2 class="text-center big-div">DAY<i class="fas fa-trash big-del day_del_btn" style="margin-left: 5px;"></i></h2>
+                            <div class="card" style="height: 500px">
+                                <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                    <div class="card-body">
 
-                                    <!-- 돌하르방 div-->
-                                    <div class="block-21 mb-4 mt-4 d-flex place mini-del" >
-                                        <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                        <div class="text">
-                                            <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
-                                            <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
                                         </div>
-                                    </div>
 
-                                    <div class="col text-center">
-                                        <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
+                                        <div class="col text-center">
+                                            <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </th:block>
+
+            <th:block th:if="${plan}">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-4 day" style="display: none !important">
+                        </div>
+
+                        <th:block th:each="day : ${plan.days}">
+                            <div class="col-4 day">
+                                <h2 class="text-center">Day</h2>
+                                <div class="card" style="height: 500px">
+                                    <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-default mb-2 mr-sm-2 delete_btn day_del_btn">
+                                                    DELETE
+                                                </button>
+                                            </div>
+
+                                            <!-- 기본 place div-->
+                                            <div class="block-21 mb-4 mt-4 d-flex place" style="display: none !important">
+                                            </div>
+
+                                            <th:block th:each="place : ${day.places}">
+                                                <div class="block-21 mb-4 mt-4 d-flex place">
+                                                    <a class="blog-img mr-4" th:style="'background:url(' + ${place.thumbnailUrl} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                                    <div class="text">
+                                                        <h3 class="heading"><a th:href="'/detail?content_id=' + ${place.contentId}" th:text="${place.name}"></a></h3>
+                                                        <p th:text="${place.addr}"></p>
+                                                    </div>
+                                                </div>
+                                            </th:block>
+
+                                            <div class="col text-center">
+                                                <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+
+                    </div>
+                </div>
+            </th:block>
+
 
 
             <div class="col text-center">
-
                 <button type="button" id="card_add" class="btn btn-primary card_add">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
-
         </div>
     </section>
 
@@ -66,8 +117,11 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                <div class="modal-header" align="center">
+                    <!-- modal search -->
+                    <div style="padding: 0px 0px 0px 70px;" align="center">
+                        <input class="typeahead fas modal-search" type="text" id="search" onkeyup="filter()" placeholder=" &#xf002;"/>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -75,17 +129,15 @@
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
 
-                        <!-- modal search -->
-                        <div style="padding: 0px 0px 20px 0px;" align="center">
-                            <input class="typeahead fas modal-search" type="text" id="search" onkeyup="filter()" placeholder="&#xf002; 명소를 검색하세요."/>
-                        </div>
+
                         <div style="height:500px; overflow-y: scroll;">
 
                             <!-- 카드들 담기는 곳-->
                             <div class="placeList">
                                 <th:block th:each="place : ${placeList}">
                                     <div class="col-12 ftco-animate fadeInUp ftco-animated">
-                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" th:value="${place.contentId}">
+                                        <div class="block-21 mb-4 d-flex placeBox">
+                                            <input type="hidden" id="contentId" th:value="${place.contentId}">
                                             <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ')'"></a>
                                             <div class="text">
                                                 <h3 class="heading placeTitle" th:text="${place.name}"></h3>
@@ -101,66 +153,67 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- 지애 할일~~!!!!!!!!
-    div에 올렸을 때 trashcan icon appear
-    scroll into transparent
-    DAY에 올렸을 때 trashcan icon appear -->
 
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
 
+            $("#search").mouseover(function() {
+                $(this).css("border","solid 2px #f85959");
+            });
+
+            $(".small-del").hide();
+            $(".small-div").mouseenter(function(){
+                $(this).find(".small-del").show();
+            });
+            $(".small-div").mouseleave(function(){
+                $(this).find(".small-del").hide();
+            });
+
+            $(".big-del").hide();
+            $(".big-div").mouseenter(function(){
+                $(this).find(".big-del").show();
+            });
+            $(".big-div").mouseleave(function(){
+                $(this).find(".big-del").hide();
+            });
+
             make_place = function(url, title, addr, content_id){
 
-                return '<div class="block-21 mb-4 mt-4 d-flex place mini-del">' +
+                return '<div class="block-21 mb-4 mt-4 d-flex place small-div">' +
                 '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
                 '    <div class="text">' +
-                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a></h3>' +
+                '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a><i class="fas fa-trash small-del" style="margin-left: 5px;"></i></h3>' +
                 '        <p>' + addr + '</p>' +
                 '    </div>' +
                 '</div>';
             }
 
             var card = `<div class="col-4 day">
-                    <h2 class="text-center">Day</h2>
-                    <div class="card" style="height: 500px">
-                        <div style="height:450px; overflow-y: scroll;" class="mt-4">
-                            <div class="card-body">
-                                <div align="right">
-                                    <button type="button" id="card_delete_btn" class="btn btn-default mb-2 mr-sm-2 delete_btn">
-                                        <i class="fas fa-trash-alt"></i>
+                            <h2 class="text-center big-div">DAY<i class="fas fa-trash big-del" style="margin-left: 5px;"></i></h2>
+                            <div class="card" style="height: 500px">
+                                <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                    <div class="card-body">
 
-                                    </button>
-                                </div>
+                                        <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
+                                        </div>
 
-                                <div class="block-21 mb-4 mt-4 d-flex place mini-del">
-                                </div>
-
-
-
-                                    <a class="blog-img mr-4" style="background:url(http://tong.visitkorea.or.kr/cms/resource/13/656813_image2_1.jpg); background-size: cover; background-repeat: no-repeat;"></a>
-                                    <div class="text">
-                                        <h3 class="heading"><a href="/detail?content_id=128777">북촌 돌하르방공원</a></h3>
-                                        <p>제주특별자치도 제주시 조천읍 북촌서1길 70</p>
+                                        <div class="col text-center">
+                                            <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col text-center">
-                                    <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                `
+                        `
 
             add_btn_click = function(){
                 var add_place_btn = $(this);
@@ -178,7 +231,11 @@
                 var imgUrl = $(this).find("a").css('background');
                 var title = $(this).find(".text").find("h3").text();
                 var addr = $(this).find(".text").find("p").text();
-                var content_id = $(this).find('#content_id').text();
+                var content_id = $(this).find("#contentId").val();
+                // -------------------------------
+                console.log(content_id);
+                // -------------------------------
+
                 var last_place = $(".last-place");
                 imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
 
@@ -191,15 +248,51 @@
                 // TODO content_id 작업 해줘야함
                 last_place.after(make_place(imgUrl, title, addr, content_id));
                 last_place.removeClass('last-place');
-            });
+
+                $(".small-del").hide();
+
+                $(".small-div").mouseenter(function(){
+                    $(this).find(".small-del").show();
+                });
+                $(".small-div").mouseleave(function(){
+                    $(this).find(".small-del").hide();
+                });
+
+                $(".big-del").hide();
+
+                $(".big-div").mouseenter(function(){
+                    $(this).find(".big-del").show();
+                });
+                $(".big-div").mouseleave(function(){
+                    $(this).find(".big-del").hide();
+                });
+                });
 
             // 새로울 Day를 만들 때
             $(".card_add").click(function(){
-                $(".last-place").removeClass('last-place');
+
 
                 $(".day:last").after(card);
-
+                //$(".last-place").removeClass('last-place');
                 $(".add_btn").unbind().click(add_btn_click);
+
+                $(".small-del").hide();
+                $(".big-del").hide();
+
+                $(".small-div").mouseenter(function(){
+                    $(this).find(".small-del").show();
+                });
+                $(".small-div").mouseleave(function(){
+                    $(this).find(".small-del").hide();
+                });
+
+                 $(".big-div").mouseenter(function(){
+                    $(this).find(".big-del").show();
+                });
+                $(".big-div").mouseleave(function(){
+                    $(this).find(".big-del").hide();
+                });
+
 
             }); // card_add btn click 끝
 
@@ -224,19 +317,25 @@
                     return tmp;
                 });
 
-                console.log(JSON.stringify(dayList));
+
+                jsonObj = {
+                    "plan" : $('#plan_title').val(),
+                    "planId" : $('#plan_id').val(),
+                    "dayList": dayList.slice(1)
+                };
 
                 $.ajax({
                     url: '/plan/save',
                     type: 'post',
                     dataType: 'json',
-                    data: JSON.stringify(dayList),
+                    data: JSON.stringify({plan:$('#plan_title').val(), planId:$('#plan_id').val(), dayList:dayList.slice(1)}),
                     contentType: 'application/json; charset=UTF-8',
                     success: function(response) {
-                        console.log('ajax 성공 !!!!');
+                        console.log(response + '로 설정 완료!');
+                        $('#plan_id').val(response);
                     }
-                }).done(function(){
-                    console.log('끗!');
+                }).done(function(response) {
+                    console.log('done!');
                 });
 
             });
@@ -245,6 +344,7 @@
         }); // ready 끝
 
     </script>
+
     <script>
         function filter() {
             let search = document.getElementById("search").value.toLowerCase();

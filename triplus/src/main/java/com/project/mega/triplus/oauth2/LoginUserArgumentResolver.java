@@ -1,5 +1,6 @@
 package com.project.mega.triplus.oauth2;
 
+import com.project.mega.triplus.service.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean isLoginUserAnnotation= parameter.getParameterAnnotation(LoginUser.class) != null;
+        boolean isLoginUserAnnotation= parameter.getParameterAnnotation(CurrentUser.class) != null;
         boolean isUserClass = SessionUser.class.equals(parameter.getParameterType());
 
         return isLoginUserAnnotation && isUserClass;

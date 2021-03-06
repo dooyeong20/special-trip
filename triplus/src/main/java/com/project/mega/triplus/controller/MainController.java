@@ -3,13 +3,18 @@ package com.project.mega.triplus.controller;
 import com.google.gson.JsonObject;
 import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
+import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
 import com.project.mega.triplus.repository.PlanRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,8 +34,6 @@ public class MainController {
 
     private final PlaceRepository placeRepository;
 
-    private final PlanRepository planRepository;
-
     private final PlaceService placeService;
 
     private final ApiService apiService;
@@ -39,7 +42,11 @@ public class MainController {
 
     private final HttpSession  httpSession;
 
+    private final UserRepository userRepository;
+
     private final PlanService planService;
+
+    private final ReviewService reviewService;
 
 
     @Transactional
@@ -50,62 +57,17 @@ public class MainController {
             log.error(" !!! data load error !!! ");
         }
 
-        // 추천일정 top3 더미데이터 생성하기
-        Plan plan1=new Plan();
-        Day plan1_day1=new Day();
-        Day plan1_day2=new Day();
-
-        // Place 테이블에서 실제 장소 데이터 빼오기.
-        Optional<Place> place1=placeRepository.findById(250L);
-        Optional<Place> place2=placeRepository.findById(350L);
-        Optional<Place> place3=placeRepository.findById(450L);
-        Optional<Place> place4=placeRepository.findById(550L);
-
-        if(place1.isPresent() && place2.isPresent() && place3.isPresent() && place4.isPresent()){
-
-            // day1에 장소들 임의로 추가.
-            plan1_day1.addPlace(place1.get());
-            plan1_day1.addPlace(place2.get());
-            plan1_day2.addPlace(place3.get());
-            plan1_day2.addPlace(place4.get());
-
-            // plan1_day1, plan1_day2 은 plan1 소속이다.
-            plan1_day1.setPlan(plan1);
-            plan1_day2.setPlan(plan1);
-
-            plan1_day1.setName("FirstDay");
-            plan1_day2.setName("SecondDay");
-        }
-
-//        plan1.setName("나의 첫번째 여행");
-//        plan1.setStatus(PlanStatus.COMPLETE);
-//        plan1.setLiked(10);
-//        plan1.setUpdate(LocalDateTime.now());
-//        plan1.setDays(List.of(plan1_day1,plan1_day2));
-//        planRepository.save(plan1);
-
-//        List<List<String>> imageUrlsList = new ArrayList<>();
-//        imageUrlsList.add(plan1_day1.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day1.getPlaces().get(1).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(0).getImageUrls());
-//        imageUrlsList.add(plan1_day2.getPlaces().get(1).getImageUrls());
-//
-//        System.out.println(imageUrlsList);
+       planService.createDummyData();
     }
 
     @RequestMapping("/")
     public String index(Model model){
-        List<Place> placeList = placeService.getPlaceList();
-        List<Plan> planList = planRepository.findAllByOrderByLikedDesc();
+        List<Place> placeList = placeService.getPlace();
+        List<Plan> planList = planService.getAllByOrderByLikedDesc();
 
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
-        return "index";
-    }
-
-    @GetMapping("/loginSuccess")
-    public String loginComplete(){
         return "index";
     }
 
@@ -171,28 +133,22 @@ public class MainController {
         String radius = "50000";
         Place place;
 
-        int rand, cnt = 10;
+        int rand, cnt = 5;
 
         XMLResponseItem item = apiService.getItemByContentId(contentId);
-        List<XMLResponseItem> recommendPlaces = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        List<XMLResponseItem> recommendPlaces_attraction = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "12");
+        List<XMLResponseItem> recommendPlaces_food = apiService.getItemByMapXAndMapY(item.getMapX(), item.getMapY(), radius, "39");
         place = placeService.getPlaceByContentId(contentId);
-
-        // ===============================
-//        Review sampleReview = new Review();
-//        sampleReview.setTitle("샘플 리뷰 제목 1");
-//        sampleReview.setContent("샘플 컨텐츠 1");
-//        place.getReviews().add(sampleReview);
-//        sampleReview.setTitle("샘플 리뷰 제목 2");
-//        sampleReview.setContent("샘플 컨텐츠 2");
-//        place.getReviews().add(sampleReview);
-        // ===============================
-
-        rand = Math.max((int) (Math.random() * (recommendPlaces.size() - cnt)), 0);
 
         model.addAttribute("item", item);
         model.addAttribute("reviews", place.getReviews());
         model.addAttribute("content_id", contentId);
-        model.addAttribute("recommendPlaces", recommendPlaces.subList(rand, rand + Math.min(recommendPlaces.size(), cnt)));
+
+        rand = Math.max((int) (Math.random() * (recommendPlaces_attraction.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_attraction", recommendPlaces_attraction.subList(rand, rand + Math.min(recommendPlaces_attraction.size(), cnt)));
+
+        rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
+        model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
 
         return "view/detail";
     }
@@ -211,8 +167,18 @@ public class MainController {
 
 
     @GetMapping("/plan")
-    public String plan(Model model){
+    public String plan(Model model, @RequestParam(value = "plan_id", required = false)String planId){
         int rand, cnt = 10;
+        Plan plan;
+
+        if(planId != null){
+            try{
+                plan = planService.getPlanById(Long.parseLong(planId));
+                model.addAttribute("plan", plan);
+            } catch (Exception e){
+                log.error("no plan");
+            }
+        }
 
         List<Place> placeList = placeRepository.findAllByContentType("12");
 
@@ -234,7 +200,19 @@ public class MainController {
         return "view/admin/admin";
     }
 
+    @GetMapping("/detail/remove")
+    @ResponseBody
+    public String removeReview(@CurrentUser User user,
+                               @RequestParam(value = "id") String reviewId){
 
+        reviewService.deleteReviewById((Long.parseLong(reviewId)));
+
+//        Review reviewById = reviewService.getReviewById(Long.parseLong(reviewId));
+//        System.out.println(reviewById);
+
+
+        return "done";
+    }
 
     @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
@@ -266,31 +244,70 @@ public class MainController {
         if(user == null ){
             user = (User)httpSession.getAttribute("user");
         }
-        String nickName = user.getNickName();
 
-        model.addAttribute("nickName", nickName);
+        model.addAttribute("user", user);
 
-        return "view/mypage";
-    }
+        // 내 일정
+        List<Plan> planList = userService.getPlanList(user);
+        model.addAttribute("planList", planList);
 
-    @PostMapping("/mypage/like")
-        public String likeList(@CurrentUser User user, Model model){
+        // 내 리뷰
+        List<Review> reviewList = userService.getReviewList(user);
+        model.addAttribute("reviewList", reviewList);
+
+        // 내 찜
         List<Place> likeList = userService.getLikeList(user);
 
-        model.addAttribute("likeList", likeList);
+        List<Place> attractionList = new ArrayList<>();
+        List<Place> foodList = new ArrayList<>();
+        List<Place> shopList = new ArrayList<>();
+        List<Place> festivalList = new ArrayList<>();
 
-        return "view/mypage";
+        for(Place like : likeList){
+            switch (like.getContentType()){
+                case "12":
+                    attractionList.add(like);
+                    break;
+                case "39":
+                    foodList.add(like);
+                    break;
+                case "38":
+                    shopList.add(like);
+                    break;
+                case "15":
+                    festivalList.add(like);
+                default:
+                    break;
+            }
+        }
+
+        //model.addAttribute("likeList", likeList);
+
+        model.addAttribute("attractionList", attractionList);
+        model.addAttribute("foodList", foodList);
+        model.addAttribute("shopList", shopList);
+        model.addAttribute("festivalList", festivalList);
+
+
+       return "view/mypage";
     }
 
 
     @GetMapping("/total_plan")
     public String totalPlan(Model model){
+        List<Plan> allPlans = planService.getAllPlans();
+
+        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
+
+        model.addAttribute("planList", allPlans
+        .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
 
         return "view/total_plan";
     }
 
     @GetMapping("/total_place")
-    public String totalPlace(Model model){
+    public String totalPlace(Model model, @PageableDefault Pageable pageable,
+                             @RequestParam(value = "cat", required = false) String cat){
         /*
         < areaCode >
 
@@ -312,10 +329,29 @@ public class MainController {
         38 전라남도
         39 제주도
          */
-        Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-        model.addAttribute("placeList", placeRepository.findAllByContentType("12")
-                .stream().filter(city -> citySet.contains(city.getAreaCode())).collect(Collectors.toList()));
+        Page<Place> allPlaceList = placeService.getPlaceList(pageable, "12");
+        Page<Place> seoulPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "1");
+        Page<Place> incheonPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "2");
+        Page<Place> ulsanPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "7");
+        Page<Place> gyeonggiPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "31");
+        Page<Place> busanPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "6");
+        Page<Place> daeguPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "4");
+        Page<Place> gwangjuPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "5");
+        Page<Place> daejeonPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "3");
+        Page<Place> jejuPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "39");
+
+        model.addAttribute("allPlaceList", allPlaceList);
+        model.addAttribute("seoulPlaceList",seoulPlaceList);
+        model.addAttribute("incheonPlaceList",incheonPlaceList);
+        model.addAttribute("ulsanPlaceList",ulsanPlaceList);
+        model.addAttribute("gyeonggiPlaceList",gyeonggiPlaceList);
+        model.addAttribute("busanPlaceList",busanPlaceList);
+        model.addAttribute("daeguPlaceList",daeguPlaceList);
+        model.addAttribute("gwangjuPlaceList",gwangjuPlaceList);
+        model.addAttribute("daejeonPlaceList",daejeonPlaceList);
+        model.addAttribute("jejuPlaceList",jejuPlaceList);
+        model.addAttribute("cat", cat);
 
         return "view/total_place";
     }
@@ -357,31 +393,24 @@ public class MainController {
     @PostMapping("/plan/save")
     @ResponseBody
     public String savePlan(@CurrentUser User user,
-            @RequestBody List<List<Map<String, String>>> planList){
+            @RequestBody PlanForm planForm){
+
         Plan plan = new Plan();
-        Day day;
-        Place place;
+        Long planId = planForm.getPlanId();
 
-        plan.setUser(user);
-
-        for(List<Map<String, String>> d : planList){
-            day = new Day();
-
-            for(Map<String, String> p : d){
-                place = new Place();
-                place.setName(p.get("title"));
-                place.setAddr(p.get("addr"));
-                place.setThumbnailUrl(p.get("imgUrl"));
-                place.setContentId(p.get("content_id"));
-                day.addPlace(place);
-            }
-
-            day.setPlan(plan);
+        if(planId > 0){
+            plan = planService.getPlanById(planId);
         }
 
-        planService.savePlan(plan);
+        return Long.toString(planService.savePlan(user, plan, planForm));
+    }
 
-        return "done";
+
+    @GetMapping("/mypage/myplan")
+    @ResponseBody
+    public Plan myPlan(@CurrentUser User user,
+                         @RequestParam(value = "id") Long id ){
+        return planService.getPlanById(id);
     }
 
 }

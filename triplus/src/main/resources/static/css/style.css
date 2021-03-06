@@ -1558,11 +1558,7 @@ pre {
 // origin - plan modal search - width
 .form-control {
   display: block;
-<<<<<<< HEAD
-  width: 60%;
-=======
-  width: 70%;
->>>>>>> b39ebe96037d97167eea9848e9a09cf1c3fff3e6
+  width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -9346,34 +9342,40 @@ textarea.form-control {
     stroke-dashoffset: -136px; } }
 
 
-
-
-.mini-del h3:hover::after {
-    content: "\f1f8";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-left: 10px;
+.fa-trash {
     color: #f85959;
 }
 
-.card-del h2:hover::after {
-              content: "\f1f8";
-              font-family: "Font Awesome 5 Free";
-              font-weight: 900;
-              margin-left: 10px;
-              color: #f85959;
-}
-
 .modal-search {
-    width: 60%;
-    height: 40px !important;
+    width: 130%;
+    height: 48px !important;
+    background: #fff !important;
+    color: #000000 !important;
     font-size: 18px;
     border-radius: 0px;
     box-shadow: none !important;
 }
 
-.modal-search:focus {
-    border:2px #f85959 solid
-}
+  input[type="text"] {border: solid 2px #f85959}
+  input[type="text"]:focus {border: solid 2px #f85959}
 
-input[type=text]:focus {border:2px #f85959 solid}
+  input[type="email"] {border: solid 2px #f85959}
+  input[type="email"]:focus {border: solid 2px #f85959}
+
+  input[type="password"] {border: solid 2px #f85959}
+  input[type="password"]:focus {border: solid 2px #f85959}
+
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #f85959;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
