@@ -9367,10 +9367,13 @@ textarea.form-control {
 .modal-search {
     width: 60%;
     height: 40px !important;
-    background: #fff !important;
-    color: #000000 !important;
     font-size: 18px;
     border-radius: 0px;
     box-shadow: none !important;
 }
-    input[type=text]:focus {border:2px #f85959 solid}
+
+.modal-search:focus {
+    border:2px #f85959 solid
+}
+
+input[type=text]:focus {border:2px #f85959 solid}
