@@ -80,7 +80,7 @@ public class MainController {
 
     @GetMapping("/search")
     public String search(@RequestParam(value = "keyword") String keyword, Model model){
-        int rand, cnt = 4;
+        int rand, cnt = 8;
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
 
@@ -249,8 +249,14 @@ public class MainController {
         model.addAttribute("user", user);
 
         // 내 일정
+        int rand, cnt = 1;
+
         List<Plan> planList = userService.getPlanList(user);
+        List<Place> placeList = placeRepository.findAllByContentType("12");
+
+        rand = Math.max((int) (Math.random() * (placeList.size() - cnt)), 0);
         model.addAttribute("planList", planList);
+        model.addAttribute("placeList", placeList.subList(rand, rand + Math.min(placeList.size(), cnt)));
 
         // 내 리뷰
         List<Review> reviewList = userService.getReviewList(user);
