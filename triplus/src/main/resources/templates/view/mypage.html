@@ -72,12 +72,14 @@
                             </div>
 
                             <div class="review_sort_box mb-4">
-                                <select id name class="review_sort">
-                                    <option value="regdate">등록순</option>
-                                    <option value="name">이름순</option>
-                                </select>
+<!--                                <select id name class="review_sort">-->
+<!--                                    <option value="regdate">등록순</option>-->
+<!--                                    <option value="name">이름순</option>-->
+<!--                                </select>-->
+                                <div>1개의 댓글</div>
                             </div>
 
+<!--                            원본
                             <form th:action="@{/delete_review}" method="post" name="reviewForm">
                                 <th:block th:each="review : ${reviewList}">
                                     <div class="review_list mb-5">
@@ -85,18 +87,49 @@
                                             <h6 class="review_place_name mr-2" th:text="${review.place.name}"></h6>
                                             <p class="review_place_name" th:text="${review.regdate}"></p>
                                         </div>
-                                        <div class="del">
-                                        <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
-                                        <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;" readonly="readonly">
-                                        <span class="form-group">
-                                            <input type="submit" class="btn btn-primary fas" value="수정/삭제">
+                                            <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
+                                            <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;" readonly="readonly">
+                                            <span class="form-group">
+                                            <input type="submit" class="btn btn-primary fas" value="삭제">
                                         </span>
-                                        </div>
                                     </div>
                                 </th:block>
                             </form>
                         </div>
                     </div>
+                    -->
+
+<!--                           테스트용 -->
+                            <div class="row grid-view">
+                            <form th:action="@{/delete_review}" method="post" name="reviewForm">
+                                <th:block th:each="review : ${reviewList}">
+
+                                        <div class="col-12 col-md-6">
+                                    <div class="review_list mb-3 review-frame">
+                                        <a class="media review-quote-item" th:href="'/detail?content_id=' + ${review.place.contentId}">
+                                            <div class="media-object" th:style="'background:url(' + ${review.place.thumbnailUrl} + ');'"></div>
+                                                <div class="media-body text-truncate">
+                                                    <h5 class="review_place_name media-title text-truncate" th:text="${review.place.name}"></h5>
+                                                </div>
+                                            </a>
+                                        <div class="review-frame-sec">
+                                            <div class="review-body">
+                                                <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
+                                                    <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
+                                                </a>
+                                            </div>
+                                            <div class="review-footer d-flex align-items-center justify-content-between">
+                                                <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
+                                                <button type="button" class="btn btn-secondary btn-xs">리뷰 삭제</button>
+                                            </div>
+                                        </div>
+                                            </div>
+                                        </div>
+                                </th:block>
+                            </form>
+                            </div>
+                    </div>
+                </div>
 
                     <!-- myLike -->
                     <div id="myLike" class="container tab-pane fade"><br>

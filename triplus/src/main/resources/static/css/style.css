@@ -9341,7 +9341,7 @@ textarea.form-control {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
 
-
+// plan.css
 .fa-trash {
     color: #f85959;
 }
@@ -9379,3 +9379,212 @@ textarea.form-control {
     width: 0;
     height: 0;
   }
+
+/* mypage.review.css */
+.review-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, .1);
+  margin: -1px;
+}
+
+.review-frame .media-object {
+    width: 64px;
+    height: 64px;
+    background-position: center center;
+    background-size: cover;
+}
+
+.media-object {
+    display: flex;
+}
+
+.review-frame .media-body {
+    align-self: center;
+}
+
+.review-frame .review-quote-item {
+    height: 66px;
+    border: 1px solid rgba(0,0,0,.1);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.075);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: transparent;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    border-color: transparent transparent rgba(0,0,0,.075);
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.075);
+    border-left-color: transparent;
+}
+
+/*
+.review-frame .review-frame-sec {
+    height: 66px;
+    border: 1px solid rgba(0,0,0,.1);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.075);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: transparent;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    border-color: rgba(0,0,0,.075);
+    border-top-color: transparent;
+    border-right-color: rgba(0, 0, 0, 0.075);
+    border-bottom-color: rgba(0, 0, 0, 0.075);
+    border-left-color: rgba(0, 0, 0, 0.075);
+} */
+
+.media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.review-quote-item .media-body {
+  overflow: hidden;
+  padding: 10px 16px;
+}
+
+.text-truncate {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-body {
+  flex: 1;
+}
+
+.review-frame .review-quote-item h5 {
+  font-size: 15px;
+}
+
+.review-quote-item .media-title {
+  line-height: 20px;
+}
+
+.media-title {
+  font-weight: 400;
+}
+
+.text-truncate {
+  overflow: hidden;
+  font-weight: 400;
+}
+
+.review-frame .review-quote-item+.review-body {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.review-body {
+  flex: 1;
+  padding: 18px;
+}
+
+.review-quote-item+.review-body .review-link {
+  color: #606060;
+}
+
+.review_place_content {
+  margin: 0;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  max-height: 7.1em;
+}
+
+.text-secondary {
+  color: #757575!important;
+  font-size: 12.8px;
+}
+
+.btn-secondary {
+  color: #000;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-xs {
+  padding: 0.7px;
+  font-size: 13px;
+  border-radius: 3px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  line-height: 1.5rem;
+  background: none;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+@media (min-width: 992px)
+.grid-view {
+  margin: 0 -10px -20px;
+}
+.grid-view {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-view>[class*="col"]{
+  padding: 0 4px 16px;
+}
+
+.col-12{
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-12, .col-md-6 {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+}
+
+.review-body+.review-footer {
+  padding-top: 0;
+}
+
+.review-footer {
+  padding: 12px 18px;
+}
+
+.align-items-center {
+  align-items: center!important;
+}
+
+.justify-content-between {
+  justify-content: space-between!important;
+}
+
+.d-flex {
+  display: flex!important;
+}
