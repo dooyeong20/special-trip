@@ -15,10 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -42,11 +46,11 @@ public class MainController {
 
     private final HttpSession  httpSession;
 
-    private final UserRepository userRepository;
-
     private final PlanService planService;
 
     private final ReviewService reviewService;
+
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
@@ -292,12 +296,50 @@ public class MainController {
        return "view/mypage";
     }
 
-    // TODO 비밀번호 변경
-    @PostMapping("/change-password")
-    public String changePassword(){
-        return "view/mypage";
+    // 유저 탈퇴
+    @PostMapping("/delete_user")
+    public String deleteUser(@CurrentUser User user){
+        userService.deleteUser(user);
+
+        return "redirect:/";
     }
 
+    // 회원정보 수정
+    @PostMapping("/update_info")
+    public String updateUser(@RequestParam(value = "email")String email,
+                             @RequestParam(value = "nickName")String nickName,
+                             Model model){
+        userService.updateUser(email, nickName);
+
+        return "redirect:/mypage";
+    }
+
+    @PostMapping("/mypage/checkPw")
+    public String checkPw(@CurrentUser User user, @RequestParam(value = "oldPw") String oldPw){
+        String result=null;
+
+        if (passwordEncoder.matches(oldPw, user.getPassword())){
+            result="pwConfirmOK";
+        } else {
+            result="pwConfirmNo";
+        }
+        return result;
+    }
+
+    @PostMapping("/mypage/change_password")
+    public String pwChange(@CurrentUser User user, @RequestParam(value = "newPw") String newPw){
+        userService.changePassword(user, newPw);
+        userService.login(user);
+
+        return "changeSuccess";
+    }
+
+    @PostMapping("/change_password")
+    public String changePassword(@CurrentUser User user, @RequestParam(value = "oldPw")String oldPw, @RequestParam(value = "newPw") String newPw){
+        userService.changePassword(user, newPw);
+
+        return "redirect:/mypage";
+    }
 
     @GetMapping("/total_plan")
     public String totalPlan(Model model){

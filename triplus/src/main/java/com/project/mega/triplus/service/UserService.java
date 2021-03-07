@@ -24,8 +24,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.thymeleaf.TemplateEngine;
@@ -83,6 +86,7 @@ public class UserService implements UserDetailsService {
 
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);
+        httpSession.setAttribute("user", userUser);
     }
 
     public User processNewUser(JoinForm joinForm){
@@ -118,6 +122,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
+        httpSession.setAttribute("user", user);
 
         return new UserUser(user);
     }
@@ -130,15 +135,15 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void deleteUser(@CurrentUser User user, List<Long> idList) {
-        List<User> userList = userRepository.findAllById(idList);
-        userRepository.deleteAll(userList);
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+        httpSession.removeAttribute("user");
+        httpSession.invalidate();
     }
 
     public List<Place> getLikeList(User user) {
         return userRepository.findByEmail(user.getEmail()).getPlaceLikes();
     }
-
 
     public List<Review> getReviewList(User user) {
         return userRepository.findByEmail(user.getEmail()).getReviews();
@@ -148,6 +153,20 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(user.getEmail()).getMyPlans();
     }
 
+    @Transactional
+    public void updateUser(String email, String nickName) {
+        User user = userRepository.findByEmail(email);
+        user.setNickName(nickName);
+        User updateUser = userRepository.save(user);
+        login(updateUser);
+    }
+
+    @Transactional
+    public void changePassword(User user, String newPw) {
+        user=userRepository.findByEmail(user.getEmail());
+        user.setPassword(passwordEncoder.encode(newPw));
+        userRepository.save(user);
+    }
 }
 
 
