@@ -85,6 +85,7 @@
                                         <div class="col-12 col-md-6">
                                     <div class="review_list mb-3 review-frame">
                                         <a class="media review-quote-item" th:href="'/detail?content_id=' + ${review.place.contentId}">
+
                                             <div class="media-object" th:style="'background:url(' + ${review.place.thumbnailUrl} + ');'"></div>
                                                 <div class="media-body text-truncate">
                                                     <h5 class="review_place_name media-title text-truncate" th:text="${review.place.name}"></h5>
@@ -93,10 +94,12 @@
                                             </a>
                                             <div class="review-body">
                                                 <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
+                                                    <input type="hidden" id="review_id" th:value="${review.id}">
                                                     <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
                                                 </a>
                                             </div>
                                             <div class="review-footer d-flex align-items-center justify-content-between">
+
                                                 <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
                                                 <button type="button" class="btn-rev-del">삭제</button>
                                             </div>
@@ -351,44 +354,7 @@
 
 
 
-<!--    <script th:inline="javascript">-->
 
-<!--		$(document).ready(function(){-->
-<!--			var contentId = $("#content_id").attr("value");-->
-
-<!--			var messageDTO={-->
-<!--				content_id: contentId-->
-<!--			};-->
-
-<!--			// 삭제하기 눌렀을 때-->
-<!--			$(".review_del").click(function(){-->
-
-<!--				console.log('리뷰 삭제 !!');-->
-<!--				var commentCnt = $("#comment_cnt").text();-->
-<!--				var id = $(this).parent().find('#review_id').val();-->
-<!--				console.log(id);-->
-
-<!--				$.ajax({-->
-<!--				url: "/detail/remove",-->
-<!--				data: {id:id},-->
-<!--				type:"get",-->
-<!--				dataType:"json",-->
-<!--				contentType: 'application/text; charset=UTF-8',-->
-<!--				success: function(response){-->
-<!--					console.log('성공');-->
-<!--					console.log(response);-->
-<!--				},-->
-<!--				error: function (response) {-->
-<!--					console.log('에러');-->
-<!--					console.log(response);-->
-<!--				}-->
-<!--				});-->
-
-<!--				$(this).parent().parent().remove();-->
-<!--				$("#comment_cnt").text(&#45;&#45;commentCnt);-->
-
-<!--			});-->
-<!--			</script>-->
     <script th:inline="javascript">
         $( document ).ready(function() {
             let planObj;
@@ -515,6 +481,43 @@
 
             }); // planCard 클릭 했을 때 끝
 
+            // mypage review delete
+            var contentId = $("#content_id").attr("value");
+
+			var reviewId = $("#review_id").attr("value");
+
+			var messageDTO={
+				review_id: reviewId
+			};
+
+			// mypage review 삭제하기 눌렀을 때
+			$(".btn-rev-del").click(function(){
+
+				console.log('리뷰 삭제 !!');
+				var reviewCnt = $("#review_cnt").text();
+				var id = $(this).parent().find('#review_id').val();
+				console.log(id);
+
+				$.ajax({
+				url: "/mypage/remove",
+				data: {id:id},
+				type:"get",
+				dataType:"json",
+				contentType: 'application/text; charset=UTF-8',
+				success: function(response){
+					console.log('성공');
+					console.log(response);
+				},
+				error: function (response) {
+					console.log('에러');
+					console.log(response);
+				}
+				});
+
+				$(this).parent().parent().remove();
+				$("#review_cnt").text(--reviewCnt);
+
+			});
 
         });
 

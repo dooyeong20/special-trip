@@ -214,6 +214,17 @@ public class MainController {
         return "done";
     }
 
+    // mypage remove review
+    @GetMapping("/mypage/remove")
+    @ResponseBody
+    public String removeMyPageReview(@CurrentUser User user,
+                               @RequestParam(value = "id") String reviewId){
+
+        reviewService.deleteReviewById((Long.parseLong(reviewId)));
+
+        return "done";
+    }
+
     @GetMapping("/detail/like")
     @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
     public String addLike(@CurrentUser User user,
