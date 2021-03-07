@@ -71,18 +71,11 @@
                                 <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
                             </div>
 
-                            <div class="section-header">
-                                <div class="section-label">1개의 리뷰</div>
+                            <!-- count my reviews -->
+                            <div class="section-header section-label">
+                                <span id="review_cnt" class="section-label" th:text="${#lists.isEmpty(reviewList)} ? 0 : ${#lists.size(reviewList)}"></span>
+                                개의 리뷰
                             </div>
-
-<!--                            <div class="review_sort_box mb-4">-->
-<!--                                <div>1개의 리뷰</div>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; counting review &ndash;&gt;-->
-<!--                            <h3 class="mb-5">-->
-<!--                                <span id="comment_cnt"  th:text="${#lists.isEmpty(reviews)} ? 0 : ${#lists.size(reviews)}"></span>-->
-<!--                                Comments-->
-<!--                            </h3>-->
 
                             <!-- review grid -->
                             <form th:action="@{/delete_review}" method="post" name="reviewForm">
@@ -358,8 +351,45 @@
 
 
 
+<!--    <script th:inline="javascript">-->
 
-    <script>
+<!--		$(document).ready(function(){-->
+<!--			var contentId = $("#content_id").attr("value");-->
+
+<!--			var messageDTO={-->
+<!--				content_id: contentId-->
+<!--			};-->
+
+<!--			// 삭제하기 눌렀을 때-->
+<!--			$(".review_del").click(function(){-->
+
+<!--				console.log('리뷰 삭제 !!');-->
+<!--				var commentCnt = $("#comment_cnt").text();-->
+<!--				var id = $(this).parent().find('#review_id').val();-->
+<!--				console.log(id);-->
+
+<!--				$.ajax({-->
+<!--				url: "/detail/remove",-->
+<!--				data: {id:id},-->
+<!--				type:"get",-->
+<!--				dataType:"json",-->
+<!--				contentType: 'application/text; charset=UTF-8',-->
+<!--				success: function(response){-->
+<!--					console.log('성공');-->
+<!--					console.log(response);-->
+<!--				},-->
+<!--				error: function (response) {-->
+<!--					console.log('에러');-->
+<!--					console.log(response);-->
+<!--				}-->
+<!--				});-->
+
+<!--				$(this).parent().parent().remove();-->
+<!--				$("#comment_cnt").text(&#45;&#45;commentCnt);-->
+
+<!--			});-->
+<!--			</script>-->
+    <script th:inline="javascript">
         $( document ).ready(function() {
             let planObj;
 
@@ -370,15 +400,6 @@
                     '                                </div>\n' +
                     '                            </div>';
             };
-
-
-            $(".del").hide();
-            $(".del-rev").mouseenter(function(){
-                $(this).find(".del").show();
-            });
-            $(".del-rev").mouseleave(function(){
-                $(this).find(".del").hide();
-            });
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
