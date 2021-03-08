@@ -21,6 +21,7 @@
                     </button>
                 </div>
             </div>
+
             <th:block th:unless="${plan}">
                 <div class="form-group">
                     <div class="row">
@@ -37,10 +38,8 @@
                             <div class="card" style="height: 500px">
                                 <div style="height:450px; overflow-y: scroll;" class="mt-4">
                                     <div class="card-body">
-
                                         <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
                                         </div>
-
                                         <div class="col text-center">
                                             <button type="button" class="btn btn-default mb-2 mr-sm-2 add_btn" data-toggle="modal" data-target="#myModal">
                                                 <i class="fas fa-plus"></i>
@@ -57,30 +56,23 @@
             <th:block th:if="${plan}">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-4 day" style="display: none !important">
+                        <div class="col-4 day card-del" style="display: none !important">
                         </div>
 
                         <th:block th:each="day : ${plan.days}">
                             <div class="col-4 day">
-                                <h2 class="text-center">Day</h2>
+                                <h2 class="text-center big-div">DAY<i class="fas fa-trash big-del day_del_btn" style="margin-left: 5px;"></i></h2>
                                 <div class="card" style="height: 500px">
                                     <div style="height:450px; overflow-y: scroll;" class="mt-4">
                                         <div class="card-body">
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-default mb-2 mr-sm-2 delete_btn day_del_btn">
-                                                    DELETE
-                                                </button>
-                                            </div>
-
-                                            <!-- 기본 place div-->
-                                            <div class="block-21 mb-4 mt-4 d-flex place" style="display: none !important">
+                                            <div class="block-21 mb-4 mt-4 d-flex place small-div" style="display: none !important">
                                             </div>
 
                                             <th:block th:each="place : ${day.places}">
-                                                <div class="block-21 mb-4 mt-4 d-flex place">
+                                                <div class="block-21 mb-4 mt-4 d-flex place small-div">
                                                     <a class="blog-img mr-4" th:style="'background:url(' + ${place.thumbnailUrl} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                                     <div class="text">
-                                                        <h3 class="heading"><a th:href="'/detail?content_id=' + ${place.contentId}" th:text="${place.name}"></a></h3>
+                                                        <h3 class="heading"><a th:href="'/detail?content_id=' + ${place.contentId}" th:text="${place.name}"></a><i class="fas fa-trash small-del" style="margin-left: 5px;"></i></h3>
                                                         <p th:text="${place.addr}"></p>
                                                     </div>
                                                 </div>
@@ -163,6 +155,14 @@
 
     <script type="text/javascript">
         $(document).ready(function(){   // ready 시작
+
+            $('.big-del').click(function(){
+                    $(this).parent().parent().remove();
+            });
+
+            $('.small-del').click(function(){
+                    $(this).parent().parent().parent().remove();
+            });
 
             $("#search").mouseover(function() {
                 $(this).css("border","solid 2px #f85959");
@@ -254,6 +254,7 @@
                 $(".small-div").mouseenter(function(){
                     $(this).find(".small-del").show();
                 });
+
                 $(".small-div").mouseleave(function(){
                     $(this).find(".small-del").hide();
                 });
@@ -263,18 +264,27 @@
                 $(".big-div").mouseenter(function(){
                     $(this).find(".big-del").show();
                 });
+
                 $(".big-div").mouseleave(function(){
                     $(this).find(".big-del").hide();
                 });
+
+                // delete 할 때
+                $('.small-del').unbind().click(function(){
+                    $(this).parent().parent().parent().remove();
                 });
+            });
 
             // 새로울 Day를 만들 때
             $(".card_add").click(function(){
 
-
                 $(".day:last").after(card);
                 //$(".last-place").removeClass('last-place');
                 $(".add_btn").unbind().click(add_btn_click);
+
+                $('.big-del').unbind().click(function(){
+                    $(this).parent().parent().remove();
+                });
 
                 $(".small-del").hide();
                 $(".big-del").hide();
@@ -305,6 +315,8 @@
                     var tmp = [];
 
                     $(day).find('.place').toArray().forEach(d => {
+                        if(!$(d).find('a').css('background')) return;
+
                         var title = $(d).find('.text').find('.heading').text();
                         var addr = $(d).find('.text').find('p').text();
                         var imgUrl = $(d).find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
@@ -339,6 +351,8 @@
                 });
 
             });
+
+
 
 
         }); // ready 끝
