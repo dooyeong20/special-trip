@@ -209,50 +209,46 @@
                         </div>
                     </div>
 
-                    <!-- myInfo -->
                     <div id="myInfo" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
                                 <h2 class="mb-4"><i class="fas fa-cog"></i> 내 정보 관리</h2>
                             </div>
-                            <form th:action="@{/mypage}" method="post" name="updateForm">
+                            <form th:action="@{/update_info}" method="post" name="updateForm">
 
-                                <table width="500" height="600" border="2" align="center" rules="none">
-                                    <tr align="center">
-                                        <td width="20%" style="font-weight: bold">Nickname</td>
-                                        <td width="80%"><input type="text" th:value="${user.nickName}"></td>
-
-                                    </tr>
-
+                                <table width="500" height="500" align="center" rules="none">
                                     <tr align="center">
                                         <td width="20%" style="font-weight: bold">Email</td>
-                                        <td width="80%"><input type="text" th:value="${user.email}" readonly></td>
+                                        <td width="80%"><input type="text" th:value="${user.email}" name="email" readonly></td>
                                     </tr>
 
                                     <tr align="center">
-                                        <td width="20%" style="font-weight: bold">Password</td>
-                                        <td width="80%"><input type="password" th:value="${user.password}"></td>
+                                        <td width="20%" style="font-weight: bold">Nickname</td>
+                                        <td width="80%"><input type="text" th:value="${user.nickName}" id="nickName" name="nickName" required=""></td>
                                     </tr>
 
                                     <tr align="center">
-                                        <td width="20%" style="font-weight: bold">Confirm Password</td>
-                                        <td width="80%"><input type="text" th:value="${user.password}"></td>
+                                        <td colspan="2">
+                                            <button class="btn btn-primary mb-2 mr-sm-2" type="button" data-toggle="modal" data-target="#changePasswordModal">
+                                                비밀번호 변경
+                                            </button>
+                                        </td>
                                     </tr>
 
+                                    <tr align="center">
+                                        <td colspan="2">
+                                            <button type="submit" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                                수정
+                                            </button>
+                                            <button type="button" id="delete" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#deleteUser">
+                                                탈퇴
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </table>
                             </form>
 
-                            <tr align="center">
-                                <td colspan="2">
-                                    <button type="button" id="save" class="btn btn-primary mb-2 mr-sm-2">
-                                        수정
-                                    </button>
-                                    <button type="button" id="delete" class="btn btn-primary mb-2 mr-sm-2">
-                                        탈퇴
-                                    </button>
-                                </td>
-                            </tr>
-                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -261,6 +257,72 @@
         </div>
 
     </section>
+
+    <!-- 삭제 확인 modal -->
+    <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-title text-center">
+                        <h4>정말 탈퇴하시겠습니까?</h4>
+                    </div>
+                    <div class="d-flex flex-column text-center">
+                        <form th:action="@{/delete_user}" method="post">
+                            <div class="form-group"><br>
+                                <button type="submit" class="btn btn-primary mb-2 mr-sm-2">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close">취소</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-title text-center">
+                        <h4>비밀번호 변경</h4>
+                    </div>
+                    <div class="d-flex flex-column text-center">
+                        <form action="#" method="post" name="changePasswordForm" novalidate>
+                            <div class="form-group">
+                                <input type="password" placeholder="현재 비밀번호" name="oldPw" id="oldPw"><br>
+                                <span class="error_next_box" id="pwMsg" style="color: red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="새 비밀번호" name="newPw" id="newPw">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="새 비밀번호 확인" name="newPwCheck" id="newPwCheck"><br>
+                                <span class="error_next_box" id="newPwMsg" style="color: red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="save_pw" id="save_pw">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- main modal -->
     <div class="modal fade" id="myModal">
@@ -285,6 +347,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -445,11 +509,113 @@
                     console.log('done!');
                 });
 
-
             }); // planCard 클릭 했을 때 끝
 
-        });
 
+
+            // 비밀번호 변경 script
+
+            const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/);
+            let chk1=false, chk2=false, chk3=false;
+
+            // 현재 비밀번호
+            $('#oldPw').on('keyup', function(){
+                // 비밀번호 공백 확인
+                if($('#oldPw').val()===""){
+                    $('#pwMsg').html('<b>비밀번호는 필수 정보입니다.</b>');
+                    chk1 = false;
+                } else{
+                    const oldPw={"oldPw": $('#oldPw').val()};
+
+                    $.ajax({
+                        type: "post",
+                        url: "/mypage/checkPw",
+                        data: oldPw,
+                        datatype: "json",
+                        success: function(result){
+                            console.log(result);
+                            if(result === "pwConfirmOK"){
+                                $('#pwMsg').html('');
+                                chk1 = true;
+                            } else{
+                                $('#pwMsg').html('');
+                                chk1 = false;
+                            }
+                        },
+                        error: function(error){
+                            console.log("error: "+error);
+                        }
+                    });
+                }
+            });
+
+            // 새로운 비번
+            $('#newPw').on('keyup', function(){
+                //비밀번호 공백 확인
+                if($('#newPw').val() === ""){
+                    $('#newPw').html('<b>비밀번호는 필수 정보입니다.</b>');
+                    chk2=false;
+                }
+                //비밀번호 유효성 검사
+                else if(!getPwCheck.test($("#newPw").val()) || $("#newPw").val().length < 8){
+                    $('#newPwMsg').html('<b>특수문자 포함 8자 이상 입력하세요</b>');
+                    chk2 = false;
+                } else{
+                    $('#newPwMsg').html('');
+                    chk2 = true;
+                }
+            });
+
+            // 비밀번호 확인
+            $('#newPwCheck').on('keyup', function(){
+                if($("#newPwCheck").val() === ""){
+                    $("#newPwMsg").html('<b">비밀번호 확인은 필수 정보입니다.</b>');
+                    chk3=false;
+                } else if($("#newPw").val() != $("#newPwCheck").val()){
+                    $('#newPwMsg').html('<b>비밀번호가 일치하지 않습니다.</b>');
+                    chk3 = false;
+                } else {
+                    $('#newPwMsg').html('');
+                    chk3 = true;
+                }
+            });
+
+            //비밀번호 변경 요청 처리하기
+            $('#save_pw').click(function(e){
+                if(chk1 == false) {
+                    alert('현재 비밀번호가 틀렸습니다.');
+
+                } else if(chk2 == false){
+                    alert('비밀번호를 특수문자 포함 8자 이상으로 설정해야 합니다.');
+                } else if(chk3 == false){
+                    alert('새로운 비밀번호를 두 번 모두 입력해야 합니다. ');
+
+                } else if(chk1 && chk2 && chk3){
+                    var newPw = {"newPw": $("#newPw").val()};
+
+                    console.log(newPw);
+
+                    $.ajax({
+                        type: "post",
+                        url: "/mypage/change_password",
+                        dataType: "text",
+                        data: newPw,
+                        success: function(result){
+                            console.log("result: "+result);
+                            if(result === "changeSuccess"){
+                                alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
+                                location.href="/logout";
+                            } else{
+                                alert('현재 비밀번호가 틀렸습니다.');
+                            }
+                        }
+                    });
+                } else{
+                    alert('입력정보를 다시 확인하세요.');
+                }
+            });
+
+        });
 
     </script>
 
