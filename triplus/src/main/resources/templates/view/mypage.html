@@ -354,12 +354,14 @@
                     '                            </div>';
             };
 
-            $(".planModify").unbind();
+
+            $(".planModify").on("click", function(e){
+                e.stopPropagation();
+            });
 
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
-
 
                 $("#modalScroll").find(".card").remove();
                 $("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
