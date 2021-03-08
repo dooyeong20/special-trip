@@ -311,19 +311,18 @@
                     <div class="ftco-animate fadeInUp ftco-animated">
                         <div style="height: auto; overflow-y: scroll;">
 
-                            <!-- 카드들 담기는 곳-->
+                            <!-- place들 담기는 곳-->
                             <div class="placeList">
                                 <div class="col-12 ftco-animate fadeInUp ftco-animated" id="placeScroll">
                                     <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">
                                         <a class="blog-img mr-4 placeImage"></a>
                                         <div class="text">
                                             <h3 class="heading placeTitle"></h3>
-                                            <p class="placeAddr" ></p>
+                                            <p class="placeAddr"></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -354,7 +353,7 @@
                     '                            </div>';
             };
 
-            $(".planModify").unbind();
+            $(".planModify").off();
 
 
             // 각 plan 카드 클릭했을 때
