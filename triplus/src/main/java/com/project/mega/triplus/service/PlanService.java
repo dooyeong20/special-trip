@@ -106,11 +106,11 @@ public class PlanService {
             day = new Day();
 
             for(Map<String, String> p : d){
-                place = new Place();
-                place.setName(p.get("title"));
-                place.setAddr(p.get("addr"));
-                place.setThumbnailUrl(p.get("imgUrl"));
-                place.setContentId(p.get("content_id"));
+                place = placeRepository.findByContentId(p.get("content_id"));
+//                place.setName(p.get("title"));
+//                place.setAddr(p.get("addr"));
+//                place.setThumbnailUrl(p.get("imgUrl"));
+//                place.setContentId(p.get("content_id"));
                 day.addPlace(place);
             }
 

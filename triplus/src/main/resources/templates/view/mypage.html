@@ -353,12 +353,14 @@
                     '                            </div>';
             };
 
-            $(".planModify").off();
 
+
+            $(".planModify").on("click", function(e){
+                e.stopPropagation();
+            });
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
-
 
                 $("#modalScroll").find(".card").remove();
                 $("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
@@ -421,12 +423,13 @@
                                     let img = placeList[p]['thumbnailUrl'];
                                     let name = placeList[p]['name'];
                                     let addr = placeList[p]['addr'];
+                                    let contentId = placeList[p]['contentId'];
 
 
                                     $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox">\n' +
                                         '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + ')"></a>\n' +
                                         '                                        <div class="text">\n' +
-                                        '                                            <h3 class="heading placeTitle">' + name + '</h3>\n' +
+                                        '                                            <a href="/detail?content_id=' + contentId +'"><h3 class="heading placeTitle">' + name + '</h3></a>\n' +
                                         '                                            <p class="placeAddr">' + addr + '</p>\n' +
                                         '                                        </div>\n' +
                                         '                                    </div>');
