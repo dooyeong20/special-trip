@@ -99,4 +99,60 @@ public class UserController {
 
         return "index";
     }
+
+
+    @GetMapping("/password-issue")
+    public String passwordIssueForm(){
+        return "/view/password-issue";
+    }
+
+    @PostMapping("/password-issue")
+    public String changePasswordSubmit(String email, Model model){
+
+        // 메일 보내기
+        userService.sendMailResetPassword(email);
+
+        // 결과 view에
+        model.addAttribute("email", email);
+        model.addAttribute("result_code", "password.reset.send");
+
+        return "/view/notify";
+    }
+
+    @GetMapping("/reset-password")
+    public String resetPasswordForm(String token, String email, Model model){
+        // email이 유효한지 확인
+        User user = userRepository.findByEmail(email);
+        if(user == null){
+            model.addAttribute("result", false);
+            return "view/user/reset-password";
+        }
+
+        // 그 emailCheckToken과 token을 비교
+        String emailCheckToken = user.getEmailCheckToken();
+
+        // 틀리면 에러
+        if (! emailCheckToken.equals(token)){
+            model.addAttribute("result", false);
+            return "view/user/reset-password";
+        }
+        // 맞으면 비밀번호 재설정 페이지로
+        model.addAttribute("email", email);
+        model.addAttribute("result", true);
+        return "view/user/reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPasswordSubmit(String email, String password, Model model){
+        userService.processResetPassword(email, password);
+
+        model.addAttribute("result_code", "password.reset.complete");
+
+        User user = userRepository.findByEmail(email);
+
+        userService.login(user);
+
+        return "/view/notify";
+    }
+
 }

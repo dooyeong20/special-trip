@@ -159,6 +159,27 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(newPw));
         userRepository.save(user);
     }
+
+    public void resetPassword(String email, String newPassword){
+
+    }
+    public void sendMailResetPassword(String email) {
+        // email 파람으로 findByEmail()
+        User user = userRepository.findByEmail(email);
+
+        // 해당 회원 있는지 확인
+        if(user == null){
+            return;
+        }
+
+        sendEmail(user, "TRIPLus - 비밀번호 재설정", "/reset-password");
+    }
+
+    @javax.transaction.Transactional // Repository 외부에서 엔티티.setXXX()가 호출되는 경우면 필수.
+    public void processResetPassword(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+    }
 }
 
 
