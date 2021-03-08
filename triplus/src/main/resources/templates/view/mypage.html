@@ -79,7 +79,7 @@
 
                             <!-- review grid -->
                             <form th:action="@{/delete_review}" method="post" name="reviewForm">
-                                <div class="row grid-view review-container">
+                                <div class="row grid-view">
                                 <th:block th:each="review : ${reviewList}">
 
                                         <div class="col-12 col-md-6">
@@ -94,7 +94,7 @@
                                             </a>
                                             <div class="review-body">
                                                 <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
-                                                    <input type="hidden" id="review_id" th:value="${review.id}">
+                                                    <input type="hidden" class="review_id" name="review_id" th:value="${review.id}">
                                                     <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
                                                 </a>
                                             </div>
@@ -481,21 +481,14 @@
 
             }); // planCard 클릭 했을 때 끝
 
-            // mypage review delete
-            var contentId = $("#content_id").attr("value");
-
-			var reviewId = $("#review_id").attr("value");
-
-			var messageDTO={
-				review_id: reviewId
-			};
 
 			// mypage review 삭제하기 눌렀을 때
-			$(".btn-rev-del").click(function(){
+			$(".btn-rev-del").click(function(event){
 
-				console.log('리뷰 삭제 !!');
+				console.log('리뷰 삭제?');
+				if (confirm("삭제하시겠습니까?")) {
 				var reviewCnt = $("#review_cnt").text();
-				var id = $(this).parent().find('#review_id').val();
+				var id = $(this).parent().parent().find('.review_id').val();
 				console.log(id);
 
 				$.ajax({
@@ -505,7 +498,7 @@
 				dataType:"json",
 				contentType: 'application/text; charset=UTF-8',
 				success: function(response){
-					console.log('성공');
+					console.log('삭제 성공');
 					console.log(response);
 				},
 				error: function (response) {
@@ -516,9 +509,9 @@
 
 				$(this).parent().parent().remove();
 				$("#review_cnt").text(--reviewCnt);
+			}
 
-			});
-
+        });
         });
 
     </script>

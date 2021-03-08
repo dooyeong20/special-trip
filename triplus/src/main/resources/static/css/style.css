@@ -9558,10 +9558,13 @@ textarea.form-control {
 .col-12.col-md-6 {
   padding: 0 10px 20px;
 }
+
+/* mypage review divide into grid css
 .review-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
 }
+*/
 
 .review-body+.review-footer {
   padding-top: 0;
@@ -9594,7 +9597,7 @@ textarea.form-control {
 .review-quote-item:hover {
     height: 66px;
     margin: -1px;
-    border: 1px solid #606060;
+    border: 1px solid #f85959;
 }
 
 .review-quote-item .media-text {
