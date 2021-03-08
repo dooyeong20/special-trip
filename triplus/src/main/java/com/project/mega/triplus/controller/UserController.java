@@ -4,9 +4,7 @@ package com.project.mega.triplus.controller;
 import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.repository.UserRepository;
-import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @Controller
-@Slf4j
 public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -102,17 +99,4 @@ public class UserController {
 
         return "index";
     }
-
-//    @PostMapping("/checkEmail")
-//    @ResponseBody
-//    public String tempPasswordSubmit(@CurrentUser User user, @RequestParam(value = "email")String email){
-//        String result=null;
-//
-//        if (email.equals(user.getEmail())){
-//
-//        }
-//
-//        return "";
-//    }
-
 }

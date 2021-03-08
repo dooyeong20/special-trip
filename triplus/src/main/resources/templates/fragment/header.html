@@ -4,7 +4,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       >
 
-<body>
 <div th:fragment="headerFragment(activeTab)">
 
     <th:block>
@@ -197,33 +196,5 @@
         </div>
     </div>
 </div>
-
-<!--<script>-->
-<!--    $( document ).ready(function(){-->
-<!--        let chk1=false;-->
-<!--        -->
-<!--        $('#findPwEmail').on('keyup', function(){-->
-<!--            //이메일 공백 확인-->
-<!--            if($('#findPwEmail').val() === ""){-->
-<!--                $('#emailMsg').html('<b>이메일을 입력하세요.</b>');-->
-<!--                chk1 = false;-->
-<!--            } else{-->
-<!--                const email={"email" : $('#findPwEmail').val()};-->
-<!--                -->
-<!--                $.ajax({-->
-<!--                    type: "post",-->
-<!--                    url: "/checkEmail",-->
-<!--                    data: email,-->
-<!--                    datatype: "json",-->
-<!--                    success: function(result){-->
-<!--                        -->
-<!--                    }-->
-<!--                })-->
-<!--            }-->
-<!--        })-->
-<!--    })-->
-<!--</script>-->
-
-</body>
 
 </html>
