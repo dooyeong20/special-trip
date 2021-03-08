@@ -65,6 +65,7 @@
 
                                             <th:block th:each="place : ${day.places}">
                                                 <div class="block-21 mb-4 mt-4 d-flex place small-div">
+                                                    <input type="hidden" class="contentId" th:value="${place.contentId}">
                                                     <a class="blog-img mr-4" th:style="'background:url(' + ${place.thumbnailUrl} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                                     <div class="text">
                                                         <h3 class="heading"><a th:href="'/detail?content_id=' + ${place.contentId}" th:text="${place.name}"></a><i class="fas fa-trash small-del" style="margin-left: 5px;"></i></h3>
@@ -125,7 +126,7 @@
                                     <div class="col-12 ftco-animate fadeInUp ftco-animated">
                                         <div class="block-21 mb-4 d-flex placeBox">
                                             <input type="hidden" id="contentId" th:value="${place.contentId}">
-                                            <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ')'"></a>
+                                            <a class="blog-img mr-4 placeImage" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover;'"></a>
                                             <div class="text">
                                                 <h3 class="heading placeTitle" th:text="${place.name}"></h3>
                                                 <p class="placeAddr" th:text="${place.addr1}"></p>
@@ -184,6 +185,7 @@
             make_place = function(url, title, addr, content_id){
 
                 return '<div class="block-21 mb-4 mt-4 d-flex place small-div">' +
+                '   <input type="hidden" class="contentId" value="'+ content_id +'">' +
                 '    <a class="blog-img mr-4" style="background:url(' + url + '); background-size: cover; background-repeat: no-repeat;"></a>' +
                 '    <div class="text">' +
                 '    <h3 class="heading"><a href="/detail?content_id=' + content_id + '">' + title + '</a><i class="fas fa-trash small-del" style="margin-left: 5px;"></i></h3>' +
@@ -317,7 +319,7 @@
                         var title = $(d).find('.text').find('.heading').text();
                         var addr = $(d).find('.text').find('p').text();
                         var imgUrl = $(d).find('a').css('background').replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-                        var contentId = 3223;
+                        var contentId = $(d).find('.contentId').val();
                         var jsonObj = JSON.parse('{ "title": "' + title + '", "imgUrl": "' + imgUrl +'", "addr":"' + addr + '", "content_id":"' + contentId + '"}');
 
                         tmp.push(jsonObj);
@@ -377,3 +379,5 @@
 
 </div>
 </html>
+
+<!--TODO : 장소 선텍인히고 모달 끄면 같이 장소가 생김-->
