@@ -127,14 +127,6 @@ public class UserService implements UserDetailsService {
         return new UserUser(user);
     }
 
-    public void sendMailResetPassword(String email) {
-        User user = userRepository.findByEmail(email);
-
-        if(user == null) {
-            return;
-        }
-    }
-
     public void deleteUser(User user) {
         userRepository.delete(user);
         httpSession.removeAttribute("user");

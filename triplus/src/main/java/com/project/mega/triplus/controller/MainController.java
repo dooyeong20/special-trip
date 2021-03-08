@@ -315,6 +315,7 @@ public class MainController {
     }
 
     @PostMapping("/mypage/checkPw")
+    @ResponseBody
     public String checkPw(@CurrentUser User user, @RequestParam(value = "oldPw") String oldPw){
         String result=null;
 
@@ -327,18 +328,12 @@ public class MainController {
     }
 
     @PostMapping("/mypage/change_password")
+    @ResponseBody
     public String pwChange(@CurrentUser User user, @RequestParam(value = "newPw") String newPw){
         userService.changePassword(user, newPw);
         userService.login(user);
 
         return "changeSuccess";
-    }
-
-    @PostMapping("/change_password")
-    public String changePassword(@CurrentUser User user, @RequestParam(value = "oldPw")String oldPw, @RequestParam(value = "newPw") String newPw){
-        userService.changePassword(user, newPw);
-
-        return "redirect:/mypage";
     }
 
     @GetMapping("/total_plan")

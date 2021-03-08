@@ -297,21 +297,21 @@
                         <h4>비밀번호 변경</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
-                        <form th:action="@{/change_password}" method="post" name="changePasswordForm" novalidate>
+                        <form action="#" method="post" name="changePasswordForm" novalidate>
                             <div class="form-group">
-                                <input type="password" placeholder="현재 비밀번호" name="oldPw" id="oldPw">
-                                <span class="error_next_box" id="pwMsg" style="margin-top: 15px;"></span>
+                                <input type="password" placeholder="현재 비밀번호" name="oldPw" id="oldPw"><br>
+                                <span class="error_next_box" id="pwMsg" style="color: red;"></span>
                             </div>
                             <div class="form-group">
                                 <input type="password" placeholder="새 비밀번호" name="newPw" id="newPw">
                             </div>
                             <div class="form-group">
-                                <input type="password" placeholder="새 비밀번호 확인" name="newPwCheck" id="newPwCheck">
-                                <span class="error_next_box" id="newPwMsg" style="margin-top: 15px;"></span>
+                                <input type="password" placeholder="새 비밀번호 확인" name="newPwCheck" id="newPwCheck"><br>
+                                <span class="error_next_box" id="newPwMsg" style="color: red;"></span>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary mb-2 mr-sm-2" name="save_pw" id="save_pw">확인</button>
-                                <button type="button" class="btn btn-primary mb-2 mr-sm-2">취소</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="save_pw" id="save_pw">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close">취소</button>
                             </div>
                         </form>
                     </div>
@@ -531,24 +531,21 @@
             }); // planCard 클릭 했을 때 끝
 
 
-        });
-    </script>
+            // 비밀번호 변경 script
 
-    <script type="text/javascript">
-        $(function) {
             const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/);
             let chk1=false, chk2=false, chk3=false;
 
             // 현재 비밀번호
-            ${'#oldPw').on('keyup', function(){
+            $('#oldPw').on('keyup', function(){
                 // 비밀번호 공백 확인
                 if($('#oldPw').val()===""){
                     $('#pwMsg').html('<b>비밀번호는 필수 정보입니다.</b>');
                     chk1 = false;
                 } else{
-                    const oldPw=${'#oldPw'}.val();
+                    const oldPw={"oldPw": $('#oldPw').val()};
 
-                    $ajax({
+                    $.ajax({
                         type: "post",
                         url: "/mypage/checkPw",
                         data: oldPw,
@@ -580,11 +577,11 @@
                 //비밀번호 유효성 검사
                 else if(!getPwCheck.test($("#newPw").val()) || $("#newPw").val().length < 8){
                     $('#newPwMsg').html('<b>특수문자 포함 8자 이상 입력하세요</b>');
-					chk2 = false;
-                } else{
-                    $('#newPwMsg').html('');
-					chk2 = true;
-                }
+                    chk2 = false;
+                          } else{
+                              $('#newPwMsg').html('');
+                    chk2 = true;
+                          }
             });
 
             // 비밀번호 확인
@@ -607,24 +604,25 @@
 					alert('현재 비밀번호가 틀렸습니다.');
 
 				} else if(chk2 == false){
-					alert('2번 틀림');
+					alert('비밀번호를 특수문자 포함 8자 이상으로 설정해야 합니다.');
 				} else if(chk3 == false){
-					alert('3번 틀림');
+					alert('새로운 비밀번호를 두 번 모두 입력해야 합니다. ');
 
 				} else if(chk1 && chk2 && chk3){
-				    val newPw = $("#newPw").val();
-				    console.log(newPw)
+				    var newPw = {"newPw": $("#newPw").val()};
+
+				    console.log(newPw);
 
 				    $.ajax({
 				        type: "post",
 				        url: "/mypage/change_password",
 				        dataType: "text",
-				        data: JSON.stringify(newPw),
+				        data: newPw,
 				        success: function(result){
 				            console.log("result: "+result);
 				            if(result === "changeSuccess"){
-				                alert('비밀번호가 변경되었습니다.');
-				                location.href="/view/mypage";
+				                alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
+				                location.href="/logout";
 				            } else{
 				                alert('현재 비밀번호가 틀렸습니다.');
 				            }
@@ -634,7 +632,8 @@
 				    alert('입력정보를 다시 확인하세요.');
 				}
             });
-        }
+
+        });
     </script>
 
     </body>
