@@ -71,30 +71,46 @@
                                 <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
                             </div>
 
-                            <div class="review_sort_box mb-4">
-                                <select id name class="review_sort">
-                                    <option value="regdate">등록순</option>
-                                    <option value="name">이름순</option>
-                                </select>
+                            <!-- count my reviews -->
+                            <div class="section-header section-label">
+                                <span id="review_cnt" class="section-label" th:text="${#lists.isEmpty(reviewList)} ? 0 : ${#lists.size(reviewList)}"></span>
+                                개의 리뷰
                             </div>
 
+                            <!-- review grid -->
                             <form th:action="@{/delete_review}" method="post" name="reviewForm">
+                                <div class="row grid-view">
                                 <th:block th:each="review : ${reviewList}">
-                                    <div class="review_list mb-5">
-                                        <div class="row ml-1">
-                                            <h6 class="review_place_name mr-2" th:text="${review.place.name}"></h6>
-                                            <p class="review_place_name" th:text="${review.regdate}"></p>
+
+                                        <div class="col-12 col-md-6">
+                                    <div class="review_list mb-3 review-frame">
+                                        <a class="media review-quote-item" th:href="'/detail?content_id=' + ${review.place.contentId}">
+
+                                            <div class="media-object" th:style="'background:url(' + ${review.place.thumbnailUrl} + ');'"></div>
+                                                <div class="media-body text-truncate">
+                                                    <h5 class="review_place_name media-title text-truncate" th:text="${review.place.name}"></h5>
+                                                    <div class="media-text text-truncate" th:text="${review.place.addr}"></div>
+                                                </div>
+                                            </a>
+                                            <div class="review-body">
+                                                <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
+                                                    <input type="hidden" class="review_id" name="review_id" th:value="${review.id}">
+                                                    <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
+                                                </a>
+                                            </div>
+                                            <div class="review-footer d-flex align-items-center justify-content-between">
+
+                                                <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
+                                                <button type="button" class="btn-rev-del">삭제</button>
+                                            </div>
                                         </div>
-                                        <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
-                                        <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;">
-                                        <!--								<div class="form-group">-->
-                                        <!--									<input type="submit" value="삭제" class="btn btn-primary">-->
-                                        <!--								</div>-->
-                                    </div>
+                                            </div>
                                 </th:block>
+
+                            </div>
                             </form>
-                        </div>
                     </div>
+                </div>
 
                     <!-- myLike -->
                     <div id="myLike" class="container tab-pane fade"><br>
@@ -339,7 +355,7 @@
 
 
 
-    <script>
+    <script th:inline="javascript">
         $( document ).ready(function() {
             let planObj;
 
@@ -350,7 +366,6 @@
                     '                                </div>\n' +
                     '                            </div>';
             };
-
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
@@ -467,6 +482,36 @@
             }); // planCard 클릭 했을 때 끝
 
 
+			// mypage review 삭제하기 눌렀을 때
+			$(".btn-rev-del").click(function(event){
+
+				console.log('리뷰 삭제?');
+				if (confirm("삭제하시겠습니까?")) {
+				var reviewCnt = $("#review_cnt").text();
+				var id = $(this).parent().parent().find('.review_id').val();
+				console.log(id);
+
+				$.ajax({
+				url: "/mypage/remove",
+				data: {id:id},
+				type:"get",
+				dataType:"json",
+				contentType: 'application/text; charset=UTF-8',
+				success: function(response){
+					console.log('삭제 성공');
+					console.log(response);
+				},
+				error: function (response) {
+					console.log('에러');
+					console.log(response);
+				}
+				});
+
+				$(this).parent().parent().remove();
+				$("#review_cnt").text(--reviewCnt);
+			}
+
+        });
         });
 
     </script>
