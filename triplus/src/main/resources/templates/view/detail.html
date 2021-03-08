@@ -68,10 +68,7 @@
 										</div>
 										<div class="comment-body">
 											<input type="hidden" id="review_id" th:value="${review.id}">
-											<button th:if="${user.id} == ${review.user.id}" type="button" class="btn btn-primary mb-2 mr-sm-2 review_del">
-												삭제
-											</button>
-											<h3 th:text="${review.title}"></h3>
+											<h3 th:utext="${review.title} + ' ' + '<i class=\'fas fa-trash review_del\'></i>'"></h3>
 											<div class="meta" th:text="${review.regdate}"></div>
 											<p th:text="${review.content}"></p>
 										</div>
@@ -188,7 +185,6 @@
 			infowindow.open(map, marker);
 
 
-
 			var contentId = $("#content_id").val();
 			var messageDTO={
 				content_id: contentId
@@ -199,7 +195,7 @@
 
 				console.log('리뷰 삭제 !!');
 				var commentCnt = $("#comment_cnt").text();
-				var id = $(this).parent().find('#review_id').val();
+				var id = $(this).parent().parent().find('#review_id').val();
 				console.log(id);
 
 				$.ajax({
@@ -218,7 +214,7 @@
 				}
 				});
 
-				$(this).parent().parent().remove();
+				$(this).parent().parent().parent().remove();
 				$("#comment_cnt").text(--commentCnt);
 
 			});
