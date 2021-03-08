@@ -76,7 +76,7 @@
 					<div class="destination-slider owl-carousel ftco-animate">
 						<div class="item" th:each="place : ${placeList}">
 							<div class="destination">
-								<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+								<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size:cover'">
 								</a>
 								<div class="text p-4 d-block">
 									<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
