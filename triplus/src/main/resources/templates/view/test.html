@@ -26,7 +26,7 @@
                         <a class="nav-link" data-toggle="tab" href="#myReview" style="font-weight: bold; font-size: 18px"><i class="far fa-comment fa-lg mb-2 mr-sm-2"></i>내 리뷰 보기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#myLike" style="font-weight: bold; font-size: 18px"><i class="fas fa-star fa-lg mb-2 mr-sm-2"></i>찜 목록</a>
+                        <a class="nav-link" data-toggle="tab" href="#myLike" style="font-weight: bold; font-size: 18px"><i class="fas fa-heart fa-lg mb-2 mr-sm-2"></i>찜 목록</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#myInfo" style="font-weight: bold; font-size: 18px"><i class="fas fa-cog fa-lg mb-2 mr-sm-2"></i>내 정보 관리</a>
@@ -50,11 +50,14 @@
                                         <div class="blog-entry align-self-stretch" style="width:300px">
                                             <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
                                             <div class="text p-4 d-block">
-                                                <a><span class="tag" th:text="${plan.dayCounts} + '일'" style="font-weight: bold; color: black;"></span></a>
-                                                <h3 class="heading mt-4"><a th:text="${plan.name}"></a></h3>
-                                                <div class="meta mb-4">
-                                                    <div><a th:text="${plan.user.nickName}"></a></div><br>
-                                                    <div><i class="fas fa-heart"><a th:text="${plan.liked}"></a></i></div>
+                                                <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                                <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                                    <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                                <div class="meta">
+                                                    <div><a th:text="${plan.user.nickName}"></a></div>
+                                                </div>
+                                                <div class="planModify" style="text-align : right;">
+                                                    <a th:href="'/plan?plan_id=' + ${plan.id}">수정</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,9 +90,9 @@
                                         </div>
                                         <img class="blog-img placeImage" th:style="'background:url(' + ${review.place.thumbnailUrl}" width="80" height="70" style="margin:10px">
                                         <input class="review_place_content" th:value="${review.content}" style="width:600px; height:70px;">
-                                        <!--								<div class="form-group">-->
-                                        <!--									<input type="submit" value="삭제" class="btn btn-primary">-->
-                                        <!--								</div>-->
+                                        <!--                        <div class="form-group">-->
+                                        <!--                           <input type="submit" value="삭제" class="btn btn-primary">-->
+                                        <!--                        </div>-->
                                     </div>
                                 </th:block>
                             </form>
@@ -100,21 +103,22 @@
                     <div id="myLike" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
-                                <h2 class="mb-4"><i class="fas fa-star"></i> 찜목록</h2>
+                                <h2 class="mb-4"><i class="fas fa-heart"></i> 찜목록</h2>
                             </div>
+                            <br>
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#attraction" style="font-weight: bold;">관광명소</a>
+                                <li class="nav-item col-3 text-center">
+                                    <a class="nav-link active" data-toggle="tab" href="#attraction" style="font-weight: bold; font-size: 18px">관광명소</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#food" style="font-weight: bold;">음식점</a>
+                                <li class="nav-item col-3 text-center">
+                                    <a class="nav-link" data-toggle="tab" href="#food" style="font-weight: bold; font-size: 18px">음식점</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#shop" style="font-weight: bold;">쇼핑</a>
+                                <li class="nav-item col-3 text-center">
+                                    <a class="nav-link" data-toggle="tab" href="#shop" style="font-weight: bold; font-size: 18px">쇼핑</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#festival" style="font-weight: bold;">축제</a>
+                                <li class="nav-item col-3 text-center">
+                                    <a class="nav-link" data-toggle="tab" href="#festival" style="font-weight: bold; font-size: 18px">축제</a>
                                 </li>
                             </ul>
 
@@ -128,10 +132,10 @@
                                                     <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
                                                     </a>
                                                     <div class="text p-4 d-block">
-                                                        <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="meta mb-3">
-                                                            <div><a th:text="${place.addr1}"></a></div>
-                                                            <div><span><i class="fas fa-heart"></i> 3</span></div>
+                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
+                                                        <div class="meta" style="text-align : right;">
+                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,10 +152,10 @@
                                                     <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
                                                     </a>
                                                     <div class="text p-4 d-block">
-                                                        <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="meta mb-3">
-                                                            <div><a th:text="${place.addr1}"></a></div>
-                                                            <div><span><i class="fas fa-heart"></i> 3</span></div>
+                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
+                                                        <div class="meta" style="text-align : right;">
+                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,10 +172,10 @@
                                                     <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
                                                     </a>
                                                     <div class="text p-4 d-block">
-                                                        <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="meta mb-3">
-                                                            <div><a th:text="${place.addr1}"></a></div>
-                                                            <div><span><i class="fas fa-heart"></i> 3</span></div>
+                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
+                                                        <div class="meta" style="text-align : right;">
+                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -189,10 +193,10 @@
                                                     <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
                                                     </a>
                                                     <div class="text p-4 d-block">
-                                                        <h3 class="heading mt-3"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="meta mb-3">
-                                                            <div><a th:text="${place.addr1}"></a></div>
-                                                            <div><span><i class="fas fa-heart"></i> 3</span></div>
+                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
+                                                        <div class="meta" style="text-align : right;">
+                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -260,19 +264,19 @@
 
     <!-- main modal -->
     <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="plan-title"><a></a></h4>
+                    <h3 class="plan-title"><a></a></h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
-                        <div id="modalScroll" style="height:300px; overflow-y: scroll;">
+                        <div id="modalScroll" style="height: auto; overflow-y: scroll;">
                             <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">
                                 <div class="card-body">
                                     <a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>
@@ -284,10 +288,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">수정</button>
-                    <button type="button" class="btn btn-primary">삭제</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                 </div>
             </div>
         </div>
@@ -300,20 +301,20 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="day-title"><a></a></h4>
+                <div class="modal-header text-center">
+                    <h3 class="day-title" style="font-weight: bold;"><a></a></h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="ftco-animate fadeInUp ftco-animated">
-                        <div style="height:500px; overflow-y: scroll;">
+                        <div style="height: auto; overflow-y: scroll;">
 
                             <!-- 카드들 담기는 곳-->
                             <div class="placeList">
                                 <div class="col-12 ftco-animate fadeInUp ftco-animated" id="placeScroll">
-                                    <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" style="display: none !important;">
+                                    <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">
                                         <a class="blog-img mr-4 placeImage"></a>
                                         <div class="text">
                                             <h3 class="heading placeTitle"></h3>
@@ -337,71 +338,28 @@
     </div>
 
 
-
-
     <script>
         $( document ).ready(function() {
+
             let planObj;
+            let dayCnt;
+            let dayList;
+            let placeList;
 
             const getDay = function (idx) {
                 return '<div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">\n' +
-                    '                                <div class="card-body">\n' +
+                    '                                <div class="card-body text-center">\n' +
                     '                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day ' + idx + '</span></a>\n' +
                     '                                </div>\n' +
                     '                            </div>';
             };
 
-            // 각 day 클릭했을 때
-            $(".card").click(function (){
-                $("#placeScroll").find(".placeBox").remove();
-                $("#placeScroll").append('                                        <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id" style="display: none !important;">\n' +
-                    '                                            <a class="blog-img mr-4 placeImage"></a>\n' +
-                    '                                            <div class="text">\n' +
-                    '                                                <h3 class="heading placeTitle"></h3>\n' +
-                    '                                                <p class="placeAddr" ></p>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>');
-
-
-                let dayCnt = planObj['dayCounts'];
-                let dayList = planObj['days'];
-
-                for(let d=0 ; d<dayCnt; ++d){
-
-                    console.log('day' + (d+1) + '의 장소들');
-
-                    let placeList = dayList[d]['places'];
-
-                    for(let p =0; p<placeList.length; ++p){
-                        // day d+1 번째의  p+1번째 place 각각 작업
-                        $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox" id="content_id" name="content_id">\n' +
-                            '                                        <a class="blog-img mr-4 placeImage"></a>\n' +
-                            '                                        <div class="text">\n' +
-                            '                                            <h3 class="heading placeTitle"></h3>\n' +
-                            '                                            <p class="placeAddr"></p>\n' +
-                            '                                        </div>\n' +
-                            '                                    </div>');
-
-                        let img = placeList[p]['thumbnailUrl'];
-                        let name = placeList[p]['name'];
-                        let addr = placeList[p]['addr'];
-
-
-                        $(".placeImage").add(img);
-                        $(".placeTitle").add(name);
-                        $(".placeAddr").add(addr);
-
-                        console.log((p+1)+ '번째 장소');
-                        console.log(placeList[p]);
-                    }
-
-                }
-
-            });
+            $(".planModify").unbind();
 
 
             // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
+
 
                 $("#modalScroll").find(".card").remove();
                 $("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
@@ -410,8 +368,9 @@
                     '                                </div>\n' +
                     '                            </div>\n');
 
-                let title = $(this).find(".heading").find("a").text();
+                let title = $(this).find(".planTitle").find("a").text();
                 let id = $(this).find(".plan_id").val();
+
 
                 $(".plan-title").find("a").text(title);
 
@@ -428,37 +387,67 @@
                         console.log(res);
                         planObj = res;
 
-                        let dayCnt = res['dayCounts'];
-                        let dayList = res['days'];
+                        dayCnt = res['dayCounts'];
+                        dayList = res['days'];
 
-                        for(let d=0 ; d<dayCnt; ++d){
+
+                        for (let d = 0; d < dayCnt; ++d) {
                             // day들 각각 작성
-                            $(".card:last").after(getDay(d+1));
+                            $(".card:last").after(getDay(d + 1));
+                            console.log('day' + (d + 1) + '의 장소들');
 
-                            console.log('day' + (d+1) + '의 장소들');
+                            $(".card:last").unbind().click(function () {
 
-                            let placeList = dayList[d]['places'];
+                                $(".day-title").text('Day' + (d+1));
 
-                            for(let p =0; p<placeList.length; ++p){
-                                // day d 번째의  p번째 place 각각 작업
+                                $("#placeScroll").find(".placeBox").remove();
+                                $("#placeScroll").append('                  <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">\n' +
+                                    '                                            <a class="blog-img mr-4"><img class="placeImage"/></a>\n' +
+                                    '                                            <div class="text">\n' +
+                                    '                                                <h3 class="heading placeTitle"></h3>\n' +
+                                    '                                                <p class="placeAddr" ></p>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </div>');
 
-                                console.log((p+1)+ '번째 장소');
-                                console.log(placeList[p]);
-                            }
+
+                                placeList = dayList[d]['places'];
+
+                                for (let p = 0; p < placeList.length; ++p) {
+                                    // day d 번째의  p번째 place 각각 작업
+                                    console.log((p + 1) + '번째 장소');
+                                    console.log(placeList[p]);
+                                    console.log(placeList.length);
+
+
+                                    let img = placeList[p]['thumbnailUrl'];
+                                    let name = placeList[p]['name'];
+                                    let addr = placeList[p]['addr'];
+
+
+                                    $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox">\n' +
+                                        '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + ')"></a>\n' +
+                                        '                                        <div class="text">\n' +
+                                        '                                            <h3 class="heading placeTitle">' + name + '</h3>\n' +
+                                        '                                            <p class="placeAddr">' + addr + '</p>\n' +
+                                        '                                        </div>\n' +
+                                        '                                    </div>');
+
+                                }
+
+                            });
 
                         }
-
                     }
 
                 }).done(function(response) {
                     console.log('done!');
-
                 });
+
 
             }); // planCard 클릭 했을 때 끝
 
-
         });
+
 
     </script>
 

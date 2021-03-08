@@ -76,14 +76,13 @@
 					<div class="destination-slider owl-carousel ftco-animate">
 						<div class="item" th:each="place : ${placeList}">
 							<div class="destination">
-								<a th:href="@{/detail?content_id={id}(id=${place.contentId})}">
-									<img class="img d-flex justify-content-center align-items-center" th:src="${place.thumbnailUrl}"/>
+								<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
 								</a>
 								<div class="text p-4 d-block">
-									<h3><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-									<div><a th:text="${place.addr1}"></a></div>
-									<div class="meta mb-3">
-										<div><span><i class="fas fa-heart"></i> 5</span></div>
+									<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+									<div class="mb-4"><a th:text="${place.addr1}"></a></div>
+									<div class="meta" style="text-align : right;">
+										<span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
 									</div>
 								</div>
 							</div>
@@ -102,25 +101,211 @@
 					<h2 class="mb-4"><strong>추천일정</strong> Top3 </h2>
 				</div>
 			</div>
-				<div class="row d-flex">
-					<th:block th:each="plan : ${planList}">
-						<div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-							<div class="blog-entry align-self-stretch" style="width:300px">
-								<a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-								<div class="text p-4 d-block">
-									<a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-									<h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-									<div class="meta mb-4">
-										<div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-										<div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-									</div>
+			<div class="row">
+				<th:block th:each="plan : ${planList}">
+					<div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+						<input type="hidden" class="plan_id" th:value="${plan.id}">
+						<div class="blog-entry align-self-stretch" style="width:300px">
+							<a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+							<div class="text p-4 d-block">
+								<h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+								<h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+									<span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+								<div class="meta">
+									<div><a th:text="${plan.user.nickName}"></a></div>
 								</div>
 							</div>
 						</div>
-					</th:block>
-				</div>
+					</div>
+				</th:block>
+			</div>
 		</div>
 	</section>
+
+	<!-- main modal -->
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h3 class="plan-title"><a></a></h3>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="ftco-animate fadeInUp ftco-animated">
+						<div id="modalScroll" style="height: auto; overflow-y: scroll;">
+							<div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">
+								<div class="card-body">
+									<a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- sub modal -->
+	<div class="modal fade" id="myDay">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center">
+					<h3 class="day-title" style="font-weight: bold;"><a></a></h3>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="ftco-animate fadeInUp ftco-animated">
+						<div style="height: auto; overflow-y: scroll;">
+
+							<!-- 카드들 담기는 곳-->
+							<div class="placeList">
+								<div class="col-12 ftco-animate fadeInUp ftco-animated" id="placeScroll">
+									<div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">
+										<a class="blog-img mr-4 placeImage"></a>
+										<div class="text">
+											<h3 class="heading placeTitle"></h3>
+											<p class="placeAddr" ></p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$( document ).ready(function() {
+
+
+			let planObj;
+			let dayCnt;
+			let dayList;
+			let placeList;
+
+			const getDay = function (idx) {
+				return '<div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay">\n' +
+						'                                <div class="card-body text-center">\n' +
+						'                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day ' + idx + '</span></a>\n' +
+						'                                </div>\n' +
+						'                            </div>';
+			};
+
+
+			// 각 plan 카드 클릭했을 때
+			$(".planCard").click(function (){
+				$("#modalScroll").find(".card").remove();
+				$("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
+						'                                <div class="card-body">\n' +
+						'                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>\n' +
+						'                                </div>\n' +
+						'                            </div>\n');
+
+				let title = $(this).find(".planTitle").find("a").text();
+				let id = $(this).find(".plan_id").val();
+
+
+				$(".plan-title").find("a").text(title);
+
+
+				$.ajax({
+					// url 만들면 무조건 security 해야됨
+					url: '/mypage/myplan',
+					type: 'get',
+					async: false,
+					dataType: 'json',
+					data: {"id": id},
+					contentType: 'application/json; charset=UTF-8',
+					success: function(res) {
+						console.log(res);
+						planObj = res;
+
+						dayCnt = res['dayCounts'];
+						dayList = res['days'];
+
+
+						for (let d = 0; d < dayCnt; ++d) {
+							// day들 각각 작성
+							$(".card:last").after(getDay(d + 1));
+							console.log('day' + (d + 1) + '의 장소들');
+
+							$(".card:last").unbind().click(function () {
+
+								$(".day-title").text('Day' + (d+1));
+
+								$("#placeScroll").find(".placeBox").remove();
+								$("#placeScroll").append('                  <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">\n' +
+										'                                            <a class="blog-img mr-4"><img class="placeImage"/></a>\n' +
+										'                                            <div class="text">\n' +
+										'                                                <h3 class="heading placeTitle"></h3>\n' +
+										'                                                <p class="placeAddr" ></p>\n' +
+										'                                            </div>\n' +
+										'                                        </div>');
+
+
+								placeList = dayList[d]['places'];
+
+								for (let p = 0; p < placeList.length; ++p) {
+									// day d 번째의  p번째 place 각각 작업
+									console.log((p + 1) + '번째 장소');
+									console.log(placeList[p]);
+									console.log(placeList.length);
+
+
+									let img = placeList[p]['thumbnailUrl'];
+									let name = placeList[p]['name'];
+									let addr = placeList[p]['addr'];
+
+
+									$(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox">\n' +
+											'                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + ')"></a>\n' +
+											'                                        <div class="text">\n' +
+											'                                            <h3 class="heading placeTitle">' + name + '</h3>\n' +
+											'                                            <p class="placeAddr">' + addr + '</p>\n' +
+											'                                        </div>\n' +
+											'                                    </div>');
+
+								}
+
+							});
+
+						}
+					}
+
+				}).done(function(response) {
+					console.log('done!');
+				});
+
+
+			}); // planCard 클릭 했을 때 끝
+
+		});
+
+
+	</script>
 
 	<div layout:fragment="configFragment">
 		<script src="js/jquery.min.js"></script>

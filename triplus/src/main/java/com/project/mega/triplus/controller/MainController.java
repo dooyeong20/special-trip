@@ -84,7 +84,7 @@ public class MainController {
 
     @GetMapping("/search")
     public String search(@RequestParam(value = "keyword") String keyword, Model model){
-        int rand, cnt = 4;
+        int rand, cnt = 8;
 
         List<XMLResponseItem> itemList = apiService.getKeywordResultList(keyword);
 
@@ -184,12 +184,21 @@ public class MainController {
                 log.error("no plan");
             }
         }
+        rand = (int)(Math.random() * 70);
+        Random random = new Random();
 
         List<Place> placeList = placeRepository.findAllByContentType("12");
+        placeList.addAll(placeRepository.findAllByContentType("15"));
+        placeList.addAll(placeRepository.findAllByContentType("38"));
+        placeList.addAll(placeRepository.findAllByContentType("39"));
 
-        rand = Math.max((int) (Math.random() * (placeList.size() - cnt)), 0);
+        List<Place> pickedList = new ArrayList<>();
 
-        model.addAttribute("placeList", placeList.subList(rand, rand + Math.min(placeList.size(), cnt)));
+        for(int i=0; i<400; ++i){
+            pickedList.add(placeList.get(random.nextInt(placeList.size())));
+        }
+
+        model.addAttribute("placeList", pickedList);
 
         return "view/plan";
     }
