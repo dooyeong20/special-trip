@@ -51,7 +51,7 @@ public class MainController {
 
 
     @Transactional
- //   @PostConstruct
+    @PostConstruct
     public void init(){
         // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
         if(!apiService.loadPlaces()){
@@ -268,6 +268,25 @@ public class MainController {
             object.addProperty("message", e.getMessage());
         }
         logger.info("찜 결과 : " + object.toString());
+
+        return object.toString();
+    }
+
+    @GetMapping("/detail/dislike")
+    @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
+    public String dislike(@CurrentUser User user,
+                          @RequestParam(value = "content_id") String contentId){
+
+        JsonObject object = new JsonObject();
+
+        try {
+            placeService.disLikes(user, contentId);
+            object.addProperty("result", true);
+            object.addProperty("message", "찜 해제.");
+        } catch (IllegalStateException e){
+            object.addProperty("result", false);
+            object.addProperty("message", e.getMessage());
+        }
 
         return object.toString();
     }

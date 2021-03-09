@@ -12,7 +12,7 @@
 					<input type="hidden" id="content_id" name="content_id" th:value="${content_id}">
 					<input type="hidden" id="mapX" th:value="${item.mapX}">
 					<input type="hidden" id="mapY" th:value="${item.mapY}">
-					<button type="button" id="like" class="btn btn-primary ml-3 mb-2">
+					<button th:if="${user}" type="button" id="like" class="btn btn-primary ml-3 mb-2">
 						찜하기
 					</button>
 					<div>
@@ -68,11 +68,12 @@
 								<th:block th:each="review : ${reviews}">
 									<li class="comment">
 										<div class="vcard bio">
-											<i class="fas fa-user p-2" aria-hidden="true" th:style="${user.id == review.user.id} ? 'font-size: 50px;color: #ac5353' : 'font-size: 50px'"></i>
+											<i class="fas fa-user p-2" aria-hidden="true" th:style="${user.id == review.user.id} ? 'font-size: 50px;color: #b4e67e' : 'font-size: 50px'"></i>
 										</div>
 										<div class="comment-body">
 											<input type="hidden" id="review_id" th:value="${review.id}">
 											<span th:if="${user.id == review.user.id}" th:utext="${review.title} + '  ' + '<i class=\'fas fa-trash review_del\'></i>'"></span>
+											<span th:unless="${user.id == review.user.id}" th:utext="${review.title}"></span>
 											<div class="meta" th:text="${review.regdate}"></div>
 											<p th:text="${review.content}"></p>
 										</div>
@@ -244,10 +245,32 @@
 
 		 	// 찜하기 눌렀을 때
 			$("#like").click(function(){
-				console.log(contentId);
-				console.log(messageDTO);
+				if($("#like").text() == '이미 찜했음!'){
+					if(confirm("찜을 해제할까요?")){
+						$.ajax({
+							url: "/detail/dislike",
+							data: messageDTO,
+							type:"get",
+							dataType:"json",
+							success: function(response){
+								console.log(response);
+								if(response['result']){
+									$("#like").text('찜하기');
+									$("#heart").text(' ' + parseInt($("#heart").text()) - 1);
+								}
+								else{
+									$("#like").text('찜 해제 오류!');
+								}
+							},
+							error: function (response) {
+								console.log(response);
+								$("#like").text('찜 해제 오류!');
+							}
+						});
 
-				let likePlus = parseInt($("#likedCounts").val());
+					}
+					return;
+				}
 
 				$.ajax({
 				url: "/detail/like",
@@ -258,7 +281,7 @@
 					console.log(response);
 					if(response['result']){
 						$("#like").text	('찜했음!');
-						$("#heart").text(' ' + (likePlus+1));
+						$("#heart").text(' ' + (parseInt($("#likedCounts").val())+1));
 					}
 					else{
 						$("#like").text('이미 찜했음!');
@@ -270,8 +293,7 @@
 				}
 				});
 
-		});
-
+			});
 
 		});
 	</script>

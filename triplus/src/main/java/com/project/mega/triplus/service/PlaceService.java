@@ -67,6 +67,26 @@ public class PlaceService {
 
     }
 
+    public void disLikes(User user, String contentId) {
+        if (user == null) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+
+        user = userRepository.findByEmail(user.getEmail());
+        Place place = placeRepository.findByContentId(contentId);
+
+        if (place == null) {
+            throw new IllegalStateException("등록되지 않은 여행지입니다.");
+        }
+
+        List<Place> list = user.getPlaceLikes();
+
+        place.setLiked(place.getLiked() - 1);
+        List<Place> placeList = user.getPlaceLikes().stream().filter(p -> !p.getContentId().equals(contentId)).collect(Collectors.toList());
+        user.getPlaceLikes().clear();
+        user.getPlaceLikes().addAll(placeList);
+    }
+
 
     public void saveReview(User user, Place place, String content){
         Review review = new Review();
@@ -94,6 +114,8 @@ public class PlaceService {
 
         return placeRepository.findAllByContentTypeAndAreaCode(pageable, type, code);
     }
+
+
 }
 
 
