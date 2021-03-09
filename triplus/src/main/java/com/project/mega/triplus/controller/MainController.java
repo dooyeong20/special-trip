@@ -5,6 +5,7 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,8 @@ public class MainController {
     private final ReviewService reviewService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
 
 
     @Transactional
@@ -468,6 +471,42 @@ public class MainController {
         Plan planById = planService.getPlanById(id);
         System.out.println(planById);
         return planById;
+    }
+
+    @PostMapping("/header/checkNickName")
+    @ResponseBody
+    public String checkNickName(@RequestParam(value = "nickNameCheck")String nickName){
+        String message=null;
+
+        if(userRepository.existsNickNameByNickName(nickName)){
+            message="nickNameNO";
+        } else{
+            message="nickNameOK";
+        }
+
+        return message;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/join", method = RequestMethod.POST)
+    @ResponseBody
+    public String joinSubmit(
+            @RequestParam(value = "joinNickname") String nickname,
+            @RequestParam(value = "joinEmail") String email,
+            @RequestParam(value = "joinPassword") String password,
+            @RequestParam(value = "checklist") String checklist
+    ){
+        JoinForm joinForm = new JoinForm();
+
+        joinForm.setNickname(nickname);
+        joinForm.setEmail(email);
+        joinForm.setPassword(password);
+        joinForm.setAgreeTermsOfService(checklist);
+
+        User newUser = userService.processNewUser(joinForm);
+        userService.login(newUser);
+
+        return "joinSuccess";
     }
 
 }

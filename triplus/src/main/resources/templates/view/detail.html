@@ -68,11 +68,11 @@
 								<th:block th:each="review : ${reviews}">
 									<li class="comment">
 										<div class="vcard bio">
-											<img src="images/person_1.jpg" alt="Image placeholder">
+											<i class="fas fa-user p-2" aria-hidden="true" th:style="${user.id == review.user.id} ? 'font-size: 50px;color: #ac5353' : 'font-size: 50px'"></i>
 										</div>
 										<div class="comment-body">
 											<input type="hidden" id="review_id" th:value="${review.id}">
-											<h3 th:utext="${review.title} + ' ' + '<i class=\'fas fa-trash review_del\'></i>'"></h3>
+											<span th:if="${user.id == review.user.id}" th:utext="${review.title} + '  ' + '<i class=\'fas fa-trash review_del\'></i>'"></span>
 											<div class="meta" th:text="${review.regdate}"></div>
 											<p th:text="${review.content}"></p>
 										</div>
@@ -194,10 +194,30 @@
 				content_id: contentId
 			};
 
+			$(".comment")
+			.mouseover(function() {
+				$(this).find(".review_del").css("font-size", "20px");
+				$(this).find(".review_del").css("color", "#f85959");
+			})
+			.mouseout(function() {
+				$(this).find(".review_del").css("font-size", "14px");
+				$(this).find(".review_del").css("color", "#000000");
+			});
+
+			$(".review_del")
+			.mousedown(function(){
+				$(this).css("font-size", "16px");
+			})
+			.mouseup(function(){
+				$(this).css("font-size", "20px");
+			});
+
 			// 삭제하기 눌렀을 때
 			$(".review_del").click(function(){
+				if(confirm("리뷰를 삭제하시겠습니까 ?") == false){
+					return;
+				}
 
-				console.log('리뷰 삭제 !!');
 				var commentCnt = $("#comment_cnt").text();
 				var id = $(this).parent().parent().find('#review_id').val();
 				console.log(id);
@@ -220,7 +240,6 @@
 
 				$(this).parent().parent().parent().remove();
 				$("#comment_cnt").text(--commentCnt);
-
 			});
 
 		 	// 찜하기 눌렀을 때

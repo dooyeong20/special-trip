@@ -1,10 +1,14 @@
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       >
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <div th:fragment="headerFragment(activeTab)">
+    <body>
 
     <th:block>
         <script th:src="@{/js/common/form-validation.js}"></script>
@@ -120,7 +124,7 @@
                     <div class="d-flex flex-column text-center">
                         <div class="form-group">
                             <input type="email" class="form-control" name="findPwEmail" id="findPwEmail" placeholder="이메일을 입력하세요."><br>
-                            <span class="error_next_box" id="emailMsg" style="color: red;"></span>
+                            <span class="error_next_box" id="emailCheckMsg" style="color: red;"></span>
                         </div>
                         <div class="d-flex flex-column text-center">
                             <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" name="findPwBtn" id="findPwBtn">메일 보내기</button>
@@ -141,60 +145,165 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-title text-center">
-                        <h4>회원가입</h4>
-                    </div>
-                    <div class="d-flex flex-column text-center">
+                    <form class="needs-validation" id="joinForm" name="joinForm" novalidate>
+                        <div class="form-title text-center">
+                            <h4 style="font-weight: bold;">회원가입</h4>
+                        </div>
+                        <div class="d-flex flex-column text-center">
 
-                        <form class="needs-validation" th:action="@{/join}" method="post" id="joinForm" name="joinForm" novalidate>
-
-                            <!-- 닉네임 -->
-                            <div class="form-group">
-                                <input type="text" autocomplete="nickname" class="form-control" id="nickname" name="nickname" placeholder="닉네임" required="">
+                            <div class="form-group text-center">
+                                <input type="text" autocomplete="nickname" class="form-control" id="joinNickname" name="joinNickname" placeholder="닉네임" required=""><br>
+                                <span class="error_next_box" id="nickNameMsg" style="color: red;"></span>
+<!--                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="nickNameCheckBtn" id="nickNameCheckBtn">   중복확인   </button>-->
                                 <div class="invalid-feedback">
                                     닉네임을 입력해주세요.
                                 </div>
-                                <!-- 중복확인 버튼 -->
-                                <div class="form-group"	style="float: right; margin-top: 25px" id="divNameCheck">
-                                    <button type="button" class="btn btn-primary btn-block" name="emailCheck" id="NameCheck">
-                                        <span class="glyphicon glyphicon-off"></span> 중복확인
-                                    </button>
-                                </div>
+                            </div>
 
-                                <input type="email" autocomplete="email" class="form-control" id="email" name="email" placeholder="이메일" required="">
+                            <div class="form-group text-center">
+                                <input type="email" autocomplete="email" class="form-control" id="joinEmail" name="joinEmail" placeholder="이메일" required=""><br>
+                                <span class="error_next_box" id="emailMsg" style="color: red;"></span>
                                 <div class="invalid-feedback">
                                     이메일을 입력해주세요.
                                 </div>
+                            </div>
 
-                                <input type="password" autocomplete="password" class="form-control" id="password" name="password" placeholder="비밀번호" required="">
+                            <div class="form-group text-center">
+                                <input type="password" autocomplete="password" class="form-control" id="joinPassword" name="joinPassword" placeholder="비밀번호" required=""><br>
+                                <span class="error_next_box" id="pwMsg" style="color: red;"></span>
                                 <div class="invalid-feedback">
                                     비밀번호를 입력해주세요.
                                 </div>
-
-
-
-                                <hr class="col-12 my-4">
-
-                                <!-- 약관 -->
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="agreement" value="true" name="checklist">
-                                    <label class="form-check-label" for="agreement">회원가입 약관에 동의합니다.</label>
-                                    <div class="invalid-feedback">약관에 동의하셔야 합니다.</div>
-                                </div>
-
-                                <hr class="col-12 my-4">
-                                <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2">회원가입</button>
                             </div>
 
-                        </form>
+                            <hr class="col-12 my-4">
 
-                        <!-- join modal 끝 !-->
+                            <!-- 약관 -->
+                            <div class="form-check text-center">
+                                <input type="checkbox" class="form-check-input" id="agreement" value="true" name="checklist">
+                                <label class="form-check-label" for="agreement">회원가입 약관에 동의합니다.</label>
+                                <div class="invalid-feedback">약관에 동의하셔야 합니다.</div>
+                            </div>
 
-                    </div>
+                            <hr class="col-12 my-4">
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" id="joinBtn" name="joinBtn">회원가입</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- join modal 끝 !-->
 
+        <script>
+            $( document ).ready(function() {
+                // 닉네임 중복검사 / 이메일 유효성 검사 /비밀번호 유효성 검사
+                const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/);
+
+                const getEmailCheck= RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
+
+                let chk1=false, chk2=false, chk3=false;
+
+                // 닉네임 중복검사
+                $('#joinNickname').on('keyup', function(){
+                    //공백확인
+                    if($('#joinNickname').val()===""){
+                        $('#nickNameMsg').html('<b>닉네임을 입력해주세요.</b>');
+                        chk1=false;
+                    } else{
+                        const nickNameCheck={"nickNameCheck" : $('#joinNickname').val()};
+
+                        $.ajax({
+                            type: "post",
+                            url: "/header/checkNickName",
+                            data: nickNameCheck,
+                            datatype: "json",
+                            success: function(message){
+                                console.log('>>>>');
+                                console.log(message);
+                                if(message === "nickNameNO"){
+                                    $('#nickNameMsg').html('<b>이미 존재하는 닉네임 입니다.</b>');
+                                    chk1=false;
+                                } else{
+                                    $('#nickNameMsg').html('<b style="color: green;">사용 가능한 닉네임 입니다.</b>');
+                                    chk1=true;
+                                }
+                            },
+                            error: function(error){
+                                console.log("error: "+error);
+                            }
+                        });
+                    }
+                });
+
+                // 이메일 유효성 검사
+                $('#joinEmail').on('keyup', function(){
+                    // 공백확인
+                    if($('#joinEmail').val()===""){
+                        $('#emailMsg').html('<b>이메일을 입력해주세요.</b>');
+                        chk2=false;
+                    } else if(!getEmailCheck.test($("#joinEmail").val())){
+                        $('#emailMsg').html('<b>유효하지 않은 이메일 입니다.</b>');
+                        chk2=false;
+                    } else{
+                        $('#emailMsg').html("");
+                        chk2=true;
+                    }
+                });
+
+                // 비밀번호 유효성 검사
+                $('#joinPassword').on('keyup', function(){
+                    //비밀번호 공백 확인
+                    if($('#joinPassword').val() === ""){
+                        $('#pwMsg').html('<b>비밀번호는 필수 정보입니다.</b>');
+                        chk3=false;
+                    }
+                    //비밀번호 유효성 검사
+                    else if(!getPwCheck.test($("#joinPassword").val()) || $("#joinPassword").val().length < 8){
+                        $('#pwMsg').html('<b>특수문자 포함 8자 이상 입력하세요.</b>');
+                        chk3 = false;
+                    } else{
+                        $('#pwMsg').html('');
+                        chk3 = true;
+                    }
+                });
+
+                // 회원가입 폼 보내기
+                $('#joinBtn').click(function(e){
+                    if(chk1 == false){
+                        alert('닉네임을 다시 확인해주세요.');
+                    } else if(chk2 == false){
+                        alert('이메일을 다시 확인해주세요.');
+                    } else if(chk3 == false){
+                        alert('비밀번호를 다시 확인해주세요.');
+                    } else if(chk1 && chk2 && chk3){
+
+                        var form = $('#joinForm')[0];
+                        var formData = new FormData(form);
+
+                        $.ajax({
+                            type: "post",
+                            url: "/join",
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            data: formData,
+                            success: function(result){
+                                console.log(result);
+                                if(result === "joinSuccess"){
+                                    alert('정상적으로 가입되었습니다.');
+                                    location.href="/";
+                                } else{
+                                    alert('입력정보를 다시 확인해주세요.');
+                                }
+                            }
+                        });
+                    } else{
+                        alert('입력정보를 다시 확인해주세요.');
+                    }
+                });
+            });
+        </script>
+    </body>
+</div>
 </html>

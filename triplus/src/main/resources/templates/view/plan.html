@@ -171,17 +171,19 @@
 
             $(".small-del").hide();
             $(".small-div").mouseenter(function(){
+                $(this).find(".small-del").css("color", "#f85959");
                 $(this).find(".small-del").show();
-            });
-            $(".small-div").mouseleave(function(){
+            }).mouseleave(function(){
                 $(this).find(".small-del").hide();
             });
 
             $(".big-del").hide();
+
             $(".big-div").mouseenter(function(){
+                $(this).css("color", "#f85959");
                 $(this).find(".big-del").show();
-            });
-            $(".big-div").mouseleave(function(){
+            }).mouseleave(function(){
+                $(this).css("color", "black");
                 $(this).find(".big-del").hide();
             });
 
@@ -252,22 +254,20 @@
                 last_place.removeClass('last-place');
 
                 $(".small-del").hide();
-
-                $(".small-div").mouseenter(function(){
+                $(".small-div").unbind().mouseenter(function(){
+                    $(this).find(".small-del").css("color", "#f85959");
                     $(this).find(".small-del").show();
-                });
-
-                $(".small-div").mouseleave(function(){
+                }).mouseleave(function(){
                     $(this).find(".small-del").hide();
                 });
 
                 $(".big-del").hide();
 
-                $(".big-div").mouseenter(function(){
+                $(".big-div").unbind().mouseenter(function(){
+                    $(this).css("color", "#f85959");
                     $(this).find(".big-del").show();
-                });
-
-                $(".big-div").mouseleave(function(){
+                }).mouseleave(function(){
+                    $(this).css("color", "black");
                     $(this).find(".big-del").hide();
                 });
 
@@ -330,6 +330,23 @@
 
                     return tmp;
                 });
+
+                if(dayList.length < 1){
+                    alert('일정을 만들어주세요');
+                    return;
+                }
+
+                if(dayList[1].length < 1 || $('#plan_title').val().trim() == ""){
+                    alert('일정 이름과 일정을 모두 입력해주세요');
+                    return;
+                }
+
+                for(ii=1; ii<dayList.length; ++ii){
+                    if(dayList[ii].length < 1){
+                        alert('빈 일정이 있습니다');
+                        return;
+                    }
+                }
 
 
                 jsonObj = {

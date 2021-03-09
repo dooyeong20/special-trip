@@ -37,12 +37,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        다 무시
-//        http.authorizeRequests().
-//                anyRequest().authenticated().
-//                and().
-//                csrf().disable();
-
         http.authorizeRequests()
                 .antMatchers(
                         "/oauth2/**",
@@ -54,7 +48,7 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/harim/**", // 하림님 회원가입용 !!
                         "/join/**",
                         "/check-email-token/**",
-                        "/plan"     // 테스트용
+                        "/header/checkNickName"
                 ).permitAll()
 
                 .mvcMatchers("/admin/**").hasRole("ADMIN")

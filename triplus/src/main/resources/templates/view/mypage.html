@@ -525,7 +525,13 @@
                     console.log('done!');
                 });
 
-
+                $(".card-body").unbind()
+                .mouseover(function() {
+                    $(this).css("background-color", "#CE4A4AFF");
+                })
+                .mouseout(function() {
+                    $(this).css("background-color", "#F85959");
+                });
             }); // planCard 클릭 했을 때 끝
 
             // mypage review 삭제하기 눌렀을 때
