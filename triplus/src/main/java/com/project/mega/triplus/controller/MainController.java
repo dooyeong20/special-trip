@@ -156,6 +156,9 @@ public class MainController {
         rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
         model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
 
+        Place like = placeService.getPlaceByContentId(contentId);
+        model.addAttribute("like", like);
+
         return "view/detail";
     }
 
@@ -225,6 +228,17 @@ public class MainController {
 //        Review reviewById = reviewService.getReviewById(Long.parseLong(reviewId));
 //        System.out.println(reviewById);
 
+
+        return "done";
+    }
+
+    // mypage remove review
+    @GetMapping("/mypage/remove")
+    @ResponseBody
+    public String removeMyPageReview(@CurrentUser User user,
+                               @RequestParam(value = "id") String reviewId){
+
+        reviewService.deleteReviewById((Long.parseLong(reviewId)));
 
         return "done";
     }

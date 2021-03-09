@@ -25,7 +25,12 @@
             <th:block th:unless="${plan}">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-4 day card-del" style="display: none !important">
+                        <div class="col-4 day" style="display: none !important">
+                            <h2 class="text-center">Day</h2>
+                            <div class="card" style="height: 500px">
+                                <div style="height:450px; overflow-y: scroll;" class="mt-4">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-4 day">
@@ -179,8 +184,6 @@
             $(".big-div").mouseleave(function(){
                 $(this).find(".big-del").hide();
             });
-
-
 
             make_place = function(url, title, addr, content_id){
 
@@ -351,9 +354,6 @@
                 });
 
             });
-
-
-
 
         }); // ready 끝
 
