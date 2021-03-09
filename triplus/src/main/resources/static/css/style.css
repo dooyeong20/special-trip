@@ -9639,3 +9639,113 @@ textarea.form-control {
     line-height: 1.3;
     color: #909090;
 }
+
+/* password-issue modal css
+#modal-confirm, #modal-alert {
+    z-index: 1060;
+}
+.fade-pwi:not(.show) {
+    opacity: 0;
+}
+.modal-pwi {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+@media (min-width: 576px)
+.modal-sm {
+    max-width: 400px;
+}
+@media (min-width: 576px)
+.modal-dialog-pwi {
+    margin: 30px auto;
+}
+.modal-dialog-pwi {
+    position: relative;
+    width: auto;
+    margin: .5rem;
+    pointer-events: none;
+}
+
+.modal-content-pwi {
+    color: #000;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.modal-content-pwi {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+}
+
+.modal-header-pwi.pb-0, .modal-header-pwi.bb-0 {
+    padding-top: 20px;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+.modal-header-pwi {
+    position: relative;
+    padding: 12px 24px;
+    line-height: 20px;
+    border-color: rgba(0,0,0,.1);
+}
+.pb-0, .py-0 {
+    padding-bottom: 0!important;
+}
+.modal-header-pwi {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+}
+
+.modal-header-pwi+.modal-body-pwi {
+    max-height: calc(100% - 45px);
+}
+.modal-body-pwi {
+    padding: 20px 24px;
+}
+.modal-body-pwi {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1rem;
+} */
+
+/* password-issue css
+.dialog-content h1 {
+    padding-top: 10%;
+}
+*/
+
+/* reset-password css */
+.py-5 h2 {
+    padding-top: 10%;
+}
+
+.w-50.btn.btn-dark.btn-lg {
+    margin: 0 70px;
+}

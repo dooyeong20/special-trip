@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void sendJoinConfirmEmail(User newUser){
-        sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token");
+        sendEmail(newUser, "Triplus - 회원 가입 인증", "/check-email-token", "이메일 인증", "서비스 이용을 위해 링크를 클릭해주세요.");
     }
 
     public void login(User user){
@@ -98,12 +98,12 @@ public class UserService implements UserDetailsService {
         return newUser;
     }
 
-    private void sendEmail(User user, String subject, String url) {
+    private void sendEmail(User user, String subject, String url, String message, String msg) {
         Context context = new Context();
         context.setVariable("link", url + "?token=" + user.getEmailCheckToken() + "&email=" + user.getEmail());
         context.setVariable("host", appProperties.getHost());
-        context.setVariable("linkName", "이메일 인증하기");
-        context.setVariable("message", "서비스 이용을 위해 링크를 클릭해주세요.");
+        context.setVariable("linkName", message);
+        context.setVariable("message", msg);
 
         String html = templateEngine.process("mail/simple-link", context);
 
@@ -158,6 +158,28 @@ public class UserService implements UserDetailsService {
         user=userRepository.findByEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(newPw));
         userRepository.save(user);
+    }
+
+    public void resetPassword(String email, String newPassword){
+
+    }
+    public void sendMailResetPassword(String email) {
+        // email 파람으로 findByEmail()
+        User user = userRepository.findByEmail(email);
+
+        // 해당 회원 있는지 확인
+        if(user == null){
+            return;
+        }
+
+        sendEmail(user, "TRIPLus - 비밀번호 재설정", "/reset-password", "비밀번호 재설정", "비밀번호 재설정을 위해 링크를 클릭해주세요.");
+    }
+
+    @javax.transaction.Transactional // Repository 외부에서 엔티티.setXXX()가 호출되는 경우면 필수.
+    public void processResetPassword(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+
     }
 }
 
