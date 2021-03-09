@@ -5,6 +5,7 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
+import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
