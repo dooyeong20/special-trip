@@ -460,19 +460,22 @@ public class MainController {
     }
 
     @Transactional
-    @RequestMapping(value = "/header/join", method = RequestMethod.POST)
+    @RequestMapping(value = "/join", method = RequestMethod.POST)
     @ResponseBody
     public String joinSubmit(
-            @RequestBody JoinForm joinForm
+            @RequestParam(value = "joinNickname") String nickname,
+            @RequestParam(value = "joinEmail") String email,
+            @RequestParam(value = "joinPassword") String password,
+            @RequestParam(value = "checklist") String checklist
     ){
-        JoinForm newJoinForm = new JoinForm();
+        JoinForm joinForm = new JoinForm();
 
-        joinForm.setNickname(joinForm.getNickname());
-        joinForm.setEmail(joinForm.getEmail());
-        joinForm.setPassword(joinForm.getPassword());
-        joinForm.setAgreeTermsOfService(joinForm.getAgreeTermsOfService());
+        joinForm.setNickname(nickname);
+        joinForm.setEmail(email);
+        joinForm.setPassword(password);
+        joinForm.setAgreeTermsOfService(checklist);
 
-        User newUser = userService.processNewUser(newJoinForm);
+        User newUser = userService.processNewUser(joinForm);
         userService.login(newUser);
 
         return "joinSuccess";

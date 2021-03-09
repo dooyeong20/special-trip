@@ -54,7 +54,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/harim/**", // 하림님 회원가입용 !!
                         "/join/**",
                         "/check-email-token/**",
-                        "/plan"     // 테스트용
+                        "/plan",     // 테스트용
+                        "/header/checkNickName"
+
                 ).permitAll()
 
                 .mvcMatchers("/admin/**").hasRole("ADMIN")

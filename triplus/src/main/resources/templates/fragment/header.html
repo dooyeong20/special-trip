@@ -152,9 +152,9 @@
                         <div class="d-flex flex-column text-center">
 
                             <div class="form-group text-center">
-                                <input type="text" autocomplete="nickname" class="form-control" id="joinNickname" name="joinNickname" placeholder="닉네임" required="">
-                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="nickNameCheckBtn" id="nickNameCheckBtn">중복확인</button><br>
+                                <input type="text" autocomplete="nickname" class="form-control" id="joinNickname" name="joinNickname" placeholder="닉네임" required=""><br>
                                 <span class="error_next_box" id="nickNameMsg" style="color: red;"></span>
+<!--                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="nickNameCheckBtn" id="nickNameCheckBtn">   중복확인   </button>-->
                                 <div class="invalid-feedback">
                                     닉네임을 입력해주세요.
                                 </div>
@@ -205,7 +205,7 @@
                 let chk1=false, chk2=false, chk3=false;
 
                 // 닉네임 중복검사
-                $('#nickNameCheckBtn').on('click', function(){
+                $('#joinNickname').on('keyup', function(){
                     //공백확인
                     if($('#joinNickname').val()===""){
                         $('#nickNameMsg').html('<b>닉네임을 입력해주세요.</b>');
@@ -219,6 +219,7 @@
                             data: nickNameCheck,
                             datatype: "json",
                             success: function(message){
+                                console.log('>>>>');
                                 console.log(message);
                                 if(message === "nickNameNO"){
                                     $('#nickNameMsg').html('<b>이미 존재하는 닉네임 입니다.</b>');
@@ -277,18 +278,16 @@
                         alert('비밀번호를 다시 확인해주세요.');
                     } else if(chk1 && chk2 && chk3){
 
-                        const form = {
-                            nickName: $('#joinNickName'),
-                            email: $('#joinEmail'),
-                            password: $('#joinPassword'),
-                            agreeTermsOfService: $('#agreement')
-                        }
+                        var form = $('#joinForm')[0];
+                        var formData = new FormData(form);
 
                         $.ajax({
                             type: "post",
-                            url: "/header/join",
-                            dataType: "json",
-                            data: form,
+                            url: "/join",
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            data: formData,
                             success: function(result){
                                 console.log(result);
                                 if(result === "joinSuccess"){
