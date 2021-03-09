@@ -5,8 +5,6 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
-import com.project.mega.triplus.repository.PlanRepository;
-import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,6 +66,11 @@ public class MainController {
         model.addAttribute("placeList", placeList);
         model.addAttribute("planList", planList);
 
+        return "index";
+    }
+
+    @PostMapping("/")
+    public String index(){
         return "index";
     }
 
@@ -424,9 +423,9 @@ public class MainController {
         return "view/total_place";
     }
 
-    @GetMapping("/access_denied")
-    public String accessDenied()
-    {
+    @RequestMapping("/access_denied")
+    public String accessDenied() {
+
         return "view/access_denied";
     }
 
