@@ -6,6 +6,7 @@ import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,21 +19,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final MainController mainController;
 
-    @Autowired
-    private MainController mainController;
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @Transactional
@@ -55,6 +54,42 @@ public class UserController {
 
         return "redirect:/";
     }
+
+//    @PostMapping("/checkNickName")
+//    @ResponseBody
+//    public String checkNickName(@RequestParam(value = "nickNameCheck")String nickName){
+//        String result=null;
+//
+//        if(userRepository.existsByNickName(nickName)){
+//            result="nickNameNO";
+//        } else{
+//            result="nickNameOK";
+//        }
+//
+//        return result;
+//    }
+//
+//    @Transactional
+//    @PostMapping("/join")
+//    @ResponseBody
+//    public String joinSubmit(
+//            @RequestParam(value = "nickname") String nickname,
+//            @RequestParam(value = "email") String email,
+//            @RequestParam(value = "password") String password,
+//            @RequestParam(value = "checklist") String checklist
+//        ){
+//        JoinForm joinForm = new JoinForm();
+//
+//        joinForm.setNickname(nickname);
+//        joinForm.setEmail(email);
+//        joinForm.setPassword(password);
+//        joinForm.setAgreeTermsOfService(checklist);
+//
+//        User newUser = userService.processNewUser(joinForm);
+//        userService.login(newUser);
+//
+//        return "joinSuccess";
+//    }
 
     @GetMapping("/check-email-token")
     @Transactional
@@ -79,17 +114,4 @@ public class UserController {
 
         return mainController.index(model);
     }
-
-//    @PostMapping("/checkEmail")
-//    @ResponseBody
-//    public String tempPasswordSubmit(@CurrentUser User user, @RequestParam(value = "email")String email){
-//        String result=null;
-//
-//        if (email.equals(user.getEmail())){
-//
-//        }
-//
-//        return "";
-//    }
-
 }
