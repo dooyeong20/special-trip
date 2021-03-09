@@ -23,7 +23,8 @@ public class Plan {
 
     private int liked;
 
-    private LocalDateTime update;
+    @Column(name = "update_time")
+    private LocalDateTime updateTime;
 
     @Enumerated(EnumType.STRING)
     private PlanStatus status;
