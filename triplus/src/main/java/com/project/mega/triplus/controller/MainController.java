@@ -70,7 +70,9 @@ public class MainController {
     }
 
     @PostMapping("/")
-    public String index(){
+    public String main(Model model){
+        List<Place> placeList = placeService.getPlace();
+        model.addAttribute("placeList", placeList);
         return "index";
     }
 
@@ -366,8 +368,7 @@ public class MainController {
 
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-        model.addAttribute("planList", allPlans
-        .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
+        model.addAttribute("planList", allPlans);
 
         return "view/total_plan";
     }
@@ -464,7 +465,9 @@ public class MainController {
     @ResponseBody
     public Plan myPlan(@CurrentUser User user,
                          @RequestParam(value = "id") Long id ){
-        return planService.getPlanById(id);
+        Plan planById = planService.getPlanById(id);
+        System.out.println(planById);
+        return planById;
     }
 
 }

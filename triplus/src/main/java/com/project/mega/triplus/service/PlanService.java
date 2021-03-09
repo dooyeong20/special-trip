@@ -99,23 +99,27 @@ public class PlanService {
         plan.setUser(user);
         plan.setName(planForm.getPlan());
         plan.setUpdate(LocalDateTime.now());
-        plan.getDays().clear();
+
+        List<Day> tmpList = new ArrayList<>();
 
 
         for(List<Map<String, String>> d : planForm.getDayList()){
             day = new Day();
 
             for(Map<String, String> p : d){
-                place = placeRepository.findByContentId(p.get("content_id"));
-//                place.setName(p.get("title"));
-//                place.setAddr(p.get("addr"));
-//                place.setThumbnailUrl(p.get("imgUrl"));
-//                place.setContentId(p.get("content_id"));
-                day.addPlace(place);
+                String content_id = p.get("content_id");
+                Place singleResult = em.createQuery("select p from Place p where p.contentId = :contentId", Place.class).setParameter(
+                        "contentId", content_id
+                ).getSingleResult();
+
+                day.addPlace(singleResult);
             }
 
             day.setPlan(plan);
+            tmpList.add(day);
         }
+        plan.getDays().clear();
+        plan.getDays().addAll(tmpList);
 
         em.persist(plan);
 
