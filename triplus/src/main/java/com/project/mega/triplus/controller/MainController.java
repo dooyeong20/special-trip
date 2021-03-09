@@ -52,6 +52,8 @@ public class MainController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final UserRepository userRepository;
+
 
     @Transactional
     @PostConstruct
@@ -441,6 +443,39 @@ public class MainController {
     public Plan myPlan(@CurrentUser User user,
                          @RequestParam(value = "id") Long id ){
         return planService.getPlanById(id);
+    }
+
+    @PostMapping("/header/checkNickName")
+    @ResponseBody
+    public String checkNickName(@RequestParam(value = "nickNameCheck")String nickName){
+        String message=null;
+
+        if(userRepository.existsNickNameByNickName(nickName)){
+            message="nickNameNO";
+        } else{
+            message="nickNameOK";
+        }
+
+        return message;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/header/join", method = RequestMethod.POST)
+    @ResponseBody
+    public String joinSubmit(
+            @RequestBody JoinForm joinForm
+    ){
+        JoinForm newJoinForm = new JoinForm();
+
+        joinForm.setNickname(joinForm.getNickname());
+        joinForm.setEmail(joinForm.getEmail());
+        joinForm.setPassword(joinForm.getPassword());
+        joinForm.setAgreeTermsOfService(joinForm.getAgreeTermsOfService());
+
+        User newUser = userService.processNewUser(newJoinForm);
+        userService.login(newUser);
+
+        return "joinSuccess";
     }
 
 }

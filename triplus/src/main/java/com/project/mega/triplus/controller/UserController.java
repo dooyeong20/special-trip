@@ -4,7 +4,9 @@ package com.project.mega.triplus.controller;
 import com.project.mega.triplus.entity.User;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.repository.UserRepository;
+import com.project.mega.triplus.service.CurrentUser;
 import com.project.mega.triplus.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
+@Slf4j
 public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -25,56 +30,44 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/change-password")
-//    public String changePasswordForm(){
-//        return "view/user/change-password";
-//    }
-//
-//    @PostMapping("/change-password")
-//    public String changePasswordSubmit(String email, Model model){
-//
-//        // 메일 보내기
-//        userService.sendMailResetPassword(email);
-//
-//        // 결과 view 에
-//        model.addAttribute("email", email);
-//        model.addAttribute("result_code", "password.reset.send");
-//
-//        // view/notify 로 이동
-//        return "view/notify";
-//    }
-
     @Autowired
     UserRepository userRepository;
 
-//    // 닉네임 중복 체크 컨트롤러
-//    @RequestMapping(value = "/user/nicknameCheck", method = RequestMethod.GET)
+//    @PostMapping("/checkNickName")
 //    @ResponseBody
-//    public int nicknameCheck(@RequestParam("nickname") String nickname) {
-//        return userService.nicknameCheck(nickname);
+//    public String checkNickName(@RequestParam(value = "nickNameCheck")String nickName){
+//        String result=null;
+//
+//        if(userRepository.existsByNickName(nickName)){
+//            result="nickNameNO";
+//        } else{
+//            result="nickNameOK";
+//        }
+//
+//        return result;
 //    }
-
-
-    @Transactional
-    @PostMapping("/join")
-    public String joinSubmit(
-            @RequestParam(value = "nickname") String nickname,
-            @RequestParam(value = "email") String email,
-            @RequestParam(value = "password") String password,
-            @RequestParam(value = "checklist") String checklist
-        ){
-        JoinForm joinForm = new JoinForm();
-
-        joinForm.setNickname(nickname);
-        joinForm.setEmail(email);
-        joinForm.setPassword(password);
-        joinForm.setAgreeTermsOfService(checklist);
-
-        User newUser = userService.processNewUser(joinForm);
-        userService.login(newUser);
-
-        return "redirect:/";
-    }
+//
+//    @Transactional
+//    @PostMapping("/join")
+//    @ResponseBody
+//    public String joinSubmit(
+//            @RequestParam(value = "nickname") String nickname,
+//            @RequestParam(value = "email") String email,
+//            @RequestParam(value = "password") String password,
+//            @RequestParam(value = "checklist") String checklist
+//        ){
+//        JoinForm joinForm = new JoinForm();
+//
+//        joinForm.setNickname(nickname);
+//        joinForm.setEmail(email);
+//        joinForm.setPassword(password);
+//        joinForm.setAgreeTermsOfService(checklist);
+//
+//        User newUser = userService.processNewUser(joinForm);
+//        userService.login(newUser);
+//
+//        return "joinSuccess";
+//    }
 
     @GetMapping("/check-email-token")
     @Transactional
