@@ -17,7 +17,7 @@ public class Day {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Place> places = new ArrayList<>();
 
     private String placeImg;
