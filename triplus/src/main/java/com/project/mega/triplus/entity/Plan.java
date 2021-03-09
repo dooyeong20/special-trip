@@ -2,6 +2,7 @@ package com.project.mega.triplus.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javassist.bytecode.ExceptionsAttribute;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +56,11 @@ public class Plan {
     }
 
     public String getMainImg(){
-        return days.get(0).getPlaces().get(0).getThumbnailUrl();
+        try {
+            return days.get(0).getPlaces().get(0).getThumbnailUrl();
+        } catch (Exception e){
+            return null;
+        }
     }
 
     private String mainAreaCode;

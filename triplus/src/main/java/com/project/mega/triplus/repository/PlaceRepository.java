@@ -26,4 +26,5 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     Page<Place> findAllByContentType(Pageable pageable, String type);
 
     Page<Place> findAllByContentTypeAndAreaCode(Pageable pageable, String type, String areaCode);
+
 }

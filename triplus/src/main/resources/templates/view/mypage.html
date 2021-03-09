@@ -83,37 +83,37 @@
                             <!-- review grid -->
                             <form th:action="@{/delete_review}" method="post" name="reviewForm">
                                 <div class="row grid-view">
-                                <th:block th:each="review : ${reviewList}">
+                                    <th:block th:each="review : ${reviewList}">
 
                                         <div class="col-12 col-md-6">
                                             <div class="review_list mb-3 review-frame">
                                                 <a class="media review-quote-item" th:href="'/detail?content_id=' + ${review.place.contentId}">
 
                                                     <div class="media-object" th:style="'background:url(' + ${review.place.thumbnailUrl} + ');'"></div>
-                                                        <div class="media-body text-truncate">
-                                                            <h5 class="review_place_name media-title text-truncate" th:text="${review.place.name}"></h5>
-                                                            <div class="media-text text-truncate" th:text="${review.place.addr}"></div>
-                                                        </div>
+                                                    <div class="media-body text-truncate">
+                                                        <h5 class="review_place_name media-title text-truncate" th:text="${review.place.name}"></h5>
+                                                        <div class="media-text text-truncate" th:text="${review.place.addr}"></div>
+                                                    </div>
+                                                </a>
+                                                <div class="review-body">
+                                                    <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
+                                                        <input type="hidden" class="review_id" name="review_id" th:value="${review.id}">
+                                                        <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
                                                     </a>
-                                                    <div class="review-body">
-                                                        <a class="review-link" th:href="'/detail?content_id=' + ${review.place.contentId}">
-                                                            <input type="hidden" class="review_id" name="review_id" th:value="${review.id}">
-                                                            <blockquote class="review_place_content" th:text="${review.content}"></blockquote>
-                                                        </a>
-                                                    </div>
-                                                    <div class="review-footer d-flex align-items-center justify-content-between">
+                                                </div>
+                                                <div class="review-footer d-flex align-items-center justify-content-between">
 
-                                                        <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
-                                                        <button type="button" class="btn-rev-del">삭제</button>
-                                                    </div>
+                                                    <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
+                                                    <button type="button" class="btn-rev-del">삭제</button>
+                                                </div>
                                             </div>
-                                    </div>
-                                </th:block>
+                                        </div>
+                                    </th:block>
 
-                            </div>
+                                </div>
                             </form>
+                        </div>
                     </div>
-                </div>
 
                     <!-- myLike -->
                     <div id="myLike" class="container tab-pane fade"><br>
@@ -391,19 +391,18 @@
                     <div class="ftco-animate fadeInUp ftco-animated">
                         <div style="height: auto; overflow-y: scroll;">
 
-                            <!-- 카드들 담기는 곳-->
+                            <!-- place들 담기는 곳-->
                             <div class="placeList">
                                 <div class="col-12 ftco-animate fadeInUp ftco-animated" id="placeScroll">
                                     <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">
                                         <a class="blog-img mr-4 placeImage"></a>
                                         <div class="text">
                                             <h3 class="heading placeTitle"></h3>
-                                            <p class="placeAddr" ></p>
+                                            <p class="placeAddr"></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -433,6 +432,7 @@
                     '                                </div>\n' +
                     '                            </div>';
             };
+
 
 
             $(".planModify").on("click", function(e){
@@ -507,7 +507,7 @@
 
 
                                     $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox">\n' +
-                                        '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + ')"></a>\n' +
+                                        '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + '); background-size: cover;"></a>\n' +
                                         '                                        <div class="text">\n' +
                                         '                                            <a href="/detail?content_id=' + contentId +'"><h3 class="heading placeTitle">' + name + '</h3></a>\n' +
                                         '                                            <p class="placeAddr">' + addr + '</p>\n' +
@@ -534,34 +534,34 @@
                 });
             }); // planCard 클릭 했을 때 끝
 
-			// mypage review 삭제하기 눌렀을 때
-			$(".btn-rev-del").click(function(event){
+            // mypage review 삭제하기 눌렀을 때
+            $(".btn-rev-del").click(function(event){
 
-				console.log('리뷰 삭제?');
-				if (confirm("삭제하시겠습니까?")) {
-				var reviewCnt = $("#review_cnt").text();
-				var id = $(this).parent().parent().find('.review_id').val();
-				console.log(id);
+                console.log('리뷰 삭제?');
+                if (confirm("삭제하시겠습니까?")) {
+                    var reviewCnt = $("#review_cnt").text();
+                    var id = $(this).parent().parent().find('.review_id').val();
+                    console.log(id);
 
-				$.ajax({
-				url: "/mypage/remove",
-				data: {id:id},
-				type:"get",
-				dataType:"json",
-				contentType: 'application/text; charset=UTF-8',
-				success: function(response){
-					console.log('삭제 성공');
-					console.log(response);
-				},
-				error: function (response) {
-					console.log('에러');
-					console.log(response);
-				}
-				});
+                    $.ajax({
+                        url: "/mypage/remove",
+                        data: {id:id},
+                        type:"get",
+                        dataType:"json",
+                        contentType: 'application/text; charset=UTF-8',
+                        success: function(response){
+                            console.log('삭제 성공');
+                            console.log(response);
+                        },
+                        error: function (response) {
+                            console.log('에러');
+                            console.log(response);
+                        }
+                    });
 
-				$(this).parent().parent().remove();
-				$("#review_cnt").text(--reviewCnt);
-			    }
+                    $(this).parent().parent().remove();
+                    $("#review_cnt").text(--reviewCnt);
+                }
 
             });
 
@@ -612,10 +612,10 @@
                 else if(!getPwCheck.test($("#newPw").val()) || $("#newPw").val().length < 8){
                     $('#newPwMsg').html('<b>특수문자 포함 8자 이상 입력하세요</b>');
                     chk2 = false;
-                          } else{
-                              $('#newPwMsg').html('');
+                } else{
+                    $('#newPwMsg').html('');
                     chk2 = true;
-                          }
+                }
             });
 
             // 비밀번호 확인
@@ -625,46 +625,46 @@
                     chk3=false;
                 } else if($("#newPw").val() != $("#newPwCheck").val()){
                     $('#newPwMsg').html('<b>비밀번호가 일치하지 않습니다.</b>');
-					chk3 = false;
+                    chk3 = false;
                 } else {
                     $('#newPwMsg').html('');
-					chk3 = true;
+                    chk3 = true;
                 }
             });
 
             //비밀번호 변경 요청 처리하기
             $('#save_pw').click(function(e){
                 if(chk1 == false) {
-					alert('현재 비밀번호가 틀렸습니다.');
+                    alert('현재 비밀번호가 틀렸습니다.');
 
-				} else if(chk2 == false){
-					alert('비밀번호를 특수문자 포함 8자 이상으로 설정해야 합니다.');
-				} else if(chk3 == false){
-					alert('새로운 비밀번호를 두 번 모두 입력해야 합니다. ');
+                } else if(chk2 == false){
+                    alert('비밀번호를 특수문자 포함 8자 이상으로 설정해야 합니다.');
+                } else if(chk3 == false){
+                    alert('새로운 비밀번호를 두 번 모두 입력해야 합니다. ');
 
-				} else if(chk1 && chk2 && chk3){
-				    var newPw = {"newPw": $("#newPw").val()};
+                } else if(chk1 && chk2 && chk3){
+                    var newPw = {"newPw": $("#newPw").val()};
 
-				    console.log(newPw);
+                    console.log(newPw);
 
-				    $.ajax({
-				        type: "post",
-				        url: "/mypage/change_password",
-				        dataType: "text",
-				        data: newPw,
-				        success: function(result){
-				            console.log("result: "+result);
-				            if(result === "changeSuccess"){
-				                alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
-				                location.href="/logout";
-				            } else{
-				                alert('현재 비밀번호가 틀렸습니다.');
-				            }
-				        }
-				    });
-				} else{
-				    alert('입력정보를 다시 확인하세요.');
-				}
+                    $.ajax({
+                        type: "post",
+                        url: "/mypage/change_password",
+                        dataType: "text",
+                        data: newPw,
+                        success: function(result){
+                            console.log("result: "+result);
+                            if(result === "changeSuccess"){
+                                alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
+                                location.href="/logout";
+                            } else{
+                                alert('현재 비밀번호가 틀렸습니다.');
+                            }
+                        }
+                    });
+                } else{
+                    alert('입력정보를 다시 확인하세요.');
+                }
             });
 
         });

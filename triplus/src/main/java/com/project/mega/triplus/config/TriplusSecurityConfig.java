@@ -79,7 +79,6 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .formLogin().loginPage("/login").successForwardUrl("/").permitAll()
-
                 .and()
 
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true)

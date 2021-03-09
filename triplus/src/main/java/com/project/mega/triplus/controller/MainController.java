@@ -5,8 +5,6 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
 import com.project.mega.triplus.repository.PlaceRepository;
-import com.project.mega.triplus.repository.PlanRepository;
-import com.project.mega.triplus.repository.UserRepository;
 import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,6 +71,13 @@ public class MainController {
         return "index";
     }
 
+    @PostMapping("/")
+    public String main(Model model){
+        List<Place> placeList = placeService.getPlace();
+        model.addAttribute("placeList", placeList);
+        return "index";
+    }
+
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("status", "login");
@@ -112,6 +113,7 @@ public class MainController {
                     break;
             }
         }
+
 
         model.addAttribute("keyword", keyword);
         // null check
@@ -156,6 +158,9 @@ public class MainController {
 
         rand = Math.max((int) (Math.random() * (recommendPlaces_food.size() - cnt)), 0);
         model.addAttribute("recommendPlaces_food", recommendPlaces_food.subList(rand, rand + Math.min(recommendPlaces_food.size(), cnt)));
+
+        Place like = placeService.getPlaceByContentId(contentId);
+        model.addAttribute("like", like);
 
         return "view/detail";
     }
@@ -365,8 +370,7 @@ public class MainController {
 
         Set<String> citySet = new HashSet<>(Arrays.asList("1", "2", "31", "32", "6", "7", "4", "5", "3", "38", "39"));
 
-        model.addAttribute("planList", allPlans
-        .stream().filter(city -> citySet.contains(city.getMainAreaCode())).collect(Collectors.toList()));
+        model.addAttribute("planList", allPlans);
 
         return "view/total_plan";
     }
@@ -422,9 +426,9 @@ public class MainController {
         return "view/total_place";
     }
 
-    @GetMapping("/access_denied")
-    public String accessDenied()
-    {
+    @RequestMapping("/access_denied")
+    public String accessDenied() {
+
         return "view/access_denied";
     }
 
@@ -463,7 +467,9 @@ public class MainController {
     @ResponseBody
     public Plan myPlan(@CurrentUser User user,
                          @RequestParam(value = "id") Long id ){
-        return planService.getPlanById(id);
+        Plan planById = planService.getPlanById(id);
+        System.out.println(planById);
+        return planById;
     }
 
     @PostMapping("/header/checkNickName")
