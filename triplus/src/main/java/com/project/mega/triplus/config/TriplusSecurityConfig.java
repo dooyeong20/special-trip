@@ -55,6 +55,8 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/join/**",
                         "/check-email-token/**",
                         "/reset-password",  // 비밀번호 재설정
+                        "/password-issue",
+                        "/view/notify",
                         "/plan"     // 테스트용
                 ).permitAll()
 

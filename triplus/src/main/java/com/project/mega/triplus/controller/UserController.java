@@ -107,16 +107,22 @@ public class UserController {
     }
 
     @PostMapping("/password-issue")
-    public String changePasswordSubmit(String email, Model model){
+    @ResponseBody
+    public String changePasswordSubmit(@RequestParam(value = "findPwEmail") String email, Model model){
+        String result=null;
 
-        // 메일 보내기
-        userService.sendMailResetPassword(email);
+        try {
+            // 메일 보내기
+            userService.sendMailResetPassword(email);
 
-        // 결과 view에
-        model.addAttribute("email", email);
-        model.addAttribute("result_code", "password.reset.send");
-
-        return "/view/notify";
+            // 결과 view에
+            model.addAttribute("email", email);
+            model.addAttribute("result_code", "password.reset.send");
+            result = "이메일 전송 완료";
+        } catch (Exception e){
+            result = "오류";
+        }
+        return result;
     }
 
     @GetMapping("/reset-password")
@@ -125,7 +131,7 @@ public class UserController {
         User user = userRepository.findByEmail(email);
         if(user == null){
             model.addAttribute("result", false);
-            return "view/user/reset-password";
+            return "/user/reset-password";
         }
 
         // 그 emailCheckToken과 token을 비교
@@ -134,25 +140,23 @@ public class UserController {
         // 틀리면 에러
         if (! emailCheckToken.equals(token)){
             model.addAttribute("result", false);
-            return "view/user/reset-password";
+            return "/user/reset-password";
         }
         // 맞으면 비밀번호 재설정 페이지로
         model.addAttribute("email", email);
         model.addAttribute("result", true);
-        return "view/user/reset-password";
+        return "/user/reset-password";
     }
 
     @PostMapping("/reset-password")
-    public String resetPasswordSubmit(String email, String password, Model model){
+    @ResponseBody
+    public String resetPasswordSubmit(@RequestParam(value = "email")String email, @RequestParam(value = "newPassword") String password){
         userService.processResetPassword(email, password);
-
-        model.addAttribute("result_code", "password.reset.complete");
 
         User user = userRepository.findByEmail(email);
 
         userService.login(user);
 
-        return "/view/notify";
+        return "resetSuccess";
     }
-
 }

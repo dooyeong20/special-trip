@@ -153,12 +153,12 @@
                         <p>가입하신 이메일 주소로 비밀번호 재설정 메일을 보내드립니다.</p>
                     </div>
                     <div class="d-flex flex-column text-center">
-                        <form class="needs-validation" th:action="@{/password-issue}" method="post" name="loginForm" novalidate>
+                        <form class="needs-validation" action="#" method="post" name="pwFindForm" id="pwFindForm" novalidate>
                         <div class="form-group">
                             <input type="email" class="form-control" name="findPwEmail" id="findPwEmail" placeholder="이메일"><br>
                         </div>
                         <div class="d-flex flex-column text-center">
-                            <button type="submit" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" name="findPwBtn" id="findPwBtn">메일 보내기</button>
+                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" name="findPwBtn" id="findPwBtn">메일 보내기</button>
                         </div>
                         </form>
                     </div>
@@ -232,6 +232,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $("#findPwBtn").click(function(){
+            var form = $('#pwFindForm')[0];
+            var formData=new FormData(form);
+            console.log(email);
+
+            $.ajax({
+                url: '/password-issue',
+                type: 'post',
+                async: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(result) {
+                    console.log('send email');
+                    alert(result);
+                }
+
+            });
+        });
+
+    </script>
 </div>
 
 </html>

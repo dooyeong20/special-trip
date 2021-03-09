@@ -9733,3 +9733,12 @@ textarea.form-control {
     padding-top: 10%;
 }
 */
+
+/* reset-password css */
+.py-5 h2 {
+    padding-top: 10%;
+}
+
+.w-50.btn.btn-dark.btn-lg {
+    margin: 0 70px;
+}
