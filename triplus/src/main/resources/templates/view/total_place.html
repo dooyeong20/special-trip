@@ -263,8 +263,8 @@
                 </div>
             </div>
 
-                <div class="col-md-12 text-center">
-                    <div class="block-27">
+                <div class="col-md-12 text-center d-flex justify-content-center">
+                    <div class="block-27 mb-4">
                         <ul class="pagination" th:with="start=${T(Math).floor(allPlaceList.number/10)*10 + 1},
                     last=(${start + 9 < allPlaceList.totalPages ? start + 9 : allPlaceList.totalPages})">
 

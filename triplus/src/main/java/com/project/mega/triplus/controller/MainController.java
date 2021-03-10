@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,8 +56,6 @@ public class MainController {
         if(!apiService.loadPlaces()){
             log.error(" !!! data load error !!! ");
         }
-
-       planService.createDummyData();
     }
 
     @RequestMapping("/")

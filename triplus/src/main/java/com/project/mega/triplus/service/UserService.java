@@ -23,9 +23,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -93,7 +90,7 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        // sendJoinConfirmEmail(newUser);
+        sendJoinConfirmEmail(newUser);
 
         return newUser;
     }
