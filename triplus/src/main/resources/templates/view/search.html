@@ -9,22 +9,22 @@
       <br>
 
       <div class="col-md-12 text-center">
-        <h2 class="mb-4"><span th:text="${keyword}"></span> 연관 추천여행지</h2>
+        <h2 class="mb-4" style="font-weight: bold;"><span th:text="${keyword}"></span> 연관 추천여행지</h2>
       </div>
       <br>
       <!-- Nav tabs -->
       <ul class="nav nav-tabs nav-justified" role="tablist" style="font-weight: bold; font-size: 20px">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#attraction">관광명소</a>
+          <a class="nav-link active" data-toggle="tab" href="#attraction" style="font-weight: bold;">관광명소</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#food">음식점</a>
+          <a class="nav-link" data-toggle="tab" href="#food" style="font-weight: bold;">음식점</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#shop">쇼핑</a>
+          <a class="nav-link" data-toggle="tab" href="#shop" style="font-weight: bold;">쇼핑</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#festival">축제</a>
+          <a class="nav-link" data-toggle="tab" href="#festival" style="font-weight: bold;">축제</a>
         </li>
       </ul>
 
@@ -40,7 +40,7 @@
                 <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'" >
                 </a>
                 <div class="text p-4 d-block">
-                  <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
+                  <h3 class="heading mb-2"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
                   <div class="mb-4"><a th:text="${place.addr1}"></a></div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                   <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'">
                   </a>
                   <div class="text p-4 d-block">
-                    <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
+                    <h3 class="heading mb-2"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
                       <div class="mb-4"><a th:text="${place.addr1}"></a></div>
                   </div>
                 </div>
@@ -71,10 +71,10 @@
             <th:block th:each="place : ${shopList}">
               <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                 <div class="blog-entry align-self-stretch" style="width:245px">
-                  <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.image} + '); background-size: cover; background-repeat: no-repeat;'">
+                  <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'">
                   </a>
                   <div class="text p-4 d-block">
-                    <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
+                    <h3 class="heading mb-2"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
                       <div class="mb-4"><a th:text="${place.addr1}"></a></div>
                   </div>
                 </div>
@@ -91,7 +91,7 @@
                   <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.imageUrl} + '); background-size: cover; background-repeat: no-repeat;'">
                   </a>
                   <div class="text p-4 d-block">
-                    <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
+                    <h3 class="heading mb-2"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.placeName}"></a></h3>
                       <div class="mb-4"><a th:text="${place.addr1}"></a></div>
                   </div>
                 </div>
