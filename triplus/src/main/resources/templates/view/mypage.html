@@ -253,7 +253,7 @@
 
                                     <tr align="center">
                                         <td colspan="2">
-                                            <button type="submit" id="save" class="btn btn-primary mb-2 mr-sm-2" style="font-weight: bold;">
+                                            <button type="submit" id="save" name="save" class="btn btn-primary mb-2 mr-sm-2" style="font-weight: bold;">
                                                 수정
                                             </button>
                                             <button type="button" id="delete" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#deleteUser" style="font-weight: bold;">
@@ -559,6 +559,15 @@
                     $("#review_cnt").text(--reviewCnt);
                 }
 
+            });
+
+            $('#save').on('click', function(){
+                if(confirm("정말 수정하시겠습니까?") == true){
+                    alert("수정되었습니다.");
+                }
+                else{
+                    return;
+                }
             });
 
             // 비밀번호 변경 script

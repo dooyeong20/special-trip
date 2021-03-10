@@ -12,8 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 @Profile("dev")
 @Service
-@Slf4j
-@RequiredArgsConstructor
+@Slf4j @RequiredArgsConstructor
 public class HtmlEmailService implements EmailService {
 
     private final JavaMailSender javaMailSender;
