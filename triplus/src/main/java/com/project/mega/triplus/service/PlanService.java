@@ -98,7 +98,7 @@ public class PlanService {
 
         plan.setUser(user);
         plan.setName(planForm.getPlan());
-        plan.setUpdate(LocalDateTime.now());
+        plan.setUpdateTime(LocalDateTime.now());
 
         List<Day> tmpList = new ArrayList<>();
 
