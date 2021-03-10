@@ -17,7 +17,7 @@
                 <ul class="nav nav-tabs flex-column col-3" role="tablist">
                     <a class="active text-center" th:href="@{/mypage}"><i class="fas fa-user-circle fa-10x mb-2 mr-sm-2"></i></a>
 
-                    <p class="text-center" th:text="${user.nickName} + '님 환영합니다'"></p>
+                    <p class="text-center" th:text="${user.nickName} + '님 환영합니다'" style="font-weight: bold;"></p>
 
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#myPlan" style="font-weight: bold; font-size: 18px"><i class="far fa-calendar-alt fa-lg mb-2 mr-sm-2"></i>내 일정 보기</a>
@@ -40,7 +40,7 @@
                     <div id="myPlan" class="container tab-pane active"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
-                                <h2 class="mb-4"><i class="far fa-calendar-alt"></i> 내 일정 보기</h2>
+                                <h2 class="mb-4" style="font-weight: bold;"><i class="far fa-calendar-alt"></i> 내 일정 보기</h2>
                             </div>
 
                             <div class="row">
@@ -57,7 +57,7 @@
                                                     <div><a th:text="${plan.user.nickName}"></a></div>
                                                 </div>
                                                 <div class="planModify" style="text-align : right;">
-                                                    <a th:href="'/plan?plan_id=' + ${plan.id}">수정</a>
+                                                    <a th:href="'/plan?plan_id=' + ${plan.id}" style="font-weight: bold;">수정</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -71,11 +71,11 @@
                     <div id="myReview" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
-                                <h2 class="mb-4"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
+                                <h2 class="mb-4" style="font-weight: bold;"><i class="far fa-comment"></i> 내 리뷰 보기</h2>
                             </div>
 
                             <!-- count my reviews -->
-                            <div class="section-header section-label">
+                            <div class="section-header section-label" style="font-weight: bold;">
                                 <span id="review_cnt" class="section-label" th:text="${#lists.isEmpty(reviewList)} ? 0 : ${#lists.size(reviewList)}"></span>
                                 개의 리뷰
                             </div>
@@ -104,7 +104,7 @@
                                                 <div class="review-footer d-flex align-items-center justify-content-between">
 
                                                     <time class="review_place_name text-secondary" th:text="${review.regdate}"></time>
-                                                    <button type="button" class="btn-rev-del">삭제</button>
+                                                    <button type="button" class="btn-rev-del" style="font-weight: bold;">삭제</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,7 +119,7 @@
                     <div id="myLike" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
-                                <h2 class="mb-4"><i class="fas fa-heart"></i> 찜목록</h2>
+                                <h2 class="mb-4" style="font-weight: bold;"><i class="fas fa-heart"></i> 찜목록</h2>
                             </div>
                             <br>
                             <!-- Nav tabs -->
@@ -228,7 +228,7 @@
                     <div id="myInfo" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
-                                <h2 class="mb-4"><i class="fas fa-cog"></i> 내 정보 관리</h2>
+                                <h2 class="mb-4" style="font-weight: bold;"><i class="fas fa-cog"></i> 내 정보 관리</h2>
                             </div>
                             <form th:action="@{/update_info}" method="post" name="updateForm">
 
@@ -245,7 +245,7 @@
 
                                     <tr align="center">
                                         <td colspan="2">
-                                            <button class="btn btn-primary mb-2 mr-sm-2" type="button" data-toggle="modal" data-target="#changePasswordModal">
+                                            <button class="btn btn-primary mb-2 mr-sm-2" type="button" data-toggle="modal" data-target="#changePasswordModal" style="font-weight: bold;">
                                                 비밀번호 변경
                                             </button>
                                         </td>
@@ -253,10 +253,10 @@
 
                                     <tr align="center">
                                         <td colspan="2">
-                                            <button type="submit" id="save" class="btn btn-primary mb-2 mr-sm-2">
+                                            <button type="submit" id="save" class="btn btn-primary mb-2 mr-sm-2" style="font-weight: bold;">
                                                 수정
                                             </button>
-                                            <button type="button" id="delete" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#deleteUser">
+                                            <button type="button" id="delete" class="btn btn-primary mb-2 mr-sm-2" data-toggle="modal" data-target="#deleteUser" style="font-weight: bold;">
                                                 탈퇴
                                             </button>
                                         </td>
@@ -286,13 +286,13 @@
 
                 <div class="modal-body">
                     <div class="form-title text-center">
-                        <h4>정말 탈퇴하시겠습니까?</h4>
+                        <h4 style="font-weight: bold;">정말 탈퇴하시겠습니까?</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form th:action="@{/delete_user}" method="post">
                             <div class="form-group"><br>
-                                <button type="submit" class="btn btn-primary mb-2 mr-sm-2">확인</button>
-                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close">취소</button>
+                                <button type="submit" class="btn btn-primary mb-2 mr-sm-2" style="font-weight: bold;">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close" style="font-weight: bold;">취소</button>
                             </div>
                         </form>
 
@@ -314,7 +314,7 @@
 
                 <div class="modal-body">
                     <div class="form-title text-center">
-                        <h4>비밀번호 변경</h4>
+                        <h4 style="font-weight: bold;">비밀번호 변경</h4>
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form action="#" method="post" name="changePasswordForm" novalidate>
@@ -330,8 +330,8 @@
                                 <span class="error_next_box" id="newPwMsg" style="color: red;"></span>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="save_pw" id="save_pw">확인</button>
-                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close">취소</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="save_pw" id="save_pw" style="font-weight: bold;">확인</button>
+                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" data-dismiss="modal" aria-label="Close" style="font-weight: bold;">취소</button>
                             </div>
                         </form>
                     </div>
@@ -363,8 +363,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -432,8 +430,6 @@
                     '                                </div>\n' +
                     '                            </div>';
             };
-
-
 
             $(".planModify").on("click", function(e){
                 e.stopPropagation();

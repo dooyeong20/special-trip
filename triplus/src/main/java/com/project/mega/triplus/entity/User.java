@@ -6,10 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "nickname"})})
@@ -34,9 +36,6 @@ public class User implements UserDetails {
     private boolean emailVerified;
 
     private String emailCheckToken;
-
-    private boolean telVerified;
-
 
     @Enumerated(EnumType.STRING)
     private Role role;

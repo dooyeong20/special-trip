@@ -8,27 +8,27 @@
 		<div class="container">
 			<div class="row d-flex contact-info">
 				<div class="row col-md-12 mb-3">
-					<h2 th:text="${item.placeName}"></h2>
+					<h2 th:text="${item.placeName}" style="font-weight: bold;"></h2>
 					<input type="hidden" id="content_id" name="content_id" th:value="${content_id}">
 					<input type="hidden" id="mapX" th:value="${item.mapX}">
 					<input type="hidden" id="mapY" th:value="${item.mapY}">
-					<button th:if="${user}" type="button" id="like" class="btn btn-primary ml-3 mb-2">
+					<button th:if="${user}" type="button" id="like" class="btn btn-primary ml-3 mb-2" style="font-weight: bold;">
 						찜하기
 					</button>
 					<div>
-						<input type="hidden" id="likedCounts" th:value="${like.liked}">
-						<span><i class="fas fa-heart fa-lg mt-3 ml-3" id="heart" th:text="' ' + ${like.liked}"></i></span>
+						<input type="hidden" id="likedCounts" th:value="${like.liked}" style="font-weight: bold;">
+						<span><i class="fas fa-heart fa-lg mt-3 ml-3" id="heart" th:text="' ' + ${like.liked}" style="font-weight: bold;"></i></span>
 					</div>
 				</div>
 
 				<div class="col-md-4">
-					<p><span>Address :</span> <span th:text="${item.addr1}"></span></p>
+					<p style="font-weight: bold;"><span>Address :</span> <span th:text="${item.addr1}"></span></p>
 				</div>
 				<div class="col-md-4">
-					<p><span>Phone :</span> <a href="#" th:text="${item.tel}"></a></p>
+					<p style="font-weight: bold;"><span>Phone :</span> <a href="#" th:text="${item.tel}"></a></p>
 				</div>
 				<div class="col-md-4">
-					<p><span>Website :</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
+					<p style="font-weight: bold;"><span>Website :</span> <span th:remove="tag" th:utext="${item.homepage}"></span></p>
 				</div>
 
 			</div>
@@ -91,7 +91,7 @@
 									<textarea name="content" id="message" cols="30" rows="5" style="width:100%" class="form-control"></textarea>
 								</div>
 								<div class="form-group text-right">
-									<input type="submit" value="등록" class="btn btn-primary">
+									<input type="submit" value="등록" class="btn btn-primary" style="font-weight: bold;">
 								</div>
 								<input type="hidden" name="content_id" th:value="${content_id}">
 							</form>
@@ -107,7 +107,7 @@
 
 						<div class="sidebar ftco-animate fadeInUp ftco-animated pt-5">
 							<div class="ftco-animate fadeInUp ftco-animated">
-								<h3 class="p-2">인근 명소</h3>
+								<h3 class="p-2" style="font-weight: bold;">인근 명소</h3>
 
 								<th:block th:each="place : ${recommendPlaces_attraction}">
 									<th:block th:if="${place.imageUrl}">
@@ -126,7 +126,7 @@
 							</div>
 
 							<div class="ftco-animate fadeInUp ftco-animated pt-5">
-								<h3 class="p-2">인근 음식점</h3>
+								<h3 class="p-2" style="font-weight: bold;">인근 음식점</h3>
 								<th:block th:each="place : ${recommendPlaces_food}">
 									<th:block th:if="${place.imageUrl}">
 										<div class="col-12 ftco-animate fadeInUp ftco-animated">

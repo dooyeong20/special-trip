@@ -5,42 +5,32 @@ import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.JoinFormValidator;
 import com.project.mega.triplus.repository.UserRepository;
-
+import com.project.mega.triplus.util.EmailMessage;
+import com.project.mega.triplus.util.EmailService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import com.project.mega.triplus.util.EmailMessage;
-import com.project.mega.triplus.util.EmailService;
-
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
 @Service
-@Getter
-@RequiredArgsConstructor
-@Slf4j
+@Getter @RequiredArgsConstructor
+@Slf4j @Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -79,9 +69,9 @@ public class UserService implements UserDetailsService {
         UserUser userUser = new UserUser(user);
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(
-                        userUser, // user,
-                        userUser.getPassword(), //user.getPassword(),
-                        userUser.getAuthorities() //user.getAuthorities()
+                        userUser,
+                        userUser.getPassword(),
+                        userUser.getAuthorities()
                 );
 
         SecurityContext context = SecurityContextHolder.getContext();
@@ -93,7 +83,7 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        // sendJoinConfirmEmail(newUser);
+        sendJoinConfirmEmail(newUser);
 
         return newUser;
     }
@@ -145,7 +135,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(user.getEmail()).getMyPlans();
     }
 
-    @Transactional
     public void updateUser(String email, String nickName) {
         User user = userRepository.findByEmail(email);
         user.setNickName(nickName);
@@ -153,21 +142,15 @@ public class UserService implements UserDetailsService {
         login(updateUser);
     }
 
-    @Transactional
     public void changePassword(User user, String newPw) {
         user=userRepository.findByEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(newPw));
         userRepository.save(user);
     }
 
-    public void resetPassword(String email, String newPassword){
-
-    }
     public void sendMailResetPassword(String email) {
-        // email 파람으로 findByEmail()
         User user = userRepository.findByEmail(email);
 
-        // 해당 회원 있는지 확인
         if(user == null){
             return;
         }
@@ -175,11 +158,14 @@ public class UserService implements UserDetailsService {
         sendEmail(user, "TRIPLus - 비밀번호 재설정", "/reset-password", "비밀번호 재설정", "비밀번호 재설정을 위해 링크를 클릭해주세요.");
     }
 
-    @javax.transaction.Transactional // Repository 외부에서 엔티티.setXXX()가 호출되는 경우면 필수.
     public void processResetPassword(String email, String password) {
         User user = userRepository.findByEmail(email);
         user.setPassword(passwordEncoder.encode(password));
 
+    }
+
+    public boolean existsNickName(String nickName) {
+        return userRepository.existsNickNameByNickName(nickName);
     }
 }
 

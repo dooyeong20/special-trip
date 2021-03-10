@@ -1,6 +1,5 @@
 package com.project.mega.triplus.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,10 +48,4 @@ public class Place {
     private String mapX;
 
     private String mapY;
-
-    private String cat1;
-
-    private String cat2;
-
-    private String cat3;
 }
