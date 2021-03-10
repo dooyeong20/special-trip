@@ -340,6 +340,80 @@
         </div>
     </div>
 
+    <!-- main modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h3 class="plan-title"><a></a></h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="ftco-animate fadeInUp ftco-animated">
+                        <div id="modalScroll" style="height: auto; overflow-y: scroll;">
+                            <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">
+                                <div class="card-body">
+                                    <a><span class="tag" style="font-weight: bold; font-size: 30px">Day</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- sub modal -->
+    <div class="modal fade" id="myDay">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h3 class="day-title" style="font-weight: bold;"><a></a></h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="ftco-animate fadeInUp ftco-animated">
+                        <div style="height: auto; overflow-y: scroll;">
+
+                            <!-- place들 담기는 곳-->
+                            <div class="placeList">
+                                <div class="col-12 ftco-animate fadeInUp ftco-animated" id="placeScroll">
+                                    <div class="block-21 mb-4 d-flex placeBox" style="display: none !important;">
+                                        <a class="blog-img mr-4 placeImage"></a>
+                                        <div class="text">
+                                            <h3 class="heading placeTitle"></h3>
+                                            <p class="placeAddr"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <script th:inline="javascript">
         $( document ).ready(function() {
@@ -356,8 +430,6 @@
                     '                                </div>\n' +
                     '                            </div>';
             };
-
-
 
             $(".planModify").on("click", function(e){
                 e.stopPropagation();
