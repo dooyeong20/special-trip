@@ -179,12 +179,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group text-center">
+                                <input type="password" autocomplete="password" class="form-control" id="joinPasswordConfirm" name="joinPasswordConfirm" placeholder="비밀번호 확인" required=""><br>
+                                <span class="error_next_box" id="confirmPwMsg" style="color: red;"></span>
+                                <div class="invalid-feedback">
+                                    비밀번호를 입력해주세요.
+                                </div>
+                            </div>
+
                             <hr class="col-12 my-4">
 
                             <!-- 약관 -->
                             <div class="form-check text-center">
                                 <input type="checkbox" class="form-check-input" id="agreement" value="true" name="checklist">
-                                <label class="form-check-label" for="agreement" style="font-weight: bold;">회원가입 약관에 동의합니다.</label>
+                                <label class="form-check-label" for="agreement" style="font-weight: bold;">많이 이용해주세요!</label>
                                 <div class="invalid-feedback">약관에 동의하셔야 합니다.</div>
                             </div>
 
@@ -206,7 +214,7 @@
 
                 const getEmailCheck= RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
 
-                let chk1=false, chk2=false, chk3=false;
+                let chk1=false, chk2=false, chk3=false, chk4=false;
 
                 // 닉네임 중복검사
                 $('#joinNickname').on('keyup', function(){
@@ -223,7 +231,6 @@
                             data: nickNameCheck,
                             datatype: "json",
                             success: function(message){
-                                console.log('>>>>');
                                 console.log(message);
                                 if(message === "nickNameNO"){
                                     $('#nickNameMsg').html('<b>이미 존재하는 닉네임 입니다.</b>');
@@ -272,6 +279,18 @@
                     }
                 });
 
+                // 비밀번호 확인
+                $('#joinPasswordConfirm').on('keyup', function(){
+                    if($('#joinPasswordConfirm').val() !== $('#joinPassword').val()){
+                        $('#confirmPwMsg').html('<b>비밀번호가 일치하지 않습니다.</b>');
+                        chk4=false;
+                    }
+                    else{
+                        $('#confirmPwMsg').html('');
+                        chk4 = true;
+                    }
+                });
+
                 // 회원가입 폼 보내기
                 $('#joinBtn').click(function(e){
                     if(chk1 == false){
@@ -280,7 +299,9 @@
                         alert('이메일을 다시 확인해주세요.');
                     } else if(chk3 == false){
                         alert('비밀번호를 다시 확인해주세요.');
-                    } else if(chk1 && chk2 && chk3){
+                    } else if(chk4 == false){
+                        alert('비밀번호가 일치하지 않습니다.');
+                    } else if(chk1 && chk2 && chk3 && chk4){
 
                         var form = $('#joinForm')[0];
                         var formData = new FormData(form);
