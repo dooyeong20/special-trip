@@ -41,11 +41,8 @@
 							<th:block th:each="imageUrl : ${item.imageUrls}">
 								<div class="col-md-6 col-lg-4 ftco-animate fadeInUp ftco-animated">
 									<div class="destination">
-										<a href="#" class="img img-2 d-flex justify-content-center align-items-center" th:style="'background:url(' + ${imageUrl} + '); background-size: cover; background-repeat: no-repeat;'" />
-										<div class="icon d-flex justify-content-center align-items-center">
-											<i class="fas fa-search"></i>
+										<div href="#" class="img img-2 d-flex justify-content-center align-items-center" th:style="'background:url(' + ${imageUrl} + '); background-size: cover; background-repeat: no-repeat;'">
 										</div>
-										</a>
 									</div>
 								</div>
 							</th:block>

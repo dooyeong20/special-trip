@@ -7759,24 +7759,6 @@ h1, h2, h3, h4, h5,
     height: 300px; }
   .destination .img-2 {
     height: 200px; }
-  .destination .icon {
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    opacity: 0;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    border-radius: 50%;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    transition: all 0.3s ease; }
-    .destination .icon span {
-      color: #000000; }
-  .destination:hover .icon {
-    opacity: 1; }
   .destination .text {
     border: 1px solid #e6e6e6;
     border-top: 1px solid transparent;
