@@ -43,14 +43,12 @@ public class PlanService {
 
     public Long savePlan(User user, Plan plan, PlanForm planForm) {
         Day day;
-        Place place;
 
         plan.setUser(user);
         plan.setName(planForm.getPlan());
         plan.setUpdateTime(LocalDateTime.now());
 
         List<Day> tmpList = new ArrayList<>();
-
 
         for(List<Map<String, String>> d : planForm.getDayList()){
             day = new Day();

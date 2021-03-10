@@ -9,15 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +33,6 @@ public class PlaceService {
     private EntityManager em;
 
     public List<Place> getPlace() {
-        // 좋아요(liked) 많은순(내림차순)으로 findAll.
         return placeRepository.findFirst6ByOrderByLikedDesc();
     }
 
@@ -98,7 +97,6 @@ public class PlaceService {
         review.setRegdate(LocalDateTime.now().toString().substring(0, 10));
 
         em.persist(place);
-//        placeRepository.save(place);      // 이거 안되고 em.persist 만 됨
     }
 
     public Page<Place> getPlaceList(Pageable pageable, String type){
@@ -116,6 +114,22 @@ public class PlaceService {
     }
 
 
+    public List<Place> addPlaces() {
+        Random random = new Random();
+
+        List<Place> placeList = placeRepository.findAllByContentType("12");
+        placeList.addAll(placeRepository.findAllByContentType("15"));
+        placeList.addAll(placeRepository.findAllByContentType("38"));
+        placeList.addAll(placeRepository.findAllByContentType("39"));
+
+        List<Place> pickedList = new ArrayList<>();
+
+        for(int i=0; i<400; ++i){
+            pickedList.add(placeList.get(random.nextInt(placeList.size())));
+        }
+
+        return pickedList;
+    }
 }
 
 

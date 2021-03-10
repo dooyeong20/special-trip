@@ -22,7 +22,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -34,11 +33,8 @@ public class ApiService {
     private final String SHOP = "38";
     private final String FOOD = "39";
     private final String KEY;
-    private final String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
     private final String APP_NAME = "TRIPLus";
-    private final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
     private final String Y = "Y";
-    private final String PAGE_SIZE = "10000";
 
     @PersistenceContext
     private EntityManager em;
@@ -102,18 +98,15 @@ public class ApiService {
                     place.setAddr(item.getAddr1());
                     place.setMapX(item.getMapX());
                     place.setMapY(item.getMapY());
-                    place.setCat1(item.getCat1());
-                    place.setCat2(item.getCat2());
-                    place.setCat3(item.getCat3());
                     place.setAreaCode(item.getAreacode());
                     place.setAddr1(item.getAddr1());
                     if(item.getImageUrl() == null){
+                        String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1580907114587-148483e7bd5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
                         item.setImageUrl(DEFAULT_IMAGE);
                     }
                     place.setThumbnailUrl(item.getImageUrl());
                     place.setTel(item.getTel());
 
-                    // TODO: repository refactoring
                     em.persist(place);
                     em.flush();
                     em.clear();
@@ -184,13 +177,14 @@ public class ApiService {
         return getXMLString(urlBuilder);
     }
 
-    // 기본 제공 param
     private StringBuilder getStringBuilder(String service) {
+        String API_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
         StringBuilder urlBuilder= new StringBuilder(API_URL + service);
         urlBuilder.append("?").append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8)).append("=").append(KEY);
 
         addParam(urlBuilder, "MobileOS", "ETC");
         addParam(urlBuilder, "MobileApp", APP_NAME);
+        String PAGE_SIZE = "10000";
         addParam(urlBuilder, "numOfRows", PAGE_SIZE);
 
         return urlBuilder;
@@ -244,12 +238,10 @@ public class ApiService {
         List<XMLResponseItem> images;
 
         try{
-            // get item
             xmlString = getDetailCommonXML(contentId);
             response = getXMLResponse(xmlString);
             item = response.getBody().getItemContainer().getItems().get(0);
 
-            // get item's images
             xmlString = getDetailImageXML(contentId);
             response = getXMLResponse(xmlString);
             images = response.getBody().getItemContainer().getItems();
@@ -284,7 +276,6 @@ public class ApiService {
         return itemList;
     }
 
-    // 키워드 조회
     public List<XMLResponseItem> getKeywordResultList(String keyword) {
         String xmlString;
         XMLResponse response;
@@ -304,59 +295,3 @@ public class ApiService {
     }
 
 }
-
-/*
-    basic url : http://api.visitkorea.or.kr/openapi/service/rest/KorService/
-
-
-    -------------------------------------------------------
-    < 요청 api 종류 >
-    국문 관광정보 서비스
-
-    1   areaCode	지역코드 조회
-    2	categoryCode	서비스 분류코드 조회
-    3	areaBasedList	지역기반 관광정보 조회
-    4	locationBasedList	위치기반 관광정보 조회
-    5	searchKeyword	키워드 검색 조회
-    6	searchFestival	[행사/공연/축제]날짜로 목록 조회
-    7	searchStay	[숙박] 베니키아,한옥,굿스테이 목록 조회
-    8	detailCommon	상세정보1 - 공통정보 조회
-    9	detailIntro	상세정보2 - 소개정보 조회
-    10	detailInfo	상세정보3 - 반복정보 조회
-    11	detailImage	상세정보4 - 이미지정보 조회
-    -------------------------------------------------------
-
-    ------------------------------
-    < 콘텐츠 아이디(타입) 코드표 >
-    관광지	        12
-    문화시설	        14
-    행사/공연/축제	15
-    여행코스	        25
-    레포츠	        28
-    숙박	            32
-    쇼핑	            38
-    음식점	        39
-    -------------------------------
-
-    -------------------------------
-    < areaCode >
-
-    1 서울
-    2 인천
-    3 대전
-    4 대구
-    5 광주
-    6 부산
-    7 울산
-    8 세종특별자치시
-    31 경기도
-    32 강원도
-    33 충청북도
-    34 충청남도
-    35 경상북도
-    36 경상남도
-    37 전라북도
-    38 전라남도
-    39 제주도
-    -------------------------------
-*/

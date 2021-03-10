@@ -2,12 +2,10 @@ package com.project.mega.triplus.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import javassist.bytecode.ExceptionsAttribute;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +23,6 @@ public class Plan {
 
     @Column(name = "update_time")
     private LocalDateTime updateTime;
-
-    @Enumerated(EnumType.STRING)
-    private PlanStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
