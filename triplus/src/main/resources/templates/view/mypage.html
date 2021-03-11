@@ -226,6 +226,7 @@
                         </div>
                     </div>
 
+
                     <div id="myInfo" class="container tab-pane fade"><br>
                         <div class="content">
                             <div class="col-md-12 text-center">
@@ -233,6 +234,7 @@
                             </div>
                             <form th:action="@{/update_info}" method="post" name="updateForm">
 
+                                <!-- 원본
                                 <table width="500" height="500" align="center" rules="none">
                                     <tr align="center">
                                         <td width="20%" style="font-weight: bold">Email</td>
@@ -262,7 +264,44 @@
                                             </button>
                                         </td>
                                     </tr>
-                                </table>
+                                    -->
+
+                                    <!-- 테스트 -->
+                                    <div class="mypage-sec">
+                                        <div class="section first-sec">
+                                            <div class="row">
+                                                <div class="title title-sec" style="font-weight: bold;">Email</div>
+                                                <div class="value">
+                                                    <input type="text" th:value="${user.email}" name="email" readonly>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row first-row">
+                                                <div class="title title-sec" style="font-weight: bold;">Nickname</div>
+                                                <div class="value">
+                                                    <input type="text" th:value="${user.nickName}" id="nickName" name="nickName" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="section second-sec">
+                                            <button class="btn btn-primary mb-2 mr-sm-2" type="button" data-toggle="modal" data-target="#changePasswordModal" style="font-weight: bold;">
+                                                비밀번호 변경
+                                            </button>
+                                        </div>
+
+                                        <div class="section last-sec">
+                                            <div class="row last-row">
+                                                <button type="submit" id="save" name="save" class="btn btn-primary mb-2 mr-sm-2" style="font-weight: bold;">
+                                                    수정
+                                                </button>
+                                                <button type="button" id="delete" class="btn btn-secondary mb-2 mr-sm-2" data-toggle="modal" data-target="#deleteUser" style="font-weight: bold;">
+                                                    탈퇴
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                             </form>
 
 
