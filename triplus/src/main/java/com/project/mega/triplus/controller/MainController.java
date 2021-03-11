@@ -1,19 +1,10 @@
 package com.project.mega.triplus.controller;
 
 import com.google.gson.JsonObject;
-import com.project.mega.triplus.entity.Place;
-import com.project.mega.triplus.entity.Plan;
-import com.project.mega.triplus.entity.Review;
-import com.project.mega.triplus.entity.User;
-import com.project.mega.triplus.entity.XMLResponseItem;
+import com.project.mega.triplus.entity.*;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
-import com.project.mega.triplus.service.ApiService;
-import com.project.mega.triplus.service.CurrentUser;
-import com.project.mega.triplus.service.PlaceService;
-import com.project.mega.triplus.service.PlanService;
-import com.project.mega.triplus.service.ReviewService;
-import com.project.mega.triplus.service.UserService;
+import com.project.mega.triplus.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,21 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -202,16 +183,6 @@ public class MainController {
         return "view/plan";
     }
 
-    @GetMapping("/widgets")
-    public String w(){
-        return "view/admin/widgets";
-    }
-
-    @GetMapping("/admin")
-    public String admin(){
-
-        return "view/admin/admin";
-    }
 
     @GetMapping("/detail/remove")
     @ResponseBody
