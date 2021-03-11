@@ -16,8 +16,8 @@
 						찜하기
 					</button>
 					<div>
-						<input type="hidden" id="likedCounts" th:value="${like.liked}" style="font-weight: bold;">
-						<span><i class="fas fa-heart fa-lg mt-3 ml-3" id="heart" th:text="' ' + ${like.liked}" style="font-weight: bold;"></i></span>
+						<input type="hidden" id="likedCounts" th:value="${like.liked}">
+						<span><i class="fas fa-heart fa-lg mt-3 ml-3 text-primary" id="heart" th:text="' ' + ${like.liked}"></i></span>
 					</div>
 				</div>
 
@@ -155,35 +155,31 @@
 			var mapX = $("#mapX").val();
 			var mapY = $("#mapY").val();
 
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			var mapContainer = document.getElementById('map'),
 			mapOption = {
-				center: new kakao.maps.LatLng(mapY, mapX), // 지도의 중심좌표
-				level: 3 // 지도의 확대 레벨
+				center: new kakao.maps.LatLng(mapY, mapX),
+				level: 3
 			};
 
 			var map = new kakao.maps.Map(mapContainer, mapOption);
 
-			// 마커가 표시될 위치입니다
 			var markerPosition  = new kakao.maps.LatLng(mapY, mapX);
 
-			// 마커를 생성합니다
 			var marker = new kakao.maps.Marker({
 				position: markerPosition
 			});
 
-			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
 
 			var iwContent = '<div style="padding:5px;">'+ $(".contact-info").find("h2").text() +' <br><a href="https://map.kakao.com/link/map/'+ $(".contact-info").find("h2").text() + ',' + mapY + ',' + mapX + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+ $(".contact-info").find("h2").text() +',' + mapY + ',' + mapX + '" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				iwPosition = new kakao.maps.LatLng(mapY, mapX); //인포윈도우 표시 위치입니다
+				iwPosition = new kakao.maps.LatLng(mapY, mapX);
 
-			// 인포윈도우를 생성합니다
+
 			var infowindow = new kakao.maps.InfoWindow({
 				position : iwPosition,
 				content : iwContent
 			});
 
-			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
 			infowindow.open(map, marker);
 
 			var contentId = $("#content_id").val();
@@ -209,7 +205,7 @@
 				$(this).css("font-size", "20px");
 			});
 
-			// 삭제하기 눌렀을 때
+
 			$(".review_del").click(function(){
 				if(confirm("리뷰를 삭제하시겠습니까 ?") == false){
 					return;
@@ -239,7 +235,7 @@
 				$("#comment_cnt").text(--commentCnt);
 			});
 
-		 	// 찜하기 눌렀을 때
+
 			$("#like").click(function(){
 				if($("#like").text() == '이미 찜했음!'){
 					if(confirm("찜을 해제할까요?")){

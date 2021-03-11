@@ -42,11 +42,11 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/scss/**",
                         "/fonts/**",
-                        "/harim/**", // 하림님 회원가입용 !!
                         "/join/**",
                         "/check-email-token/**",
                         "/header/checkNickName",
-                        "/reset-password",  // 비밀번호 재설정
+                        "/reset-password",
+			"/mypage/myplan",
                         "/password-issue"
                 ).permitAll()
 
