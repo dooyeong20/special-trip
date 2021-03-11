@@ -1,16 +1,21 @@
 package com.project.mega.triplus.controller;
 
 import com.google.gson.JsonObject;
-import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Plan;
+import com.project.mega.triplus.entity.Review;
+import com.project.mega.triplus.entity.User;
+import com.project.mega.triplus.entity.XMLResponseItem;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
-import com.project.mega.triplus.repository.PlaceRepository;
-import com.project.mega.triplus.repository.UserRepository;
-import com.project.mega.triplus.service.*;
+import com.project.mega.triplus.service.ApiService;
+import com.project.mega.triplus.service.CurrentUser;
+import com.project.mega.triplus.service.PlaceService;
+import com.project.mega.triplus.service.PlanService;
+import com.project.mega.triplus.service.ReviewService;
+import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,20 +23,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private final PlaceRepository placeRepository;
 
     private final PlaceService placeService;
 
@@ -46,20 +56,6 @@ public class MainController {
     private final ReviewService reviewService;
 
     private final PasswordEncoder passwordEncoder;
-
-    private final UserRepository userRepository;
-
-
-    @Transactional
-    @PostConstruct
-    public void init(){
-        // 맨 처음 place 들(관광지, 숙소, 축제 등)을 우리 데이터베이스로 load 해옴
-        if(!apiService.loadPlaces()){
-            log.error(" !!! data load error !!! ");
-        }
-
-       planService.createDummyData();
-    }
 
     @RequestMapping("/")
     public String index(Model model){
@@ -117,8 +113,7 @@ public class MainController {
 
 
         model.addAttribute("keyword", keyword);
-        // null check
-        // model.addAttribute("itemList", itemList.subList(rand, rand + cnt));
+
         rand = Math.max((int)(Math.random() * (attractionList.size() - cnt)), 0);
         model.addAttribute("attractionList", attractionList.subList(rand, Math.min(rand + cnt, attractionList.size())));
 
@@ -181,7 +176,6 @@ public class MainController {
 
     @GetMapping("/plan")
     public String plan(Model model, @RequestParam(value = "plan_id", required = false)String planId){
-        int rand, cnt = 10;
         Plan plan;
 
         if(planId != null){
@@ -192,21 +186,9 @@ public class MainController {
                 log.error("no plan");
             }
         }
-        rand = (int)(Math.random() * 70);
-        Random random = new Random();
 
-        List<Place> placeList = placeRepository.findAllByContentType("12");
-        placeList.addAll(placeRepository.findAllByContentType("15"));
-        placeList.addAll(placeRepository.findAllByContentType("38"));
-        placeList.addAll(placeRepository.findAllByContentType("39"));
 
-        List<Place> pickedList = new ArrayList<>();
-
-        for(int i=0; i<400; ++i){
-            pickedList.add(placeList.get(random.nextInt(placeList.size())));
-        }
-
-        model.addAttribute("placeList", pickedList);
+        model.addAttribute("placeList", placeService.addPlaces());
 
         return "view/plan";
     }
@@ -224,14 +206,9 @@ public class MainController {
 
     @GetMapping("/detail/remove")
     @ResponseBody
-    public String removeReview(@CurrentUser User user,
-                               @RequestParam(value = "id") String reviewId){
+    public String removeReview(@RequestParam(value = "id") String reviewId){
 
         reviewService.deleteReviewById((Long.parseLong(reviewId)));
-
-//        Review reviewById = reviewService.getReviewById(Long.parseLong(reviewId));
-//        System.out.println(reviewById);
-
 
         return "done";
     }
@@ -239,8 +216,7 @@ public class MainController {
     // mypage remove review
     @GetMapping("/mypage/remove")
     @ResponseBody
-    public String removeMyPageReview(@CurrentUser User user,
-                               @RequestParam(value = "id") String reviewId){
+    public String removeMyPageReview(@RequestParam(value = "id") String reviewId){
 
         reviewService.deleteReviewById((Long.parseLong(reviewId)));
 
@@ -248,17 +224,12 @@ public class MainController {
     }
 
     @GetMapping("/detail/like")
-    @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
+    @ResponseBody
     public String addLike(@CurrentUser User user,
                 @RequestParam(value = "content_id") String contentId){
 
         JsonObject object = new JsonObject();
 
-        // contentId : 찜 당할 장소의 content_id
-        // user : 현재 로그인한 유저
-
-        // Place : liked 1 증가
-        // User : likes 리스트에 해당 place 를 추가
         try {
             placeService.addLikes(user, contentId);
             object.addProperty("result", true);
@@ -267,13 +238,11 @@ public class MainController {
             object.addProperty("result", false);
             object.addProperty("message", e.getMessage());
         }
-        logger.info("찜 결과 : " + object.toString());
-
         return object.toString();
     }
 
     @GetMapping("/detail/dislike")
-    @ResponseBody  // 리턴값 (String)은 view 이름이 아니라 responseBody 부분이다!
+    @ResponseBody
     public String dislike(@CurrentUser User user,
                           @RequestParam(value = "content_id") String contentId){
 
@@ -299,15 +268,12 @@ public class MainController {
 
         model.addAttribute("user", user);
 
-        // 내 일정
         List<Plan> planList = userService.getPlanList(user);
         model.addAttribute("planList", planList);
 
-        // 내 리뷰
         List<Review> reviewList = userService.getReviewList(user);
         model.addAttribute("reviewList", reviewList);
 
-        // 내 찜
         List<Place> likeList = userService.getLikeList(user);
 
         List<Place> attractionList = new ArrayList<>();
@@ -333,7 +299,6 @@ public class MainController {
             }
         }
 
-        //model.addAttribute("likeList", likeList);
 
         model.addAttribute("attractionList", attractionList);
         model.addAttribute("foodList", foodList);
@@ -344,7 +309,6 @@ public class MainController {
        return "view/mypage";
     }
 
-    // 유저 탈퇴
     @PostMapping("/delete_user")
     public String deleteUser(@CurrentUser User user){
         userService.deleteUser(user);
@@ -398,27 +362,6 @@ public class MainController {
     @GetMapping("/total_place")
     public String totalPlace(Model model, @PageableDefault Pageable pageable,
                              @RequestParam(value = "cat", required = false) String cat){
-        /*
-        < areaCode >
-
-        1 서울
-        2 인천
-        3 대전
-        4 대구
-        5 광주
-        6 부산
-        7 울산
-        8 세종특별자치시
-        31 경기도
-        32 강원도
-        33 충청북도
-        34 충청남도
-        35 경상북도
-        36 경상남도
-        37 전라북도
-        38 전라남도
-        39 제주도
-         */
 
         Page<Place> allPlaceList = placeService.getPlaceList(pageable, "12");
         Page<Place> seoulPlaceList = placeService.getPlaceListEachAreaCode(pageable, "12", "1");
@@ -452,21 +395,6 @@ public class MainController {
         return "view/access_denied";
     }
 
-
-    // 하림님 회원가입 문제 !!  ////////////////////////////////////
-    @GetMapping("/harim")
-    public String harim(){
-        JoinForm joinForm = new JoinForm();
-        joinForm.setEmail("harim@email.com");
-        joinForm.setPassword("harim");
-        joinForm.setNickname("harim");
-        joinForm.setAgreeTermsOfService("true");
-        userService.login(userService.processNewUser(joinForm));
-
-        return "index";
-    }
-    ///////////////////////////////////////////////////////////
-
     @PostMapping("/plan/save")
     @ResponseBody
     public String savePlan(@CurrentUser User user,
@@ -497,7 +425,7 @@ public class MainController {
     public String checkNickName(@RequestParam(value = "nickNameCheck")String nickName){
         String message=null;
 
-        if(userRepository.existsNickNameByNickName(nickName)){
+        if(userService.existsNickName(nickName)){
             message="nickNameNO";
         } else{
             message="nickNameOK";

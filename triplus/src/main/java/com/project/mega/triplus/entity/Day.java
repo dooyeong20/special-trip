@@ -15,8 +15,6 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Place> places = new ArrayList<>();
 

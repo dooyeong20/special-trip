@@ -2,10 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'com.project.mega'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -38,6 +39,8 @@ dependencies {
 
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
 
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'

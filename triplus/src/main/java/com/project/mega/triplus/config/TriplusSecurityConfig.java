@@ -3,9 +3,7 @@ package com.project.mega.triplus.config;
 import com.project.mega.triplus.oauth2.CustomOAuth2UserService;
 import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -16,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
@@ -45,11 +42,11 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/scss/**",
                         "/fonts/**",
-                        "/harim/**", // 하림님 회원가입용 !!
                         "/join/**",
                         "/check-email-token/**",
                         "/header/checkNickName",
-                        "/reset-password",  // 비밀번호 재설정
+                        "/reset-password",
+			"/mypage/myplan",
                         "/password-issue"
                 ).permitAll()
 
