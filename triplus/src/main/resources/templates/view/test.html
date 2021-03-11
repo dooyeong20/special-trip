@@ -123,18 +123,18 @@
                             </div>
                             <br>
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item col-3 text-center">
-                                    <a class="nav-link active" data-toggle="tab" href="#attraction" style="font-weight: bold; font-size: 18px">관광명소</a>
+                            <ul class="nav nav-tabs nav-justified" role="tablist" style="font-weight: bold; font-size: 18px">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#attraction">관광명소</a>
                                 </li>
-                                <li class="nav-item col-3 text-center">
-                                    <a class="nav-link" data-toggle="tab" href="#food" style="font-weight: bold; font-size: 18px">음식점</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#food">음식점</a>
                                 </li>
-                                <li class="nav-item col-3 text-center">
-                                    <a class="nav-link" data-toggle="tab" href="#shop" style="font-weight: bold; font-size: 18px">쇼핑</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#shop">쇼핑</a>
                                 </li>
-                                <li class="nav-item col-3 text-center">
-                                    <a class="nav-link" data-toggle="tab" href="#festival" style="font-weight: bold; font-size: 18px">축제</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#festival">축제</a>
                                 </li>
                             </ul>
 
@@ -144,17 +144,17 @@
                                     <div class="row">
                                         <th:block th:each="place : ${attractionList}">
                                             <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                                <div class="blog-entry align-self-stretch">
-                                                    <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
-                                                    </a>
-                                                    <div class="text p-4 d-block">
-                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
-                                                        <div class="meta" style="text-align : right;">
-                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									</a>
+									<div class="text p-4 d-block">
+										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+										<div><a th:text="${place.addr1}"></a></div>
+										<div class="meta" style="text-align : right;">
+											<div class="mt-4"><span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span></div>
+										</div>
+									</div>
+								</div>
                                             </div>
                                         </th:block>
                                     </div>
@@ -164,17 +164,17 @@
                                     <div class="row">
                                         <th:block th:each="place : ${foodList}">
                                             <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                                <div class="blog-entry align-self-stretch">
-                                                    <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
-                                                    </a>
-                                                    <div class="text p-4 d-block">
-                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
-                                                        <div class="meta" style="text-align : right;">
-                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									</a>
+									<div class="text p-4 d-block">
+										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+										<div><a th:text="${place.addr1}"></a></div>
+										<div class="meta" style="text-align : right;">
+											<div class="mt-4"><span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span></div>
+										</div>
+									</div>
+								</div>
                                             </div>
                                         </th:block>
                                     </div>
@@ -184,17 +184,17 @@
                                     <div class="row">
                                         <th:block th:each="place : ${shopList}">
                                             <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                                <div class="blog-entry align-self-stretch">
-                                                    <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
-                                                    </a>
-                                                    <div class="text p-4 d-block">
-                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
-                                                        <div class="meta" style="text-align : right;">
-                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									</a>
+									<div class="text p-4 d-block">
+										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+										<div><a th:text="${place.addr1}"></a></div>
+										<div class="meta" style="text-align : right;">
+											<div class="mt-4"><span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span></div>
+										</div>
+									</div>
+								</div>
                                             </div>
                                         </th:block>
                                     </div>
@@ -205,17 +205,17 @@
                                     <div class="row">
                                         <th:block th:each="place : ${festivalList}">
                                             <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                                <div class="blog-entry align-self-stretch">
-                                                    <a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
-                                                    </a>
-                                                    <div class="text p-4 d-block">
-                                                        <h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
-                                                        <div class="mb-4"><a th:text="${place.addr1}"></a></div>
-                                                        <div class="meta" style="text-align : right;">
-                                                            <span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									</a>
+									<div class="text p-4 d-block">
+										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
+										<div><a th:text="${place.addr1}"></a></div>
+										<div class="meta" style="text-align : right;">
+											<div class="mt-4"><span><i class="fas fa-heart" th:text="' ' + ${place.liked}"></i></span></div>
+										</div>
+									</div>
+								</div>
                                             </div>
                                         </th:block>
                                     </div>
@@ -507,7 +507,7 @@
 
 
                                     $(".placeBox:last").after('                                    <div class="block-21 mb-4 d-flex placeBox">\n' +
-                                        '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + ')"></a>\n' +
+                                        '                                        <a class="blog-img mr-4 placeImage" style="background:url(' + img + '); background-size: cover;"></a>\n' +
                                         '                                        <div class="text">\n' +
                                         '                                            <a href="/detail?content_id=' + contentId +'"><h3 class="heading placeTitle">' + name + '</h3></a>\n' +
                                         '                                            <p class="placeAddr">' + addr + '</p>\n' +
@@ -525,7 +525,13 @@
                     console.log('done!');
                 });
 
-
+                $(".card-body").unbind()
+                    .mouseover(function() {
+                        $(this).css("background-color", "#CE4A4AFF");
+                    })
+                    .mouseout(function() {
+                        $(this).css("background-color", "#F85959");
+                    });
             }); // planCard 클릭 했을 때 끝
 
             // mypage review 삭제하기 눌렀을 때
