@@ -1,47 +1,42 @@
-# special-trip
-여행 일정 계획 &amp; 공유 서비스 프로젝트 !  
+# TRIPLus
+
+😄  **즐거운 여행을 위한 TRIPLus**  😄
+
+Triplus는 Trip과 plus 라는 단어를 합쳐 '여행을 더하다' 라는 의미와 Trip + Us [트리플어스] 의 '우리, 같이의 여행' 이라는 의미를 담고 있습니다.
+
+## 1. Getting Started
+
+### 1-1. Environment
+
+> -   JAVA 11
+>
+> -   MariaDB 10
+>
+> -   Gradle
+>
+
+### 1-2. Installing / Cloning
+`$ git clone https://github.com/dooyeong20/special-trip.git`
+
+## 2. Build & Run App
+
+### - Windows
+
+    special-trip\triplus$ gradlew build (-x test)
+    special-trip\triplus$ java -jar ./build/libs/{app}.war
+
+### - MacOS / Linux
+    special-trip\triplus$ ./gradlew build (-x test)
+    special-trip\triplus$ java -jar ./build/libs/{app}.war
 
 
+## 3. Built With / 누구랑 만들었나요?
 
-### :fire: 개요
+- #### 권하림 : 
+- #### 박기선 :
+- #### 박지애 :
+- #### 정두영 : ERD 설계 및 구현, API 활용, 
 
-
-
-### :fire: 기능
-
-- 회원가입, 로그인, Oauth, 비밀번호 찾기 
-- 메인 : 검색, 여행지, 맛집, 숙소, 관광, 명소, 상위 노출(사용자 코스 - 좋아요수)
-- 검색 : 지역을 기반으로 한 주변 관광 명소, 활동, 맛집 등 추천, 사용자들의 게시물(코스) 게시
-- 일정 짜기 : Modal 뜨고 -> 검색 결과 클릭으로 일별 일정 저장. (코멘트). 저장 & 공유. 일정 status 컬럼 추가해서 작성중/작성완료 구분
-- 게시물 : 모든 게시물 확인하기(지역별 카테고리), 찜하기, 리뷰, 좋아요 하기
-- 마이 페이지 : 내 정보,일정, 리뷰, 찜 수정/삭제
-- 관리자 페이지 : 회원, 게시글 관리/통계
-
-
-
-### :fire: 추가 기능
-
-- 지도 경로(대중교통)
-
-
-
-#### 참고
-
-- https://www.visitkoreaforme.com/eng/recmtrips/recmtripList.kto
-- https://openrouteservice.org/dev/#/api-docs/authorization
-- https://openapi.sk.com/api/detailView
-
-
-
-### 주말
-
-- index.html
-- blog.html
-- tour.html
-- hotel-single.html
-
-
-
-### ERD
+### 4. ERD
 
 <img src="Triplus_ERD.png" alt="drawing" style="width:500px;"/>
