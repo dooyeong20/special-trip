@@ -16,8 +16,8 @@
 						찜하기
 					</button>
 					<div>
-						<input type="hidden" id="likedCounts" th:value="${like.liked}" style="font-weight: bold;">
-						<span><i class="fas fa-heart fa-lg mt-3 ml-3" id="heart" th:text="' ' + ${like.liked}" style="font-weight: bold;"></i></span>
+						<input type="hidden" id="likedCounts" th:value="${like.liked}">
+						<span><i class="fas fa-heart fa-lg mt-3 ml-3 text-primary" id="heart" th:text="' ' + ${like.liked}"></i></span>
 					</div>
 				</div>
 
