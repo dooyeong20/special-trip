@@ -83,7 +83,7 @@ public class UserService implements UserDetailsService {
         User newUser = saveNewUser(joinForm);
         newUser.generateEmailCheckToken();
         newUser.setRole(Role.USER);
-        //sendJoinConfirmEmail(newUser);
+        sendJoinConfirmEmail(newUser);
 
         return newUser;
     }
@@ -166,6 +166,10 @@ public class UserService implements UserDetailsService {
 
     public boolean existsNickName(String nickName) {
         return userRepository.existsNickNameByNickName(nickName);
+    }
+
+    public boolean existsEmail(String email) {
+        return userRepository.existsEmailByEmail(email);
     }
 }
 

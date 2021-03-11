@@ -435,6 +435,20 @@ public class MainController {
         return message;
     }
 
+    @PostMapping("/header/checkEmail")
+    @ResponseBody
+    public String checkEmail(@RequestParam(value = "emailCheck")String email){
+        String message=null;
+
+        if(userService.existsEmail(email)){
+            message="emailNO";
+        } else{
+            message="emailOK";
+        }
+
+        return message;
+    }
+
     @Transactional
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     @ResponseBody

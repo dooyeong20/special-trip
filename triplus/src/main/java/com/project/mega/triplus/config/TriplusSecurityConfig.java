@@ -45,8 +45,9 @@ public class TriplusSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/join/**",
                         "/check-email-token/**",
                         "/header/checkNickName",
+                        "/header/checkEmail",
                         "/reset-password",
-			"/mypage/myplan",
+			            "/mypage/myplan",
                         "/password-issue"
                 ).permitAll()
 
