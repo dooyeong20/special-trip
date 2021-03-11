@@ -381,7 +381,6 @@
             };
 
 
-            // 각 plan 카드 클릭했을 때
             $(".planCard").click(function (){
                 $("#modalScroll").find(".card").remove();
                 $("#modalScroll").append('       <div class="card bg-primary text-white" data-toggle="modal" data-target="#myDay" style="display: none !important;">\n' +
@@ -398,7 +397,6 @@
 
 
                 $.ajax({
-                    // url 만들면 무조건 security 해야됨
                     url: '/mypage/myplan',
                     type: 'get',
                     async: false,
@@ -414,7 +412,6 @@
 
 
                         for (let d = 0; d < dayCnt; ++d) {
-                            // day들 각각 작성
                             $(".card:last").after(getDay(d + 1));
                             console.log('day' + (d + 1) + '의 장소들');
 
@@ -435,7 +432,6 @@
                                 placeList = dayList[d]['places'];
 
                                 for (let p = 0; p < placeList.length; ++p) {
-                                    // day d 번째의  p번째 place 각각 작업
                                     console.log((p + 1) + '번째 장소');
                                     console.log(placeList[p]);
                                     console.log(placeList.length);
@@ -467,7 +463,7 @@
                 });
 
 
-            }); // planCard 클릭 했을 때 끝
+            });
 
         });
 

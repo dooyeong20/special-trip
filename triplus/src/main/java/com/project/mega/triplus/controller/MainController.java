@@ -174,16 +174,6 @@ public class MainController {
         return "view/plan";
     }
 
-    @GetMapping("/widgets")
-    public String w(){
-        return "view/admin/widgets";
-    }
-
-    @GetMapping("/admin")
-    public String admin(){
-
-        return "view/admin/admin";
-    }
 
     @GetMapping("/detail/remove")
     @ResponseBody

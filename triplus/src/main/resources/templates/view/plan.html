@@ -5,6 +5,7 @@
 
 <div layout:fragment="content">
     <section class="ftco-section bg-light">
+        <br>
         <div class="container">
             <div class="col-md-7 ftco-animate fadeInUp ftco-animated">
                 <h2 class="mb-4" style="font-weight: bold;"><strong>나의 일정 만들기</strong></h2>
@@ -230,7 +231,6 @@
             $(".add_btn").unbind().click(add_btn_click);
 
 
-            // 검색해서 클릭했을 때
             $(".placeBox").click(function(){
                 var imgUrl = $(this).find("a").css('background');
                 var title = $(this).find(".text").find("h3").text();
@@ -243,13 +243,10 @@
                 var last_place = $(".last-place");
                 imgUrl = imgUrl.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
 
-                // console.log(imgUrl);
-                // console.log(title);
-                // console.log(addr);
 
                 $('#myModal').modal('hide');
 
-                // TODO content_id 작업 해줘야함
+
                 last_place.after(make_place(imgUrl, title, addr, content_id));
                 last_place.removeClass('last-place');
 
@@ -271,13 +268,13 @@
                     $(this).find(".big-del").hide();
                 });
 
-                // delete 할 때
+
                 $('.small-del').unbind().click(function(){
                     $(this).parent().parent().parent().remove();
                 });
             });
 
-            // 새로울 Day를 만들 때
+
             $(".card_add").click(function(){
 
                 $(".day:last").after(card);
@@ -306,10 +303,9 @@
                 });
 
 
-            }); // card_add btn click 끝
+            });
 
 
-            // 저장할 때
             $('#save-all-btn').click(function(){
                 day = [];
 
@@ -372,7 +368,7 @@
 
             });
 
-        }); // ready 끝
+        });
 
     </script>
 
@@ -386,7 +382,7 @@
 
             for (let i = 0; i < placeList.children.length; i++) {
                 if (placeTitle[i].innerHTML.toLowerCase().indexOf(search) != -1) {
-                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "flex" // placeBox
+                    placeTitle[i].parentNode.parentNode.parentNode.style.display = "flex"
                 } else {
                     placeTitle[i].parentNode.parentNode.parentNode.style.display = "none"
                 }
@@ -396,5 +392,3 @@
 
 </div>
 </html>
-
-<!--TODO : 장소 선텍인히고 모달 끄면 같이 장소가 생김-->

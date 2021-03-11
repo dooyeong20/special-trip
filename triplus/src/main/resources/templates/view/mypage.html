@@ -436,7 +436,7 @@
                 e.stopPropagation();
             });
 
-            // 각 plan 카드 클릭했을 때
+
             $(".planCard").click(function (){
 
                 $("#modalScroll").find(".card").remove();
@@ -454,7 +454,6 @@
 
 
                 $.ajax({
-                    // url 만들면 무조건 security 해야됨
                     url: '/mypage/myplan',
                     type: 'get',
                     async: false,
@@ -470,7 +469,6 @@
 
 
                         for (let d = 0; d < dayCnt; ++d) {
-                            // day들 각각 작성
                             $(".card:last").after(getDay(d + 1));
                             console.log('day' + (d + 1) + '의 장소들');
 
@@ -491,7 +489,6 @@
                                 placeList = dayList[d]['places'];
 
                                 for (let p = 0; p < placeList.length; ++p) {
-                                    // day d 번째의  p번째 place 각각 작업
                                     console.log((p + 1) + '번째 장소');
                                     console.log(placeList[p]);
                                     console.log(placeList.length);
@@ -529,9 +526,9 @@
                     .mouseout(function() {
                         $(this).css("background-color", "#F85959");
                     });
-            }); // planCard 클릭 했을 때 끝
+            });
 
-            // mypage review 삭제하기 눌렀을 때
+
             $(".btn-rev-del").click(function(event){
 
                 console.log('리뷰 삭제?');
@@ -571,14 +568,13 @@
                 }
             });
 
-            // 비밀번호 변경 script
 
             const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/);
             let chk1=false, chk2=false, chk3=false;
 
-            // 현재 비밀번호
+
             $('#oldPw').on('keyup', function(){
-                // 비밀번호 공백 확인
+
                 if($('#oldPw').val()===""){
                     $('#pwMsg').html('<b>비밀번호는 필수 정보입니다.</b>');
                     chk1 = false;
@@ -607,14 +603,13 @@
                 }
             });
 
-            // 새로운 비번
             $('#newPw').on('keyup', function(){
                 //비밀번호 공백 확인
                 if($('#newPw').val() === ""){
                     $('#newPw').html('<b>비밀번호는 필수 정보입니다.</b>');
                     chk2=false;
                 }
-                //비밀번호 유효성 검사
+
                 else if(!getPwCheck.test($("#newPw").val()) || $("#newPw").val().length < 8){
                     $('#newPwMsg').html('<b>특수문자 포함 8자 이상 입력하세요</b>');
                     chk2 = false;
@@ -624,7 +619,7 @@
                 }
             });
 
-            // 비밀번호 확인
+
             $('#newPwCheck').on('keyup', function(){
                 if($("#newPwCheck").val() === ""){
                     $("#newPwMsg").html('<b">비밀번호 확인은 필수 정보입니다.</b>');
@@ -638,7 +633,7 @@
                 }
             });
 
-            //비밀번호 변경 요청 처리하기
+
             $('#save_pw').click(function(e){
                 if(chk1 == false) {
                     alert('현재 비밀번호가 틀렸습니다.');
