@@ -259,8 +259,27 @@
                         $('#emailMsg').html('<b>유효하지 않은 이메일 입니다.</b>');
                         chk2=false;
                     } else{
-                        $('#emailMsg').html("");
-                        chk2=true;
+                        const emailCheck={"emailCheck" : $('#joinEmail').val()};
+
+                        $.ajax({
+                            type: "post",
+                            url: "/header/checkEmail",
+                            data: emailCheck,
+                            datatype: "json",
+                            success: function(message){
+                                console.log(message);
+                                if(message === "emailNO"){
+                                    $('#emailMsg').html('<b>이미 존재하는 이메일 입니다.</b>');
+                                    chk2=false;
+                                } else{
+                                    $('#emailMsg').html('<b style="color: green;">가입 가능한 이메일 입니다.</b>');
+                                    chk2=true;
+                                }
+                            },
+                            error: function(error){
+                                console.log("error: "+error);
+                            }
+                        });
                     }
                 });
 
