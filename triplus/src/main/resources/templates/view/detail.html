@@ -249,7 +249,7 @@
 								console.log(response);
 								if(response['result']){
 									$("#like").text('찜하기');
-									$("#heart").text(' ' + parseInt($("#heart").text()) - 1);
+									$("#heart").text(' ' + (parseInt($("#heart").text()) - 1));
 								}
 								else{
 									$("#like").text('찜 해제 오류!');
