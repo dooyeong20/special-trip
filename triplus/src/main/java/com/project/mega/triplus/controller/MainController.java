@@ -39,14 +39,6 @@ public class MainController {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    @PostConstruct
-    public void init(){
-        if(!apiService.loadPlaces()){
-            log.error(" !!! data load error !!! ");
-        }
-    }
-
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
