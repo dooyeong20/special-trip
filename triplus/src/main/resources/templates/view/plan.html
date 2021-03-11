@@ -6,12 +6,12 @@
 <div layout:fragment="content">
     <section class="ftco-section bg-light">
         <div class="container">
-            <div class="col-md-7 ftco-animate fadeInUp ftco-animated">
-                <h2 class="mb-4" style="font-weight: bold; padding-left: 45px;"><strong>나의 일정 만들기</strong></h2>
+            <div class="col-md-12 text-center">
+                <h2 class="mb-4" style="font-weight: bold;"><strong>나의 일정 만들기</strong></h2>
             </div>
 
             <div class="form-group">
-                <div class="row" style="padding-left: 15px;">
+                <div class="row" style="padding-left: 395px;">
 
                     <input th:value="${plan} ? ${plan.name} : ''" type="text" class="form-control fas mb-2 mr-sm-2" style="width: 349.99px;" id="plan_title" placeholder=" &#xf304;">
                     <input th:value="${plan} ? ${plan.id} : 0" id="plan_id" type="hidden">
