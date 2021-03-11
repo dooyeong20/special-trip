@@ -75,19 +75,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '1'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -96,19 +97,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '2'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -117,19 +119,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '31'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -138,19 +141,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '6'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -159,19 +163,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '7'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -180,19 +185,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '4'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -201,19 +207,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '5'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -222,19 +229,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '3'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -243,19 +251,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '39'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
@@ -264,19 +273,20 @@
                     <div class="row d-flex">
                         <th:block th:each="plan : ${planList}">
                             <th:block th:if="${plan.mainAreaCode} == '32'">
-                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
-                                    <div class="blog-entry align-self-stretch" style="width:300px">
-                                        <a th:href="@{/tour}" class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
-                                        <div class="text p-4 d-block">
-                                            <a><span class="tag" th:text="${plan.dayCounts}" style="font-weight: bold; color: black;"></span>일</a>
-                                            <h3 class="heading mt-4"><a th:href="@{/tour}" th:text="${plan.name}"></a></h3>
-                                            <div class="meta mb-4">
-                                                <div><a th:href="@{/tour}" th:text="${plan.user.nickName}"></a></div><br>
-                                                <div><i class="fas fa-heart"><a th:text="${plan.liked}" th:href="@{/tour}"></a></i></div>
-                                            </div>
+                                <div class="col-md-4 d-flex ftco-animate fadeInUp ftco-animated planCard" data-toggle="modal" data-target="#myModal">
+                                <input type="hidden" class="plan_id" th:value="${plan.id}">
+                                <div class="blog-entry align-self-stretch" style="width:300px">
+                                    <a class="block-20" th:style="'background:url(' + ${plan.mainImg} + '); background-size: cover; background-repeat: no-repeat;'"></a>
+                                    <div class="text p-4 d-block">
+                                        <h4 class="mb-4 planTitle" style="font-weight: bold; color: black;"><a th:text="${plan.name}"></a></h4>
+                                        <h6><span class="tag" th:text="${(plan.dayCounts)-1} + '박 '" style="color: black;"></span>
+                                            <span class="tag" th:text="${plan.dayCounts} + '일 일정'" style="color: black;"></span></h6>
+                                        <div class="meta">
+                                            <div><a th:text="${plan.user.nickName}"></a></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </th:block>
                         </th:block>
                     </div>
