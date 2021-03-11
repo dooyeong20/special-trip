@@ -42,8 +42,6 @@ public class MainController {
 
     private final PasswordEncoder passwordEncoder;
 
-
-
     @Transactional
     @PostConstruct
     public void init(){
