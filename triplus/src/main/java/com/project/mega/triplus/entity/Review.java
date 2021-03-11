@@ -16,8 +16,6 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int star;
-
     private String title;
 
     private String content;

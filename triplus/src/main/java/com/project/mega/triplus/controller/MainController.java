@@ -1,14 +1,21 @@
 package com.project.mega.triplus.controller;
 
 import com.google.gson.JsonObject;
-import com.project.mega.triplus.entity.*;
+import com.project.mega.triplus.entity.Place;
+import com.project.mega.triplus.entity.Plan;
+import com.project.mega.triplus.entity.Review;
+import com.project.mega.triplus.entity.User;
+import com.project.mega.triplus.entity.XMLResponseItem;
 import com.project.mega.triplus.form.JoinForm;
 import com.project.mega.triplus.form.PlanForm;
-import com.project.mega.triplus.service.*;
+import com.project.mega.triplus.service.ApiService;
+import com.project.mega.triplus.service.CurrentUser;
+import com.project.mega.triplus.service.PlaceService;
+import com.project.mega.triplus.service.PlanService;
+import com.project.mega.triplus.service.ReviewService;
+import com.project.mega.triplus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,17 +23,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final PlaceService placeService;
 
@@ -231,8 +247,6 @@ public class MainController {
             object.addProperty("result", false);
             object.addProperty("message", e.getMessage());
         }
-        logger.info("찜 결과 : " + object.toString());
-
         return object.toString();
     }
 
