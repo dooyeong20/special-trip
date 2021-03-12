@@ -52,7 +52,7 @@
                         <th:block th:each="place : ${allPlaceList}">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -93,7 +93,7 @@
                             <th:block th:if="${place.areaCode} == '2'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -115,7 +115,7 @@
                             <th:block th:if="${place.areaCode} == '31'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -137,7 +137,7 @@
                             <th:block th:if="${place.areaCode} == '6'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -159,7 +159,7 @@
                             <th:block th:if="${place.areaCode} == '7'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -181,7 +181,7 @@
                             <th:block th:if="${place.areaCode} == '4'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -203,7 +203,7 @@
                             <th:block th:if="${place.areaCode} == '5'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -225,7 +225,7 @@
                             <th:block th:if="${place.areaCode} == '3'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
@@ -247,7 +247,7 @@
                             <th:block th:if="${place.areaCode} == '39'">
                                 <div class="col-md-3 d-flex ftco-animate fadeInUp ftco-animated">
                                     <div class="blog-entry align-self-stretch" style="width:245px; height:440px">
-									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl}">
+									<a th:href="@{/detail?content_id={id}(id=${place.contentId})}" class="block-20" th:style="'background:url(' + ${place.thumbnailUrl} + ');background-size: cover; background-repeat: no-repeat;'">
 									</a>
 									<div class="text p-4 d-block">
 										<h3 class="heading mb-2" style="font-weight: bold;"><a th:href="@{/detail?content_id={id}(id=${place.contentId})}" th:text="${place.name}"></a></h3>
