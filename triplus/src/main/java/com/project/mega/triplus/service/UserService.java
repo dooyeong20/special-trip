@@ -88,6 +88,16 @@ public class UserService implements UserDetailsService {
         return newUser;
     }
 
+    public boolean loginProcess(String email, String password){
+        User user = userRepository.findByEmail(email);
+
+        if(passwordEncoder.matches(password,user.getPassword())){
+            login(user);
+            return true;
+        }
+        return false;
+    }
+
     private void sendEmail(User user, String subject, String url, String message, String msg) {
         Context context = new Context();
         context.setVariable("link", url + "?token=" + user.getEmailCheckToken() + "&email=" + user.getEmail());

@@ -39,6 +39,12 @@ public class MainController {
 
     private final PasswordEncoder passwordEncoder;
 
+    @PostConstruct
+    @Transactional
+    public void sadf(){
+        apiService.loadPlaces();
+    }
+
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
@@ -440,6 +446,14 @@ public class MainController {
         userService.login(newUser);
 
         return "joinSuccess";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam(value = "username")String email, @RequestParam(value = "password")String password, Model model){
+        if(userService.loginProcess(email, password)){
+            return "index";
+        }
+        return "redirect:index?error";
     }
 
 }
