@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class MainController {
 
     @PostConstruct
     public void init(){
-        apiService.loadPlaces();
+        // apiService.loadPlaces();
     }
 
     @RequestMapping("/")
