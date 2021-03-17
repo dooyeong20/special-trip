@@ -6,13 +6,13 @@
 <div layout:fragment="content">
     <section class="ftco-section bg-light">
         <br>
-        <div class="container">
-            <div class="col-md-12 text-center">
+        <div class="container mt-5">
+            <div class="col-md-12 pl-0">
                 <h2 class="mb-4" style="font-weight: bold;"><strong>나의 일정 만들기</strong></h2>
             </div>
 
             <div class="form-group">
-                <div class="row" style="padding-left: 395px;">
+                <div class="row" style="padding-left: 15px;">
 
                     <input th:value="${plan} ? ${plan.name} : ''" type="text" class="form-control fas mb-2 mr-sm-2" style="width: 349.99px;" id="plan_title" placeholder=" &#xf304;">
                     <input th:value="${plan} ? ${plan.id} : 0" id="plan_id" type="hidden">
@@ -24,7 +24,7 @@
             </div>
 
             <th:block th:unless="${plan}">
-                <div class="form-group">
+                <div class="form-group mt-5">
                     <div class="row">
                         <div class="col-4 day" style="display: none !important">
                             <h2 class="text-center">Day</h2>
@@ -55,7 +55,7 @@
             </th:block>
 
             <th:block th:if="${plan}">
-                <div class="form-group">
+                <div class="form-group mt-5">
                     <div class="row">
                         <div class="col-4 day card-del" style="display: none !important">
                         </div>

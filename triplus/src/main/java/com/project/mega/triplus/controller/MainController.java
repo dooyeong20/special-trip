@@ -39,6 +39,11 @@ public class MainController {
 
     private final PasswordEncoder passwordEncoder;
 
+    @PostConstruct
+    public void init(){
+        apiService.loadPlaces();
+    }
+
     @RequestMapping("/")
     public String index(Model model){
         List<Place> placeList = placeService.getPlace();
