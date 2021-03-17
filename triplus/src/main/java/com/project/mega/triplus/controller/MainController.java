@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -38,12 +37,6 @@ public class MainController {
     private final ReviewService reviewService;
 
     private final PasswordEncoder passwordEncoder;
-
-    @PostConstruct
-    @Transactional
-    public void sadf(){
-        apiService.loadPlaces();
-    }
 
     @RequestMapping("/")
     public String index(Model model){
