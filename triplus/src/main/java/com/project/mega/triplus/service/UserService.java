@@ -91,7 +91,11 @@ public class UserService implements UserDetailsService {
     public boolean loginProcess(String email, String password){
         User user = userRepository.findByEmail(email);
 
-        if(passwordEncoder.matches(password,user.getPassword())){
+        if (user==null){
+            return false;
+        }
+
+        if(passwordEncoder.matches(password,user.getPassword()) && user.getEmail().equals(email)){
             login(user);
             return true;
         }
