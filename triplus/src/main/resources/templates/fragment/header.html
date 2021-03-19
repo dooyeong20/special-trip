@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      >
+>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        <div th:if="${param.error}" class="alert alert-danger" role="alert" align="center">
                             <p style="font-weight: bold;">이메일 혹은 비밀번호가 정확하지 않습니다.</p>
                             <button type="button" data-toggle="modal" data-target="#joinModal" style="font-weight: bold;"
                                     th:class="'btn btn-primary mb-2 mr-sm-2' + (${activeTab == 'join'}? 'active':'')" sec:authorize="!isAuthenticated()">
@@ -126,12 +126,12 @@
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form class="needs-validation" action="#" method="post" name="pwFindForm" id="pwFindForm" novalidate>
-                        <div class="form-group">
-                            <input type="email" class="form-control" name="findPwEmail" id="findPwEmail" placeholder="이메일"><br>
-                        </div>
-                        <div class="d-flex flex-column text-center">
-                            <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" name="findPwBtn" id="findPwBtn" style="font-weight: bold;">메일 보내기</button>
-                        </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="findPwEmail" id="findPwEmail" placeholder="이메일"><br>
+                            </div>
+                            <div class="d-flex flex-column text-center">
+                                <button type="button" class="btn btn-primary btn-block btn-round mb-2 mr-sm-2" name="findPwBtn" id="findPwBtn" style="font-weight: bold;">메일 보내기</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                             <div class="form-group text-center">
                                 <input type="text" autocomplete="nickname" class="form-control" id="joinNickname" name="joinNickname" placeholder="닉네임" required=""><br>
                                 <span class="error_next_box" id="nickNameMsg" style="color: red;"></span>
-<!--                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="nickNameCheckBtn" id="nickNameCheckBtn">   중복확인   </button>-->
+                                <!--                                <button type="button" class="btn btn-primary mb-2 mr-sm-2" name="nickNameCheckBtn" id="nickNameCheckBtn">   중복확인   </button>-->
                                 <div class="invalid-feedback">
                                     닉네임을 입력해주세요.
                                 </div>
@@ -209,7 +209,7 @@
 
     <!-- join modal 끝 !-->
 
-        <script>
+    <script>
             $( document ).ready(function() {
                 // 닉네임 중복검사 / 이메일 유효성 검사 /비밀번호 유효성 검사
                 const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/);

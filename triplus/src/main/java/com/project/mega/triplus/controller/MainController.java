@@ -451,8 +451,9 @@ public class MainController {
     public String login(@RequestParam(value = "username")String email, @RequestParam(value = "password")String password, Model model){
         if(userService.loginProcess(email, password)){
             return "index";
+        } else{
+            return "redirect:/login?error";
         }
-        return "redirect:index?error";
     }
 
 }
