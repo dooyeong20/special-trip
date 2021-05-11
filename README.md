@@ -38,23 +38,23 @@ Triplus는 Trip과 plus 라는 단어를 합쳐 '여행을 더하다' 라는 의
 
 ### 메인 화면
 
-<img src="./img/8.png" width=00>
+<img src="./img/8.png" width=700>
 
 ### 여행지 상세 페이지 & 댓글
 
-<img src="./img/1.png" width=00>
-<img src="./img/7.png" width=00>
-<img src="./img/2.png" width=00>
+<img src="./img/1.png" width=700>
+<img src="./img/7.png" width=700>
+<img src="./img/2.png" width=700>
 
 ### 일정 만들기 & 내 일정 보기
 
-<img src="./img/3.png" width=00>
-<img src="./img/4.png" width=00>
+<img src="./img/3.png" width=700>
+<img src="./img/4.png" width=700>
 
 ### 여행지 검색 결과 화면
 
-<img src="./img/5.png" width=00>
+<img src="./img/5.png" width=700>
 
 ### 지역별 여행지 추천
 
-<img src="./img/6.png" width=00>
+<img src="./img/6.png" width=700>
